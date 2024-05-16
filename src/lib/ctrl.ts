@@ -19,8 +19,9 @@ enum MessageType {
   PROFILE_GET,
   PROFILE_SET,
   PROFILE_SHARE,
-  HANDSHAKE_DEVICE,
-  HANDSHAKE_HOST,
+  HANDSHAKE_GET,
+  HANDSHAKE_SET,
+  HANDSHAKE_SHARE,
 }
 
 export enum ConfigIndex {
@@ -199,8 +200,8 @@ export class Ctrl {
     // See: https://github.com/inputlabs/alpakka_firmware/blob/main/docs/ctrl_protocol.md
     const data = Array.from(new Uint8Array(buffer))
     const msgType = data[2]
-    if (msgType== MessageType.HANDSHAKE_DEVICE) return CtrlHandshakeDevice.decode(buffer)
     if (msgType== MessageType.LOG) return CtrlLog.decode(buffer)
+    if (msgType== MessageType.HANDSHAKE_SHARE) return CtrlHandshakeShare.decode(buffer)
     if (msgType == MessageType.CONFIG_SHARE) return CtrlConfigShare.decode(buffer)
     if (msgType == MessageType.PROFILE_SHARE) {
       const section = data[5]
@@ -624,23 +625,18 @@ export class CtrlGyroAxis extends CtrlSection {
   }
 }
 
-export class CtrlHandshakeDevice extends Ctrl {
+export class CtrlHandshakeGet extends Ctrl {
   constructor(
-    // TODO: Device firmware version.
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_DEVICE)
-  }
-
-  static override decode(buffer: ArrayBuffer) {
-    return new CtrlHandshakeDevice()
+    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_GET)
   }
 }
 
-export class CtrlHandshakeHost extends Ctrl {
+export class CtrlHandshakeSet extends Ctrl {
   constructor(
     public time: number
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_HOST)
+    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_SET)
   }
 
   override payload() {
@@ -656,6 +652,23 @@ export class CtrlHandshakeHost extends Ctrl {
       dataview.getUint8(6),
       dataview.getUint8(7),
     ]
+  }
+}
+
+export class CtrlHandshakeShare extends Ctrl {
+  constructor(
+    public version: number[],
+  ) {
+    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_SHARE)
+  }
+
+  static override decode(buffer: ArrayBuffer) {
+    const data = Array.from(new Uint8Array(buffer))
+    const version: number[] = []
+    version[0] = data[4]
+    version[1] = data[5]
+    version[2] = data[6]
+    return new CtrlHandshakeShare(version)
   }
 }
 

@@ -41,6 +41,10 @@ export class HeaderComponent {
     })
   }
 
+  ngAfterViewChecked() {
+    if (this.shouldWarningFirmware()) this.showDialogFirmware()
+  }
+
   routeIsTools() {
     return this.route == '/' || this.route.startsWith('/tools')  ? 'active' : ''
   }
@@ -78,8 +82,17 @@ export class HeaderComponent {
     localStorage.setItem(FIRMWARE_ACK, fwValue)
   }
 
+  shouldWarningFirmware() {
+    if (!this.webusb.isConnectedRaw) return false
+    const latestVersion = this.firmwareAsNumber(LATEST_FIRMWARE)
+    const ackVersion = Number(localStorage.getItem(FIRMWARE_ACK))
+    return ackVersion < latestVersion
+  }
+
   shouldNotifyFirmware() {
-    const knownByUser = Number(localStorage.getItem(FIRMWARE_ACK))
-    return knownByUser < this.firmwareAsNumber(LATEST_FIRMWARE)
+    if (!this.webusb.isConnectedRaw) return false
+    const latestVersion = this.firmwareAsNumber(LATEST_FIRMWARE)
+    const deviceVersion = this.firmwareAsNumber(this.webusb.deviceVersion)
+    return deviceVersion < latestVersion
   }
 }

@@ -21,8 +21,9 @@ import {
   CtrlProfileGet,
   CtrlSection,
   CtrlProfileSet,
-  CtrlHandshakeDevice,
-  CtrlHandshakeHost,
+  CtrlHandshakeGet,
+  CtrlHandshakeSet,
+  CtrlHandshakeShare,
 } from 'lib/ctrl'
 
 const ADDR_IN = 3
@@ -39,6 +40,7 @@ interface PresetWithValues {
 export class WebusbService {
   browserIsCompatible = false
   device: any = null
+  deviceVersion: number[] = [0, 0, 0]
   logs: string[] = []
   isConnected = false
   isConnectedRaw = false
@@ -71,6 +73,7 @@ export class WebusbService {
       this.logs = []
       this.device = null
       this.isConnectedRaw = false
+      this.deviceVersion = [0, 0, 0]
       delay(2000).then(() => {
         // Do not flicker while restarting the controller.
         if (!this.device) this.isConnected = false
@@ -119,6 +122,7 @@ export class WebusbService {
       await this.sendEmpty()
       this.isConnected = true;
       this.isConnectedRaw = true;
+      await this.sendHandshakeGet()
     } catch (error) {
       this.failed = true
       this.failedError = error as Error
@@ -135,8 +139,8 @@ export class WebusbService {
       const response = await this.device.transferIn(ADDR_IN, PACKAGE_SIZE)
       const ctrl = Ctrl.decode(response.data.buffer as ArrayBuffer)
       // console.log('received', ctrl)
-      if (ctrl instanceof CtrlHandshakeDevice) this.sendHandshake()
       if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
+      if (ctrl instanceof CtrlHandshakeShare) this.handleCtrlHandshakeShare(ctrl)
       if (ctrl instanceof CtrlConfigShare) {
         console.log(ctrl)
         if (this.pendingConfig) {
@@ -171,6 +175,12 @@ export class WebusbService {
     // console.log(ctrl.logMessage)
   }
 
+  handleCtrlHandshakeShare(ctrl: CtrlHandshakeShare) {
+    this.deviceVersion = ctrl.version
+    console.log('Firmware of connected device:', this.deviceVersion)
+    this.sendHandshakeSet()
+  }
+
   handleCtrlConfigShare(ctrl: CtrlConfigShare) {
     // If there is no pending receiver for the config change we assume it is a
     // change made on the controller via shortcuts, and refresh the components.
@@ -191,8 +201,13 @@ export class WebusbService {
     await this.device.transferOut(ADDR_OUT, data)
   }
 
-  async sendHandshake() {
-    const data = new CtrlHandshakeHost(Date.now())
+  async sendHandshakeGet() {
+    const data = new CtrlHandshakeGet()
+    await this.send(data)
+  }
+
+  async sendHandshakeSet() {
+    const data = new CtrlHandshakeSet(Date.now())
     await this.send(data)
   }
 
@@ -216,7 +231,7 @@ export class WebusbService {
     await this.send(data)
   }
 
-  async send(ctrl: CtrlHandshakeHost | CtrlProc | CtrlConfigGet | CtrlProfileGet) {
+  async send(ctrl: CtrlProc | CtrlHandshakeGet | CtrlHandshakeSet | CtrlConfigGet | CtrlProfileGet) {
     console.log(ctrl)
     await this.device.transferOut(ADDR_OUT, ctrl.encode())
   }
