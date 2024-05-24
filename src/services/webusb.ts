@@ -21,9 +21,9 @@ import {
   CtrlProfileGet,
   CtrlSection,
   CtrlProfileSet,
-  CtrlHandshakeGet,
-  CtrlHandshakeSet,
-  CtrlHandshakeShare,
+  CtrlStatusGet,
+  CtrlStatusSet,
+  CtrlStatusShare,
 } from 'lib/ctrl'
 
 const ADDR_IN = 3
@@ -122,7 +122,7 @@ export class WebusbService {
       await this.sendEmpty()
       this.isConnected = true;
       this.isConnectedRaw = true;
-      await this.sendHandshakeGet()
+      await this.sendStatusGet()
     } catch (error) {
       this.failed = true
       this.failedError = error as Error
@@ -140,7 +140,7 @@ export class WebusbService {
       const ctrl = Ctrl.decode(response.data.buffer as ArrayBuffer)
       // console.log('received', ctrl)
       if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
-      if (ctrl instanceof CtrlHandshakeShare) this.handleCtrlHandshakeShare(ctrl)
+      if (ctrl instanceof CtrlStatusShare) this.handleCtrlStatusShare(ctrl)
       if (ctrl instanceof CtrlConfigShare) {
         console.log(ctrl)
         if (this.pendingConfig) {
@@ -175,10 +175,10 @@ export class WebusbService {
     // console.log(ctrl.logMessage)
   }
 
-  handleCtrlHandshakeShare(ctrl: CtrlHandshakeShare) {
+  handleCtrlStatusShare(ctrl: CtrlStatusShare) {
     this.deviceVersion = ctrl.version
     console.log('Firmware of connected device:', this.deviceVersion)
-    this.sendHandshakeSet()
+    this.sendStatusSet()
   }
 
   handleCtrlConfigShare(ctrl: CtrlConfigShare) {
@@ -201,13 +201,13 @@ export class WebusbService {
     await this.device.transferOut(ADDR_OUT, data)
   }
 
-  async sendHandshakeGet() {
-    const data = new CtrlHandshakeGet()
+  async sendStatusGet() {
+    const data = new CtrlStatusGet()
     await this.send(data)
   }
 
-  async sendHandshakeSet() {
-    const data = new CtrlHandshakeSet(Date.now())
+  async sendStatusSet() {
+    const data = new CtrlStatusSet(Date.now())
     await this.send(data)
   }
 
@@ -231,7 +231,7 @@ export class WebusbService {
     await this.send(data)
   }
 
-  async send(ctrl: CtrlProc | CtrlHandshakeGet | CtrlHandshakeSet | CtrlConfigGet | CtrlProfileGet) {
+  async send(ctrl: CtrlProc | CtrlStatusGet | CtrlStatusSet | CtrlConfigGet | CtrlProfileGet) {
     console.log(ctrl)
     await this.device.transferOut(ADDR_OUT, ctrl.encode())
   }

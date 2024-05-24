@@ -20,9 +20,9 @@ enum MessageType {
   PROFILE_GET,
   PROFILE_SET,
   PROFILE_SHARE,
-  HANDSHAKE_GET,
-  HANDSHAKE_SET,
-  HANDSHAKE_SHARE,
+  STATUS_GET,
+  STATUS_SET,
+  STATUS_SHARE,
 }
 
 export enum ConfigIndex {
@@ -202,7 +202,7 @@ export class Ctrl {
     const data = Array.from(new Uint8Array(buffer))
     const msgType = data[2]
     if (msgType== MessageType.LOG) return CtrlLog.decode(buffer)
-    if (msgType== MessageType.HANDSHAKE_SHARE) return CtrlHandshakeShare.decode(buffer)
+    if (msgType== MessageType.STATUS_SHARE) return CtrlStatusShare.decode(buffer)
     if (msgType == MessageType.CONFIG_SHARE) return CtrlConfigShare.decode(buffer)
     if (msgType == MessageType.PROFILE_SHARE) {
       const section = data[5]
@@ -626,18 +626,18 @@ export class CtrlGyroAxis extends CtrlSection {
   }
 }
 
-export class CtrlHandshakeGet extends Ctrl {
+export class CtrlStatusGet extends Ctrl {
   constructor(
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_GET)
+    super(1, DeviceId.ALPAKKA, MessageType.STATUS_GET)
   }
 }
 
-export class CtrlHandshakeSet extends Ctrl {
+export class CtrlStatusSet extends Ctrl {
   constructor(
     public time: number
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_SET)
+    super(1, DeviceId.ALPAKKA, MessageType.STATUS_SET)
   }
 
   override payload() {
@@ -645,11 +645,11 @@ export class CtrlHandshakeSet extends Ctrl {
   }
 }
 
-export class CtrlHandshakeShare extends Ctrl {
+export class CtrlStatusShare extends Ctrl {
   constructor(
     public version: number[],
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.HANDSHAKE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.STATUS_SHARE)
   }
 
   static override decode(buffer: ArrayBuffer) {
@@ -658,7 +658,7 @@ export class CtrlHandshakeShare extends Ctrl {
     version[0] = data[4]  // Payload starts at index 4.
     version[1] = data[5]
     version[2] = data[6]
-    return new CtrlHandshakeShare(version)
+    return new CtrlStatusShare(version)
   }
 }
 
