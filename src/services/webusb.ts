@@ -40,7 +40,7 @@ interface PresetWithValues {
 export class WebusbService {
   browserIsCompatible = false
   device: any = null
-  deviceVersion: number[] = [0, 0, 0]
+  deviceVersion = [0, 0, 0]
   logs: string[] = []
   isConnected = false
   isConnectedRaw = false

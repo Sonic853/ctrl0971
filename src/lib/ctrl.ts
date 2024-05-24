@@ -2,6 +2,7 @@
 // Copyright (C) 2023, Input Labs Oy.
 
 import { HID } from 'lib/hid'
+import { uint64_to_uint8_array } from 'lib/bigint'
 import { ActionGroup } from './actions'
 
 export const PACKAGE_SIZE = 64
@@ -640,18 +641,7 @@ export class CtrlHandshakeSet extends Ctrl {
   }
 
   override payload() {
-    const dataview = new DataView(new ArrayBuffer(8))
-    dataview.setBigUint64(0, BigInt(this.time), true)
-    return [
-      dataview.getUint8(0),
-      dataview.getUint8(1),
-      dataview.getUint8(2),
-      dataview.getUint8(3),
-      dataview.getUint8(4),
-      dataview.getUint8(5),
-      dataview.getUint8(6),
-      dataview.getUint8(7),
-    ]
+    return uint64_to_uint8_array(BigInt(this.time), true)
   }
 }
 
@@ -665,7 +655,7 @@ export class CtrlHandshakeShare extends Ctrl {
   static override decode(buffer: ArrayBuffer) {
     const data = Array.from(new Uint8Array(buffer))
     const version: number[] = []
-    version[0] = data[4]
+    version[0] = data[4]  // Payload starts at index 4.
     version[1] = data[5]
     version[2] = data[6]
     return new CtrlHandshakeShare(version)
