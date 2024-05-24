@@ -2,6 +2,7 @@
 // Copyright (C) 2023, Input Labs Oy.
 
 import { HID } from 'lib/hid'
+import { uint64_to_uint8_array } from 'lib/bigint'
 import { ActionGroup } from './actions'
 
 export const PACKAGE_SIZE = 64
@@ -19,6 +20,9 @@ enum MessageType {
   PROFILE_GET,
   PROFILE_SET,
   PROFILE_SHARE,
+  STATUS_GET,
+  STATUS_SET,
+  STATUS_SHARE,
 }
 
 export enum ConfigIndex {
@@ -198,6 +202,7 @@ export class Ctrl {
     const data = Array.from(new Uint8Array(buffer))
     const msgType = data[2]
     if (msgType== MessageType.LOG) return CtrlLog.decode(buffer)
+    if (msgType== MessageType.STATUS_SHARE) return CtrlStatusShare.decode(buffer)
     if (msgType == MessageType.CONFIG_SHARE) return CtrlConfigShare.decode(buffer)
     if (msgType == MessageType.PROFILE_SHARE) {
       const section = data[5]
@@ -618,6 +623,42 @@ export class CtrlGyroAxis extends CtrlSection {
       ...string_to_buffer(14, this.labels[0]),
       ...string_to_buffer(14, this.labels[1]),
     ]
+  }
+}
+
+export class CtrlStatusGet extends Ctrl {
+  constructor(
+  ) {
+    super(1, DeviceId.ALPAKKA, MessageType.STATUS_GET)
+  }
+}
+
+export class CtrlStatusSet extends Ctrl {
+  constructor(
+    public time: number
+  ) {
+    super(1, DeviceId.ALPAKKA, MessageType.STATUS_SET)
+  }
+
+  override payload() {
+    return uint64_to_uint8_array(BigInt(this.time), true)
+  }
+}
+
+export class CtrlStatusShare extends Ctrl {
+  constructor(
+    public version: number[],
+  ) {
+    super(1, DeviceId.ALPAKKA, MessageType.STATUS_SHARE)
+  }
+
+  static override decode(buffer: ArrayBuffer) {
+    const data = Array.from(new Uint8Array(buffer))
+    const version: number[] = []
+    version[0] = data[4]  // Payload starts at index 4.
+    version[1] = data[5]
+    version[2] = data[6]
+    return new CtrlStatusShare(version)
   }
 }
 

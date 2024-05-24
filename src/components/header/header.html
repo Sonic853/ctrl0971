@@ -73,11 +73,13 @@ Copyright (C) 2023, Input Labs Oy.
 </dialog>
 
 <dialog id='dialog-firmware'>
-    <h3>New firmware available</h3>
+    <h3>Firmware update available</h3>
     <div>
-        There is a new controller firmware
-        (<a [href]='RELEASES_LINK' target='_blank'>{{firmwareAsString(LATEST_FIRMWARE)}}</a>)
-        available. Some of the Ctrl app features may require the latest version to work correctly.
+        Some of the Ctrl app features require a newer firmware version on the controller.<br/>
+        <br/>
+        Current controller firmware: <span class='em'>{{firmwareAsString(webusb.deviceVersion)}}</span><br/>
+        Minimum recommended firmware: <span class='em'>{{firmwareAsString(LATEST_FIRMWARE)}}+</span><br/>
+        <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>
     <div class='buttons'>
         <button (click)='hideDialogFirmware() && firmwareAck()'>Got it!</button>

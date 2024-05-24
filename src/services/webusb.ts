@@ -21,6 +21,9 @@ import {
   CtrlProfileGet,
   CtrlSection,
   CtrlProfileSet,
+  CtrlStatusGet,
+  CtrlStatusSet,
+  CtrlStatusShare,
 } from 'lib/ctrl'
 
 const ADDR_IN = 3
@@ -37,6 +40,7 @@ interface PresetWithValues {
 export class WebusbService {
   browserIsCompatible = false
   device: any = null
+  deviceVersion = [0, 0, 0]
   logs: string[] = []
   isConnected = false
   isConnectedRaw = false
@@ -69,6 +73,7 @@ export class WebusbService {
       this.logs = []
       this.device = null
       this.isConnectedRaw = false
+      this.deviceVersion = [0, 0, 0]
       delay(2000).then(() => {
         // Do not flicker while restarting the controller.
         if (!this.device) this.isConnected = false
@@ -117,6 +122,7 @@ export class WebusbService {
       await this.sendEmpty()
       this.isConnected = true;
       this.isConnectedRaw = true;
+      await this.sendStatusGet()
     } catch (error) {
       this.failed = true
       this.failedError = error as Error
@@ -134,6 +140,7 @@ export class WebusbService {
       const ctrl = Ctrl.decode(response.data.buffer as ArrayBuffer)
       // console.log('received', ctrl)
       if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
+      if (ctrl instanceof CtrlStatusShare) this.handleCtrlStatusShare(ctrl)
       if (ctrl instanceof CtrlConfigShare) {
         console.log(ctrl)
         if (this.pendingConfig) {
@@ -168,6 +175,12 @@ export class WebusbService {
     // console.log(ctrl.logMessage)
   }
 
+  handleCtrlStatusShare(ctrl: CtrlStatusShare) {
+    this.deviceVersion = ctrl.version
+    console.log('Firmware of connected device:', this.deviceVersion)
+    this.sendStatusSet()
+  }
+
   handleCtrlConfigShare(ctrl: CtrlConfigShare) {
     // If there is no pending receiver for the config change we assume it is a
     // change made on the controller via shortcuts, and refresh the components.
@@ -185,7 +198,17 @@ export class WebusbService {
 
   async sendEmpty() {
     const data = new Uint8Array(64)
-    await this.device.transferOut(ADDR_OUT, data)  // TODO: use send()
+    await this.device.transferOut(ADDR_OUT, data)
+  }
+
+  async sendStatusGet() {
+    const data = new CtrlStatusGet()
+    await this.send(data)
+  }
+
+  async sendStatusSet() {
+    const data = new CtrlStatusSet(Date.now())
+    await this.send(data)
   }
 
   async sendRestart() {
@@ -208,7 +231,7 @@ export class WebusbService {
     await this.send(data)
   }
 
-  async send(ctrl: CtrlProc | CtrlConfigGet | CtrlProfileGet) {
+  async send(ctrl: CtrlProc | CtrlStatusGet | CtrlStatusSet | CtrlConfigGet | CtrlProfileGet) {
     console.log(ctrl)
     await this.device.transferOut(ADDR_OUT, ctrl.encode())
   }

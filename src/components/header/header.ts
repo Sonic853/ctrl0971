@@ -5,7 +5,7 @@ import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router'
 import { WebusbService } from 'services/webusb'
-import { LATEST_FIRMWARE } from 'lib/version'
+import { MINUMUM_FIRMWARE_VERSION } from 'lib/version'
 
 
 const RELEASES_LINK = 'https://github.com/inputlabs/alpakka_firmware/releases'
@@ -27,7 +27,7 @@ export class HeaderComponent {
   dialogForget: any
   dialogFirmware: any
   // Template aliases.
-  LATEST_FIRMWARE = LATEST_FIRMWARE
+  LATEST_FIRMWARE = MINUMUM_FIRMWARE_VERSION
   RELEASES_LINK = RELEASES_LINK
 
   constructor(
@@ -39,6 +39,10 @@ export class HeaderComponent {
         this.route = event.urlAfterRedirects
       }
     })
+  }
+
+  ngAfterViewChecked() {
+    if (this.shouldWarningFirmware()) this.showDialogFirmware()
   }
 
   routeIsTools() {
@@ -74,12 +78,23 @@ export class HeaderComponent {
   }
 
   firmwareAck() {
-    const fwValue = this.firmwareAsNumber(LATEST_FIRMWARE).toString()
+    const fwValue = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION).toString()
     localStorage.setItem(FIRMWARE_ACK, fwValue)
   }
 
+  shouldWarningFirmware() {
+    // Should display a Forced modal window?.
+    if (!this.webusb.isConnectedRaw) return false
+    const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
+    const ackVersion = Number(localStorage.getItem(FIRMWARE_ACK))
+    return ackVersion < minimumVersion
+  }
+
   shouldNotifyFirmware() {
-    const knownByUser = Number(localStorage.getItem(FIRMWARE_ACK))
-    return knownByUser < this.firmwareAsNumber(LATEST_FIRMWARE)
+    // Should notify as an icon in the header?.
+    if (!this.webusb.isConnectedRaw) return false
+    const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
+    const deviceVersion = this.firmwareAsNumber(this.webusb.deviceVersion)
+    return deviceVersion < minimumVersion
   }
 }
