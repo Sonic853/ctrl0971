@@ -20,7 +20,9 @@ Copyright (C) 2023, Input Labs Oy.
     <button (click)='webusb.clearLogs()'>Clear logs</button>
     <button (click)='downloadLogs()'>Download logs</button>
     <button (click)='showDialogCalibrate()'>Calibrate</button>
-    <button (click)='showDialogFactory()'>Reset to factory defaults</button>
+    <button (click)='showDialogResetConfig()'>Reset config</button>
+    <button (click)='showDialogResetProfiles()'>Reset all profiles</button>
+    <button (click)='showDialogResetFactory()'>Reset to factory settings</button>
 </div>
 
 <dialog id='dialog-calibrate'>
@@ -36,14 +38,42 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
 </dialog>
 
-<dialog id='dialog-factory'>
-    <h3>Reset to factory defaults</h3>
+<dialog id='dialog-reset-config'>
+    <h3>Reset config values</h3>
     <div>
-        All config values will be discarded (calibration, protocol mode, sensitivities, profiles, etc).
-        The controller will restart in the default Windows mode.
+        All config values will be discarded (calibration, protocol mode, sensitivities, etc). Profiles won't be affected.
+        <br/><br/>
+        The controller will restart in default Windows mode.
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogFactory()' class='flat'>Cancel</button>
-        <button (click)='hideDialogFactory() && webusb.sendFactory()'>Reset</button>
+        <button (click)='hideDialogResetConfig()' class='flat'>Cancel</button>
+        <button (click)='hideDialogResetConfig() && webusb.sendResetConfig()'>Reset config</button>
+    </div>
+</dialog>
+
+<dialog id='dialog-reset-profiles'>
+    <h3>Reset all profiles</h3>
+    <div>
+        All profiles will be restored to default built-in profiles (as defined in the manual).
+        <br/><br/>
+        Current profiles will be lost forever.
+    </div>
+    <div class='buttons'>
+        <button (click)='hideDialogResetProfiles()' class='flat'>Cancel</button>
+        <button (click)='hideDialogResetProfiles() && webusb.sendResetProfiles()'>Reset profiles</button>
+    </div>
+</dialog>
+
+<dialog id='dialog-reset-factory'>
+    <h3>Reset to factory defaults</h3>
+    <div>
+        All config values will be discarded (calibration, protocol mode, sensitivities, etc).
+        Profiles will be restored to built-in defaults.
+        <br/><br/>
+        The controller will restart in default Windows mode.
+    </div>
+    <div class='buttons'>
+        <button (click)='hideDialogResetFactory()' class='flat'>Cancel</button>
+        <button (click)='hideDialogResetFactory() && webusb.sendResetFactory()'>Reset to factory</button>
     </div>
 </dialog>

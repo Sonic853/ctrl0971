@@ -14,7 +14,9 @@ import { WebusbService } from 'services/webusb'
 })
 export class LogsComponent {
   dialogCalibrate: any
-  dialogFactory: any
+  dialogResetFactory: any
+  dialogResetConfig: any
+  dialogResetProfiles: any
 
   constructor(
     public webusb: WebusbService,
@@ -46,13 +48,33 @@ export class LogsComponent {
     return true
   }
 
-  showDialogFactory() {
-    this.dialogFactory = document.getElementById('dialog-factory')
-    this.dialogFactory.showModal()
+  showDialogResetConfig() {
+    this.dialogResetConfig = document.getElementById('dialog-reset-config')
+    this.dialogResetConfig.showModal()
   }
 
-  hideDialogFactory(): boolean {
-    this.dialogFactory.close()
+  hideDialogResetConfig(): boolean {
+    this.dialogResetConfig.close()
+    return true
+  }
+
+  showDialogResetProfiles() {
+    this.dialogResetProfiles = document.getElementById('dialog-reset-profiles')
+    this.dialogResetProfiles.showModal()
+  }
+
+  hideDialogResetProfiles(): boolean {
+    this.dialogResetProfiles.close()
+    return true
+  }
+
+  showDialogResetFactory() {
+    this.dialogResetFactory = document.getElementById('dialog-reset-factory')
+    this.dialogResetFactory.showModal()
+  }
+
+  hideDialogResetFactory(): boolean {
+    this.dialogResetFactory.close()
     return true
   }
 }

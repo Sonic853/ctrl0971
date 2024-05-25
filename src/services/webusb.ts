@@ -226,8 +226,18 @@ export class WebusbService {
     await this.send(data)
   }
 
-  async sendFactory() {
-    const data = new CtrlProc(HID.PROC_FACTORY)
+  async sendResetFactory() {
+    const data = new CtrlProc(HID.PROC_RESET_FACTORY)
+    await this.send(data)
+  }
+
+  async sendResetConfig() {
+    const data = new CtrlProc(HID.PROC_RESET_CONFIG)
+    await this.send(data)
+  }
+
+  async sendResetProfiles() {
+    const data = new CtrlProc(HID.PROC_RESET_PROFILES)
     await this.send(data)
   }
 
