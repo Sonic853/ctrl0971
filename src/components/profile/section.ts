@@ -30,7 +30,7 @@ import { PIN } from 'lib/pin'
 })
 export class SectionComponent {
   @Input() profileIndex: number = 0
-  @Input() section: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0)
+  @Input() section: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0, 0)
   dialogKeyPicker: any
   pickerGroup = 0
   pickerProfile = 1

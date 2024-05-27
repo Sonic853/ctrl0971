@@ -354,6 +354,7 @@ export class CtrlSectionMeta extends CtrlSection {
     public override profileIndex: number,
     public override sectionIndex: SectionIndex,
     public name: string,
+    public controlByte: number,
     public version: number,
   ) {
     const payload = [profileIndex, sectionIndex, name]
@@ -366,7 +367,8 @@ export class CtrlSectionMeta extends CtrlSection {
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
       string_from_slice(buffer, 6, 30),  // Name.
-      uint8_array_to_uint32(data.slice(30, 34)),  // Version as 32bit int.
+      data[30],  // Control byte.
+      uint8_array_to_uint32(data.slice(31, 35)),  // Version as 32bit int.
     )
   }
 
@@ -375,6 +377,7 @@ export class CtrlSectionMeta extends CtrlSection {
       this.profileIndex,
       this.sectionIndex,
       ...string_to_buffer(24, this.name),
+      this.controlByte,
       ...uint32_to_uint8_array(this.version),
     ]
   }

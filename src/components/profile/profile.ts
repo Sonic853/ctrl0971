@@ -27,7 +27,7 @@ import { SectionIndex } from 'lib/ctrl'
 })
 export class ProfileComponent {
   profileIndex: number = 0
-  selected: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0)
+  selected: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0, 0)
   // Template aliases.
   SectionIndex = SectionIndex
   getLedPattern = getProfileLed
