@@ -2,7 +2,7 @@
 // Copyright (C) 2023, Input Labs Oy.
 
 import { HID } from 'lib/hid'
-import { uint64_to_uint8_array } from 'lib/bigint'
+import { uint64_to_uint8_array, uint8_array_to_uint32, uint32_to_uint8_array } from 'lib/bigint'
 import { ActionGroup } from './actions'
 
 export const PACKAGE_SIZE = 64
@@ -34,7 +34,7 @@ export enum ConfigIndex {
 
 export enum SectionIndex {
   NONE,
-  NAME,
+  META,
   A = 2,
   B,
   X,
@@ -120,8 +120,8 @@ export enum GyroMode {
   AXIS_ABSOLUTE,
 }
 
-export function sectionIsName(section: SectionIndex) {
-  return section == SectionIndex.NAME
+export function sectionIsMeta(section: SectionIndex) {
+  return section == SectionIndex.META
 }
 
 export function sectionIsButton(section: SectionIndex) {
@@ -206,7 +206,7 @@ export class Ctrl {
     if (msgType == MessageType.CONFIG_SHARE) return CtrlConfigShare.decode(buffer)
     if (msgType == MessageType.PROFILE_SHARE) {
       const section = data[5]
-      if (sectionIsName(section)) return CtrlSectionName.decode(buffer)
+      if (sectionIsMeta(section)) return CtrlSectionMeta.decode(buffer)
       if (sectionIsButton(section)) return CtrlButton.decode(buffer)
       if (sectionIsRotary(section)) return CtrlRotary.decode(buffer)
       if (sectionIsThumbtick(section)) return CtrlThumbstick.decode(buffer)
@@ -349,11 +349,12 @@ export abstract class CtrlSection extends Ctrl {
   sectionIndex: SectionIndex = 0
 }
 
-export class CtrlSectionName extends CtrlSection {
+export class CtrlSectionMeta extends CtrlSection {
   constructor(
     public override profileIndex: number,
     public override sectionIndex: SectionIndex,
     public name: string,
+    public version: number,
   ) {
     const payload = [profileIndex, sectionIndex, name]
     super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
@@ -361,10 +362,11 @@ export class CtrlSectionName extends CtrlSection {
 
   static override decode(buffer: ArrayBuffer) {
     const data = Array.from(new Uint8Array(buffer))
-    return new CtrlSectionName(
+    return new CtrlSectionMeta(
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
-      string_from_slice(buffer, 6, 30)  // Name.
+      string_from_slice(buffer, 6, 30),  // Name.
+      uint8_array_to_uint32(data.slice(30, 34)),  // Version as 32bit int.
     )
   }
 
@@ -372,7 +374,8 @@ export class CtrlSectionName extends CtrlSection {
     return [
       this.profileIndex,
       this.sectionIndex,
-      ...string_to_buffer(24, this.name)
+      ...string_to_buffer(24, this.name),
+      ...uint32_to_uint8_array(this.version),
     ]
   }
 }

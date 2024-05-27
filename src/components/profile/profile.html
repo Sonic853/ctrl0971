@@ -24,7 +24,7 @@ Copyright (C) 2023, Input Labs Oy.
             <div
                 class='section thin pale'
                 style='grid-area: 6 / 8 / 8 / 11'
-                [ngClass]="selected.sectionIndex == SectionIndex.NAME ? 'selected' : ''"
+                [ngClass]="selected.sectionIndex == SectionIndex.META ? 'selected' : ''"
                 (click)='setSelectedName()'
                 >
                 <app-led [dotsize]='12' [aperture]='5' [on]='getLedPattern(profileIndex)'/>

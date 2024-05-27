@@ -57,6 +57,6 @@ export class SidebarComponent {
   }
 
   getProfileName(index: number) {
-    return this.profileService.profiles[index].name.name
+    return this.profileService.profiles[index].meta.name
   }
 }

@@ -125,7 +125,7 @@ export class ButtonComponent {
     if (label == 'PROC_TUNE_DOWN') return 'Tune down'
     if (label.startsWith('PROC_PROFILE_')) {
       const profileIndex = Number(label.split('_')[2])
-      label = this.profileService.profiles[profileIndex].name.name
+      label = this.profileService.profiles[profileIndex].meta.name
     }
     if (label.startsWith('PROC_MACRO_')) {
       const macroIndex = Number(label.split('_')[2])

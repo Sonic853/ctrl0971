@@ -18,3 +18,22 @@ export function uint64_to_uint8_array(int64: bigint, littleEndian=false) {
       dataview.getUint8(7),
     ]
 }
+
+export function uint32_to_uint8_array(int32: number) {
+  // Split the number using bitmasks.
+  return [
+    (int32 >> 0)  & 0b11111111,
+    (int32 >> 8)  & 0b11111111,
+    (int32 >> 16) & 0b11111111,
+    (int32 >> 24) & 0b11111111,
+  ]
+}
+
+export function uint8_array_to_uint32(int8: number[]) {
+  return (
+    int8[0] +
+    (int8[1] << 8) +
+    (int8[2] << 16) +
+    (int8[3] << 24)
+  )
+}
