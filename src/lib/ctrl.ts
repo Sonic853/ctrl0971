@@ -521,6 +521,7 @@ export class CtrlThumbstick extends CtrlSection {
     public deadzone: number,
     public overlap : number,
     public deadzone_override: boolean,
+    public antideadzone: number,
   ) {
     super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
   }
@@ -529,6 +530,7 @@ export class CtrlThumbstick extends CtrlSection {
     // See firmware repo "ctrl.h" header, "CtrlThumbstick" struct.
     const data = Array.from(new Uint8Array(buffer))
     return new CtrlThumbstick(
+      // Payload starts at index 4.
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
       data[6],  // Mode.
@@ -536,6 +538,7 @@ export class CtrlThumbstick extends CtrlSection {
       data[8],  // Deadzone.
       data[9] <= 128 ? data[9] : data[9]-256,  // Axis overlap (unsigned to signed).
       Boolean(data[10]),  // Deadzone override.
+      data[11],  // Antideadzone.
     )
   }
 
@@ -548,6 +551,7 @@ export class CtrlThumbstick extends CtrlSection {
       this.deadzone,
       this.overlap,
       Number(this.deadzone_override),
+      this.antideadzone,
     ]
   }
 }
