@@ -15,14 +15,14 @@ Copyright (C) 2023, Input Labs Oy.
 
 <div class='panel'>
     <h2>Commands</h2>
-    <button (click)='webusb.sendRestart()'>Restart</button>
-    <button (click)='webusb.sendBootsel()'>Restart in bootsel mode</button>
+    <button (click)='webusb.sendProc(HID.PROC_RESTART)'>Restart</button>
+    <button (click)='webusb.sendProc(HID.PROC_BOOTSEL)'>Restart in bootsel mode</button>
     <button (click)='webusb.clearLogs()'>Clear logs</button>
     <button (click)='downloadLogs()'>Download logs</button>
-    <button (click)='showDialogCalibrate()'>Calibrate</button>
-    <button (click)='showDialogResetConfig()'>Reset config</button>
-    <button (click)='showDialogResetProfiles()'>Reset all profiles</button>
-    <button (click)='showDialogResetFactory()'>Reset to factory settings</button>
+    <button (click)='dialogCalibrate.showModal()'>Calibrate</button>
+    <button (click)='dialogResetConfig.showModal()'>Reset config</button>
+    <button (click)='dialogResetProfiles.showModal()'>Reset all profiles</button>
+    <button (click)='dialogResetFactory.showModal()'>Reset to factory settings</button>
 </div>
 
 <dialog id='dialog-calibrate'>
@@ -33,8 +33,8 @@ Copyright (C) 2023, Input Labs Oy.
         is completed.
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogCalibrate()' class='flat'>Cancel</button>
-        <button (click)='hideDialogCalibrate() && webusb.sendCalibrate()'>Start</button>
+        <button (click)='dialogCalibrate.close()' class='flat'>Cancel</button>
+        <button (click)='dialogCalibrate.close(); webusb.sendProc(HID.PROC_CALIBRATE)'>Start</button>
     </div>
 </dialog>
 
@@ -46,8 +46,8 @@ Copyright (C) 2023, Input Labs Oy.
         The controller will restart in default Windows mode.
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogResetConfig()' class='flat'>Cancel</button>
-        <button (click)='hideDialogResetConfig() && webusb.sendResetConfig()'>Reset config</button>
+        <button (click)='dialogResetConfig.close()' class='flat'>Cancel</button>
+        <button (click)='dialogResetConfig.close(); webusb.sendProc(HID.PROC_RESET_CONFIG)'>Reset config</button>
     </div>
 </dialog>
 
@@ -59,8 +59,8 @@ Copyright (C) 2023, Input Labs Oy.
         Current profiles will be lost forever.
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogResetProfiles()' class='flat'>Cancel</button>
-        <button (click)='hideDialogResetProfiles() && webusb.sendResetProfiles()'>Reset profiles</button>
+        <button (click)='dialogResetProfiles.close()' class='flat'>Cancel</button>
+        <button (click)='dialogResetProfiles.close(); webusb.sendProc(HID.PROC_RESET_PROFILES)'>Reset profiles</button>
     </div>
 </dialog>
 
@@ -73,7 +73,7 @@ Copyright (C) 2023, Input Labs Oy.
         The controller will restart in default Windows mode.
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogResetFactory()' class='flat'>Cancel</button>
-        <button (click)='hideDialogResetFactory() && webusb.sendResetFactory()'>Reset to factory</button>
+        <button (click)='dialogResetFactory.close()' class='flat'>Cancel</button>
+        <button (click)='dialogResetFactory.close(); webusb.sendProc(HID.PROC_RESET_FACTORY)'>Reset to factory</button>
     </div>
 </dialog>
