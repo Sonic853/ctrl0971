@@ -4,6 +4,7 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { WebusbService } from 'services/webusb'
+import { HID } from 'lib/hid'
 
 @Component({
   selector: 'app-logs',
@@ -13,12 +14,22 @@ import { WebusbService } from 'services/webusb'
   styleUrls: ['./logs.sass']
 })
 export class LogsComponent {
+  public HID = HID  // Template alias.
   dialogCalibrate: any
-  dialogFactory: any
+  dialogResetFactory: any
+  dialogResetConfig: any
+  dialogResetProfiles: any
 
   constructor(
-    public webusb: WebusbService,
+    public webusb: WebusbService
   ) {}
+
+  ngAfterViewInit() {
+    this.dialogCalibrate = document.getElementById('dialog-calibrate')
+    this.dialogResetConfig = document.getElementById('dialog-reset-config')
+    this.dialogResetProfiles = document.getElementById('dialog-reset-profiles')
+    this.dialogResetFactory = document.getElementById('dialog-reset-factory')
+  }
 
   downloadLogs() {
     if (this.webusb.logs.length == 0) return
@@ -34,25 +45,5 @@ export class LogsComponent {
     a.click()
     URL.revokeObjectURL(a.href)
     a.remove()
-  }
-
-  showDialogCalibrate() {
-    this.dialogCalibrate = document.getElementById('dialog-calibrate')
-    this.dialogCalibrate.showModal()
-  }
-
-  hideDialogCalibrate(): boolean {
-    this.dialogCalibrate.close()
-    return true
-  }
-
-  showDialogFactory() {
-    this.dialogFactory = document.getElementById('dialog-factory')
-    this.dialogFactory.showModal()
-  }
-
-  hideDialogFactory(): boolean {
-    this.dialogFactory.close()
-    return true
   }
 }

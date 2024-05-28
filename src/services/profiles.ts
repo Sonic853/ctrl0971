@@ -5,7 +5,7 @@
 
 import { Injectable } from '@angular/core'
 import { WebusbService } from 'services/webusb'
-import { CtrlSectionName, CtrlButton, CtrlRotary, CtrlThumbstick } from 'lib/ctrl'
+import { CtrlSectionMeta, CtrlButton, CtrlRotary, CtrlThumbstick } from 'lib/ctrl'
 import { SectionIndex, CtrlGyro, CtrlGyroAxis, CtrlHome } from 'lib/ctrl'
 import { ActionGroup } from 'lib/actions'
 import { HID } from 'lib/hid'
@@ -13,7 +13,7 @@ import { HID } from 'lib/hid'
 const NUMBER_OF_PROFILES = 9  // Home + 8 builtin.
 
 export class Profile {
-  name: CtrlSectionName
+  meta: CtrlSectionMeta
   home: CtrlHome
 
   constructor (
@@ -25,7 +25,7 @@ export class Profile {
     public gyro: CtrlGyro = new CtrlGyro(0, 0, 0, 0),
     public gyroAxis: CtrlGyroAxis[] = []
   ) {
-    this.name = new CtrlSectionName(0, 0, name)
+    this.meta = new CtrlSectionMeta(0, 0, name, 0, 0, 0, 0)
     // Fake home definitions.
     const actions = [
       new ActionGroup([HID.PROC_PROFILE_0]),
@@ -74,8 +74,8 @@ export class ProfileService {
   }
 
   async fetchProfileName(index: number) {
-  const section = await this.webusb.getSection(index, SectionIndex.NAME)
-    this.profiles[index].name = section as CtrlSectionName
+  const section = await this.webusb.getSection(index, SectionIndex.META)
+    this.profiles[index].meta = section as CtrlSectionMeta
   }
 
   async fetchProfile(profileIndex: number) {

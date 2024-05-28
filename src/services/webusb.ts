@@ -211,23 +211,8 @@ export class WebusbService {
     await this.send(data)
   }
 
-  async sendRestart() {
-    const data = new CtrlProc(HID.PROC_RESTART)
-    await this.send(data)
-  }
-
-  async sendBootsel() {
-    const data = new CtrlProc(HID.PROC_BOOTSEL)
-    await this.send(data)
-  }
-
-  async sendCalibrate() {
-    const data = new CtrlProc(HID.PROC_CALIBRATE)
-    await this.send(data)
-  }
-
-  async sendFactory() {
-    const data = new CtrlProc(HID.PROC_FACTORY)
+  async sendProc(proc: HID) {
+    const data = new CtrlProc(proc)
     await this.send(data)
   }
 

@@ -8,7 +8,7 @@ import { ProfileService } from 'services/profiles'
 import { ButtonComponent } from 'components/profile/action_preview'
 import { SectionComponent } from 'components/profile/section'
 import { LedComponent, getProfileLed } from 'components/led/led'
-import { CtrlSection, CtrlSectionName, CtrlButton, CtrlRotary, CtrlGyroAxis } from 'lib/ctrl'
+import { CtrlSection, CtrlSectionMeta, CtrlButton, CtrlRotary, CtrlGyroAxis } from 'lib/ctrl'
 import { ThumbstickMode, GyroMode } from 'lib/ctrl'
 import { sectionIsThumbtickButton, sectionIsGyroAxis, sectionIsHome } from 'lib/ctrl'
 import { SectionIndex } from 'lib/ctrl'
@@ -27,7 +27,7 @@ import { SectionIndex } from 'lib/ctrl'
 })
 export class ProfileComponent {
   profileIndex: number = 0
-  selected: CtrlSection = new CtrlSectionName(0, SectionIndex.NAME, '')
+  selected: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0, 0, 0, 0)
   // Template aliases.
   SectionIndex = SectionIndex
   getLedPattern = getProfileLed
@@ -53,7 +53,7 @@ export class ProfileComponent {
   }
 
   initName() {
-    this.selected = this.profileService.profiles[this.profileIndex].name
+    this.selected = this.profileService.profiles[this.profileIndex].meta
   }
 
   setSelected(section: CtrlSection) {
@@ -61,7 +61,7 @@ export class ProfileComponent {
   }
 
   setSelectedName() {
-    this.selected = this.profileService.profiles[this.profileIndex].name
+    this.selected = this.profileService.profiles[this.profileIndex].meta
   }
 
   setSelectedThumbstick() {
