@@ -46,8 +46,4 @@ export class LogsComponent {
     URL.revokeObjectURL(a.href)
     a.remove()
   }
-
-  miau() {
-    console.log('MIAU')
-  }
 }

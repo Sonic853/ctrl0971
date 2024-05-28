@@ -2,7 +2,7 @@
 // Copyright (C) 2023, Input Labs Oy.
 
 import { HID } from 'lib/hid'
-import { uint64_to_uint8_array, uint8_array_to_uint32, uint32_to_uint8_array } from 'lib/bigint'
+import { uint64_to_uint8_array } from 'lib/bigint'
 import { ActionGroup } from './actions'
 
 export const PACKAGE_SIZE = 64
