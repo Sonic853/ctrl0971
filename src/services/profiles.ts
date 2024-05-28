@@ -25,7 +25,7 @@ export class Profile {
     public gyro: CtrlGyro = new CtrlGyro(0, 0, 0, 0),
     public gyroAxis: CtrlGyroAxis[] = []
   ) {
-    this.meta = new CtrlSectionMeta(0, 0, name, 0, 0)
+    this.meta = new CtrlSectionMeta(0, 0, name, 0, 0, 0, 0)
     // Fake home definitions.
     const actions = [
       new ActionGroup([HID.PROC_PROFILE_0]),

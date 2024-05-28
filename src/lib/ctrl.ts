@@ -355,7 +355,9 @@ export class CtrlSectionMeta extends CtrlSection {
     public override sectionIndex: SectionIndex,
     public name: string,
     public controlByte: number,
-    public version: number,
+    public versionMajor: number,
+    public versionMinor: number,
+    public versionPatch: number,
   ) {
     const payload = [profileIndex, sectionIndex, name]
     super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
@@ -368,7 +370,9 @@ export class CtrlSectionMeta extends CtrlSection {
       data[5],  // SectionIndex.
       string_from_slice(buffer, 6, 30),  // Name.
       data[30],  // Control byte.
-      uint8_array_to_uint32(data.slice(31, 35)),  // Version as 32bit int.
+      data[31],  // Version major.
+      data[32],  // Version minor.
+      data[33],  // Version patch.
     )
   }
 
@@ -378,7 +382,9 @@ export class CtrlSectionMeta extends CtrlSection {
       this.sectionIndex,
       ...string_to_buffer(24, this.name),
       this.controlByte,
-      ...uint32_to_uint8_array(this.version),
+      this.versionMajor,
+      this.versionMinor,
+      this.versionPatch,
     ]
   }
 }
