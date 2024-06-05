@@ -10,7 +10,7 @@ import { SectionIndex, CtrlGyro, CtrlGyroAxis, CtrlHome } from 'lib/ctrl'
 import { ActionGroup } from 'lib/actions'
 import { HID } from 'lib/hid'
 
-const NUMBER_OF_PROFILES = 9  // Home + 8 builtin.
+const NUMBER_OF_PROFILES = 13  // Home + 12 builtin.
 
 export class Profile {
   meta: CtrlSectionMeta

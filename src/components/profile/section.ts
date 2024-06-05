@@ -120,7 +120,7 @@ export class SectionComponent {
     this.pickerGroup = pickerGroup
     const section = this.section as (CtrlButton | CtrlRotary | CtrlGyroAxis)
     for(let action of section.actions[pickerGroup].actions) {
-      if (action >= HID.PROC_PROFILE_0 && action <= HID.PROC_PROFILE_8) {
+      if (action >= HID.PROC_PROFILE_0 && action <= HID.PROC_PROFILE_12) {
         this.pickerProfile = action - HID.PROC_PROFILE_0
       }
       if (action >= HID.PROC_ROTARY_MODE_0 && action <= HID.PROC_ROTARY_MODE_5) {
@@ -191,7 +191,7 @@ export class SectionComponent {
       increment,
       HID.PROC_PROFILE_0,
       1,  // First profile.
-      8,  // Last profile.
+      12,  // Last profile.
       this.pickerProfile,
       (x) => this.pickerProfile=x,
     )

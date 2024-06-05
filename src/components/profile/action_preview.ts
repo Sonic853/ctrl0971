@@ -157,7 +157,7 @@ export class ButtonComponent {
     let icon = ''
     let showLabel = false
     if (hid.startsWith('PROC_PROFILE')) {
-      icon = 'sports_esports'
+      icon = 'stadia_controller'
       showLabel = true
     }
     if (hid.startsWith('PROC_TUNE')) {
