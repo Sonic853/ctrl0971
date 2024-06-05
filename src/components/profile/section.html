@@ -57,8 +57,8 @@ Copyright (C) 2023, Input Labs Oy.
                 *ngIf='(button.hold || button.double) && !button.sticky'
                 >
                 <span class='name'>Immediate / trigger both</span>
-                <span class='material' (click)='button.overlap=!button.overlap; save()'>
-                    {{button.overlap ? 'check_box' : 'check_box_outline_blank'}}
+                <span class='material' (click)='button.immediate=!button.immediate; save()'>
+                    {{button.immediate ? 'check_box' : 'check_box_outline_blank'}}
                 </span>
             </div>
             <div

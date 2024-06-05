@@ -91,19 +91,19 @@ export class SectionComponent {
     const button = this.getSectionAsButton()
     if (group == 0) {
       if (button.sticky) return 'On the first press, until home is released:'
-      if (!button.hold && !button.double && !button.overlap) return 'On button press:'
-      if (button.hold && !button.overlap) return 'On short press:'
-      if (button.hold && button.overlap) return 'On press (always):'
-      if (!button.hold && button.double && !button.overlap) return 'On single press:'
-      if (!button.hold && button.double && button.overlap) return 'On first press (always):'
+      if (!button.hold && !button.double && !button.immediate) return 'On button press:'
+      if (button.hold && !button.immediate) return 'On short press:'
+      if (button.hold && button.immediate) return 'On press (always):'
+      if (!button.hold && button.double && !button.immediate) return 'On single press:'
+      if (!button.hold && button.double && button.immediate) return 'On first press (always):'
     }
     if (group == 1) {
       if (button.sticky) return 'On every press:'
-      if (button.hold && !button.double && !button.overlap) return 'Otherwise on long press:'
-      if (button.hold && button.double && !button.overlap) return 'On long press:'
-      if (button.hold && button.overlap) return 'Additionally on long press:'
-      if (!button.hold && button.double && !button.overlap) return 'On single press:'
-      if (!button.hold && button.double && button.overlap) return 'On first press (always):'
+      if (button.hold && !button.double && !button.immediate) return 'Otherwise on long press:'
+      if (button.hold && button.double && !button.immediate) return 'On long press:'
+      if (button.hold && button.immediate) return 'Additionally on long press:'
+      if (!button.hold && button.double && !button.immediate) return 'On single press:'
+      if (!button.hold && button.double && button.immediate) return 'On first press (always):'
     }
     if (group == 2) {
       return 'On double press:'

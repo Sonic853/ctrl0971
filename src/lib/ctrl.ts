@@ -95,7 +95,7 @@ export enum ButtonMode {
   NORMAL = 1,
   HOLD = 2,
   DOUBLE = 4,
-  OVERLAP = 8,
+  IMMEDIATE = 8,
   LONG = 16,
   STICKY = 32,
 }
@@ -391,7 +391,7 @@ export class CtrlSectionMeta extends CtrlSection {
 export class CtrlButton extends CtrlSection {
   hold = false
   double = false
-  overlap = false
+  immediate = false
   long = false
   sticky = false
 
@@ -406,7 +406,7 @@ export class CtrlButton extends CtrlSection {
     super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
     if (_mode & ButtonMode.HOLD) this.hold = true
     if (_mode & ButtonMode.DOUBLE) this.double = true
-    if (_mode & ButtonMode.OVERLAP) this.overlap = true
+    if (_mode & ButtonMode.IMMEDIATE) this.immediate = true
     if (_mode & ButtonMode.LONG) this.long = true
     if (_mode & ButtonMode.STICKY) this.sticky = true
   }
@@ -415,7 +415,7 @@ export class CtrlButton extends CtrlSection {
     let mode = 0
     if (this.hold) mode += ButtonMode.HOLD
     if (this.double) mode += ButtonMode.DOUBLE
-    if (this.overlap) mode += ButtonMode.OVERLAP
+    if (this.immediate) mode += ButtonMode.IMMEDIATE
     if (this.long) mode += ButtonMode.LONG
     if (this.sticky) mode += ButtonMode.STICKY
     if (mode === 0) mode = ButtonMode.NORMAL
