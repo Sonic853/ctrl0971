@@ -22,3 +22,13 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
     <div *ngIf='getLabel(1)' class='label'>{{getLabel(1)}}</div>
 </div>
+
+<div class='group' [ngClass]='getGroupClass(2)'>
+    <div class='chips'>
+        <div class='chip' [ngClass]='chip.cls' *ngFor='let chip of getChips(2)'>
+            <div *ngIf='chip.icon.icon' class='material'>{{chip.icon.icon}}</div>
+            <div *ngIf='!chip.icon.icon || chip.icon.showLabel'>{{chip.text}}</div>
+        </div>
+    </div>
+    <div *ngIf='getLabel(2)' class='label'>{{getLabel(2)}}</div>
+</div>

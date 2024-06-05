@@ -82,22 +82,31 @@ export class SectionComponent {
   isButtonBlockVisible(group: number) {
     const button = this.getSectionAsButton()
     if (group == 0) return true
-    if (group == 1 && (button.hold || button.homeCycle)) return true
+    if (group == 1 && (button.hold || button.sticky)) return true
+    if (group == 2 && (button.double)) return true
     return false
   }
 
   getButtonBlockSubtitle(group: number) {
     const button = this.getSectionAsButton()
     if (group == 0) {
-      if (!button.hold && !button.homeCycle) return 'On button press:'
-      if (button.hold && button.overlap) return 'On button press (always):'
-      if (button.hold && !button.overlap) return 'On button click:'
-      if (button.homeCycle) return 'On the first press, until home is released:'
+      if (button.sticky) return 'On the first press, until home is released:'
+      if (!button.hold && !button.double && !button.overlap) return 'On button press:'
+      if (button.hold && !button.overlap) return 'On short press:'
+      if (button.hold && button.overlap) return 'On press (always):'
+      if (!button.hold && button.double && !button.overlap) return 'On single press:'
+      if (!button.hold && button.double && button.overlap) return 'On first press (always):'
     }
     if (group == 1) {
-      if (button.hold && button.overlap) return 'On button hold:'
-      if (button.hold && !button.overlap) return 'Otherwise on button hold:'
-      if (button.homeCycle) return 'On every press:'
+      if (button.sticky) return 'On every press:'
+      if (button.hold && !button.double && !button.overlap) return 'Otherwise on long press:'
+      if (button.hold && button.double && !button.overlap) return 'On long press:'
+      if (button.hold && button.overlap) return 'Additionally on long press:'
+      if (!button.hold && button.double && !button.overlap) return 'On single press:'
+      if (!button.hold && button.double && button.overlap) return 'On first press (always):'
+    }
+    if (group == 2) {
+      return 'On double press:'
     }
     return ''
   }
@@ -227,6 +236,7 @@ export class SectionComponent {
     let cls = 'pressBG'
     if (this.section instanceof CtrlButton) {
       if (this.pickerGroup==1 && this.section.hold) cls += ' holdBG'
+      if (this.pickerGroup==2 && this.section.double) cls += ' doubleBG'
     }
     if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analogBG'
@@ -240,6 +250,7 @@ export class SectionComponent {
     let cls = 'press'
     if (this.section instanceof CtrlButton) {
       if (index==1 && this.section.hold) cls += ' hold'
+      if (index==2 && this.section.double) cls += ' double'
     }
     if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'

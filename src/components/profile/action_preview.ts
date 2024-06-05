@@ -57,6 +57,11 @@ export class ButtonComponent {
   }
 
   getLabel(index: number): string {
+    // Do not show labels if there are 3 groups of actions.
+    if (this.section instanceof CtrlButton) {
+      if (this.section.hold && this.section.double) return ''
+    }
+    // Get label for actions.
     let label = this.section.labels[index] || ''
     // For rotary only show first label.
     if (sectionIsRotary(this.section.sectionIndex) && index == 1) {
@@ -206,10 +211,11 @@ export class ButtonComponent {
     if (!icon.icon && text.length == 1) cls += ' fixed'
     if (this.section instanceof CtrlButton) {
       if (index==1 && this.section.hold) cls += ' hold'
+      if (index==2 && this.section.double) cls += ' double'
     }
     if (this.section instanceof CtrlHome) {
       if (index==0) cls += ' hold'
-      if (index==1) cls += ' doubleclick'
+      if (index==1) cls += ' double'
     }
     if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'
@@ -231,8 +237,9 @@ export class ButtonComponent {
           const cls = this.getClass(0, action, text, icon)
           return {cls, text, icon}
         })
-    } else {
-      if (this.section.actions.length < 2) return []
+    }
+    if (index == 1) {
+      if (this.section.actions[1] === undefined) return []
       if (this.getActions(1).actions.size == 0 && this.section.labels[1] == '') return []
       return this.getActions(1).asArray()
         .map((action: number) => {
@@ -242,5 +249,17 @@ export class ButtonComponent {
           return {cls, text, icon}
         })
     }
+    if (index == 2) {
+      if (this.section.actions[2] === undefined) return []
+      if (this.getActions(2).actions.size == 0 && this.section.labels[2] == '') return []
+      return this.getActions(2).asArray()
+        .map((action: number) => {
+          const text = this.getText(action)
+          const icon = this.getIcon(action)
+          let cls = this.getClass(2, action, text, icon)
+          return {cls, text, icon}
+        })
+    }
+    return []
   }
 }
