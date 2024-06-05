@@ -38,7 +38,7 @@ Copyright (C) 2023, Input Labs Oy.
                 class='iconaction'
                 *ngIf='!button.sticky'
                 >
-                <span class='name'>Hold</span>
+                <span class='name'>Long press</span>
                 <span class='material' (click)='button.hold=!button.hold; save()'>
                     {{button.hold ? 'check_box' : 'check_box_outline_blank'}}
                 </span>
@@ -65,7 +65,7 @@ Copyright (C) 2023, Input Labs Oy.
                 class='iconaction'
                 *ngIf='button.hold && !button.sticky'
                 >
-                <span class='name'>Long hold</span>
+                <span class='name'>Very long press</span>
                 <span class='material' (click)='button.long=!button.long; save()'>
                     {{button.long ? 'check_box' : 'check_box_outline_blank'}}
                 </span>
