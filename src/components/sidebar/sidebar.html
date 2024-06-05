@@ -61,19 +61,19 @@ Copyright (C) 2023, Input Labs Oy.
     </a>
     <a routerLink='profiles/9' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(9)'/>
-        <div>Custom 1</div>
+        <div>{{profileService.profiles[9].meta.name}}</div>
     </a>
     <a routerLink='profiles/10' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(10)'/>
-        <div>Custom 2</div>
+        <div>{{profileService.profiles[10].meta.name}}</div>
     </a>
     <a routerLink='profiles/11' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(11)'/>
-        <div>Custom 3</div>
+        <div>{{profileService.profiles[11].meta.name}}</div>
     </a>
     <a routerLink='profiles/12' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(12)'/>
-        <div>Custom 4</div>
+        <div>{{profileService.profiles[12].meta.name}}</div>
     </a>
 </div>
 
