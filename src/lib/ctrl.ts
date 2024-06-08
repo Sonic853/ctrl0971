@@ -11,18 +11,19 @@ enum DeviceId {
   ALPAKKA = 1,
 }
 
-enum MessageType {
+export enum MessageType {
   LOG = 1,
   PROC,
   CONFIG_GET,
   CONFIG_SET,
   CONFIG_SHARE,
-  PROFILE_GET,
-  PROFILE_SET,
-  PROFILE_SHARE,
+  SECTION_GET,
+  SECTION_SET,
+  SECTION_SHARE,
   STATUS_GET,
   STATUS_SET,
   STATUS_SHARE,
+  PROFILE_OVERWRITE,
 }
 
 export enum ConfigIndex {
@@ -162,7 +163,7 @@ export function sectionIsAnalog(section: SectionIndex) {
   return sectionIsThumbtickDirection(section) || sectionIsGyroAxis(section)
 }
 
-function string_from_slice(buffer: ArrayBuffer, start: number, end: number) {
+function string_from_slice(buffer: Uint8Array, start: number, end: number) {
   return new TextDecoder().decode(buffer.slice(start, end)).replace(/\0/g, '')
 }
 
@@ -196,14 +197,14 @@ export class Ctrl {
     return data
   }
 
-  static decode(buffer: ArrayBuffer) {
+  static decode(buffer: Uint8Array) {
     // See: https://github.com/inputlabs/alpakka_firmware/blob/main/docs/ctrl_protocol.md
-    const data = Array.from(new Uint8Array(buffer))
+    const data = Array.from(buffer)
     const msgType = data[2]
     if (msgType== MessageType.LOG) return CtrlLog.decode(buffer)
     if (msgType== MessageType.STATUS_SHARE) return CtrlStatusShare.decode(buffer)
     if (msgType == MessageType.CONFIG_SHARE) return CtrlConfigShare.decode(buffer)
-    if (msgType == MessageType.PROFILE_SHARE) {
+    if (msgType == MessageType.SECTION_SHARE) {
       const section = data[5]
       if (sectionIsMeta(section)) return CtrlSectionMeta.decode(buffer)
       if (sectionIsButton(section)) return CtrlButton.decode(buffer)
@@ -225,8 +226,8 @@ export class CtrlLog extends Ctrl {
     super(protocolVersion, deviceId, MessageType.LOG)
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     return new CtrlLog(
       data[0],  // ProtocolVersion.
       data[1],  // DeviceId.
@@ -248,6 +249,19 @@ export class CtrlProc extends Ctrl {
 
   override payload() {
     return [this.proc]
+  }
+}
+
+export class CtrlProfileOverwrite extends Ctrl {
+  constructor(
+    public indexTo: number,
+    public indexFrom: number,
+  ) {
+    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_OVERWRITE)
+  }
+
+  override payload() {
+    return [this.indexTo, this.indexFrom]
   }
 }
 
@@ -287,8 +301,8 @@ export class CtrlConfigShare extends Ctrl {
     super(1, DeviceId.ALPAKKA, MessageType.CONFIG_SHARE)
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     return new CtrlConfigShare(
       data[4],  // ConfigIndex.
       data[5],  // Preset.
@@ -306,7 +320,7 @@ export class CtrlProfileGet extends Ctrl {
     public profileIndex: number,
     public sectionIndex: SectionIndex,
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_GET)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_GET)
   }
 
   override payload() {
@@ -320,7 +334,7 @@ export class CtrlProfileSet extends Ctrl {
     public sectionIndex: SectionIndex,
     protected _payload: number[]
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SET)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SET)
   }
 
   override payload() {
@@ -335,7 +349,7 @@ export class CtrlProfileShare extends Ctrl {
     public values: number[],
   ) {
     const payload = [profileIndex, sectionIndex, values]
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
 
   override payload() {
@@ -359,11 +373,11 @@ export class CtrlSectionMeta extends CtrlSection {
     public versionPatch: number,
   ) {
     const payload = [profileIndex, sectionIndex, name]
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     return new CtrlSectionMeta(
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
@@ -386,6 +400,14 @@ export class CtrlSectionMeta extends CtrlSection {
       this.versionPatch,
     ]
   }
+
+  replaceContentsWith(meta: CtrlSectionMeta) {
+    this.name = meta.name
+    this.controlByte = meta.controlByte
+    this.versionMajor = meta.versionMajor
+    this.versionMinor = meta.versionMinor
+    this.versionPatch = meta.versionPatch
+  }
 }
 
 export class CtrlButton extends CtrlSection {
@@ -403,7 +425,7 @@ export class CtrlButton extends CtrlSection {
     public labels: string[] = Array(3).fill(''),
   ) {
     const payload: number[] = []
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
     if (_mode & ButtonMode.HOLD) this.hold = true
     if (_mode & ButtonMode.DOUBLE) this.double = true
     if (_mode & ButtonMode.IMMEDIATE) this.immediate = true
@@ -422,8 +444,8 @@ export class CtrlButton extends CtrlSection {
     return mode
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     return new CtrlButton(
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
@@ -469,11 +491,11 @@ export class CtrlRotary extends CtrlSection {
     public actions: ActionGroup[] = Array(5).fill(ActionGroup.empty(4)),
     public labels: string[] = Array(5).fill(''),
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     return new CtrlRotary(
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
@@ -523,12 +545,12 @@ export class CtrlThumbstick extends CtrlSection {
     public deadzone_override: boolean,
     public antideadzone: number,
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
 
-  static override decode(buffer: ArrayBuffer) {
+  static override decode(buffer: Uint8Array) {
     // See firmware repo "ctrl.h" header, "CtrlThumbstick" struct.
-    const data = Array.from(new Uint8Array(buffer))
+    const data = Array.from(buffer)
     return new CtrlThumbstick(
       // Payload starts at index 4.
       data[4],  // ProfileIndex.
@@ -563,11 +585,11 @@ export class CtrlGyro extends CtrlSection {
     public mode: GyroMode,
     public engage: number,
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     return new CtrlGyro(
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
@@ -595,11 +617,15 @@ export class CtrlGyroAxis extends CtrlSection {
     public maxAngle = 0,
     public labels: string[]
   ) {
-    super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
+    super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static default() {
+    return new CtrlGyroAxis(0, 0, Array(2).fill(ActionGroup.empty(4)), 0, 0, [])
+  }
+
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     return new CtrlGyroAxis(
       data[4],  // ProfileIndex.
       data[5],  // SectionIndex.
@@ -656,8 +682,8 @@ export class CtrlStatusShare extends Ctrl {
     super(1, DeviceId.ALPAKKA, MessageType.STATUS_SHARE)
   }
 
-  static override decode(buffer: ArrayBuffer) {
-    const data = Array.from(new Uint8Array(buffer))
+  static override decode(buffer: Uint8Array) {
+    const data = Array.from(buffer)
     const version: number[] = []
     version[0] = data[4]  // Payload starts at index 4.
     version[1] = data[5]
