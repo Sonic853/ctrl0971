@@ -92,13 +92,12 @@ export enum SectionIndex {
 }
 
 export enum ButtonMode {
-  NORMAL,
-  STICKY,
-  HOLD_EXCLUSIVE,
-  HOLD_EXCLUSIVE_LONG,
-  HOLD_OVERLAP,
-  HOLD_OVERLAP_LONG,
-  HOLD_DOUBLE_PRESS,
+  NORMAL = 1,
+  HOLD = 2,
+  DOUBLE = 4,
+  IMMEDIATE = 8,
+  LONG = 16,
+  STICKY = 32,
 }
 
 export enum ThumbstickMode {
@@ -391,48 +390,35 @@ export class CtrlSectionMeta extends CtrlSection {
 
 export class CtrlButton extends CtrlSection {
   hold = false
-  doubleclick = false
-  overlap = false
+  double = false
+  immediate = false
   long = false
-  homeCycle = false
+  sticky = false
 
   constructor(
     public override profileIndex: number,
     public override sectionIndex: SectionIndex,
     private _mode: number,
-    public actions: ActionGroup[] = Array(2).fill(ActionGroup.empty(4)),
-    public labels: string[] = Array(2).fill(''),
+    public actions: ActionGroup[] = Array(3).fill(ActionGroup.empty(4)),
+    public labels: string[] = Array(3).fill(''),
   ) {
     const payload: number[] = []
     super(1, DeviceId.ALPAKKA, MessageType.PROFILE_SHARE)
-    if (_mode == ButtonMode.HOLD_EXCLUSIVE) {
-      this.hold = true
-    }
-    if (_mode == ButtonMode.HOLD_EXCLUSIVE_LONG) {
-      this.hold = true
-      this.long = true
-    }
-    if (_mode == ButtonMode.HOLD_OVERLAP) {
-      this.hold = true
-      this.overlap = true
-    }
-    if (_mode == ButtonMode.HOLD_OVERLAP_LONG) {
-      this.hold = true
-      this.overlap = true
-      this.long = true
-    }
-    if (_mode == ButtonMode.STICKY) {
-      this.homeCycle = true
-    }
+    if (_mode & ButtonMode.HOLD) this.hold = true
+    if (_mode & ButtonMode.DOUBLE) this.double = true
+    if (_mode & ButtonMode.IMMEDIATE) this.immediate = true
+    if (_mode & ButtonMode.LONG) this.long = true
+    if (_mode & ButtonMode.STICKY) this.sticky = true
   }
 
   mode(): ButtonMode {
-    let mode = ButtonMode.NORMAL;
-    if (this.hold && !this.overlap && !this.long) mode = ButtonMode.HOLD_EXCLUSIVE
-    if (this.hold && !this.overlap && this.long) mode = ButtonMode.HOLD_EXCLUSIVE_LONG
-    if (this.hold && this.overlap && !this.long) mode = ButtonMode.HOLD_OVERLAP
-    if (this.hold && this.overlap && this.long) mode = ButtonMode.HOLD_OVERLAP_LONG
-    if (this.homeCycle) mode = ButtonMode.STICKY
+    let mode = 0
+    if (this.hold) mode += ButtonMode.HOLD
+    if (this.double) mode += ButtonMode.DOUBLE
+    if (this.immediate) mode += ButtonMode.IMMEDIATE
+    if (this.long) mode += ButtonMode.LONG
+    if (this.sticky) mode += ButtonMode.STICKY
+    if (mode === 0) mode = ButtonMode.NORMAL
     return mode
   }
 
@@ -443,12 +429,14 @@ export class CtrlButton extends CtrlSection {
       data[5],  // SectionIndex.
       data[6],  // Mode.
       [
-        new ActionGroup(data.slice(8, 12)),  // Actions 0.
-        new ActionGroup(data.slice(12, 16)), // Actions 1.
+        new ActionGroup(data.slice(7, 11)),  // Actions 0.
+        new ActionGroup(data.slice(11, 15)), // Actions 1.
+        new ActionGroup(data.slice(15, 19)), // Actions 2.
       ],
       [
-        string_from_slice(buffer, 36, 50),  // Label 0.
-        string_from_slice(buffer, 50, 64),  // Label 1.
+        string_from_slice(buffer, 19, 33),  // Label 0.
+        string_from_slice(buffer, 33, 47),  // Label 1.
+        string_from_slice(buffer, 47, 61),  // Label 2.
       ]
     )
   }
@@ -464,12 +452,12 @@ export class CtrlButton extends CtrlSection {
       this.profileIndex,
       this.sectionIndex,
       this.mode(),
-      0,  // Reserved.
       ...this.actions[0].asArrayPadded(),
       ...this.actions[1].asArrayPadded(),
-      ...Array(20).fill(0),  // Reserved.
+      ...this.actions[2].asArrayPadded(),
       ...string_to_buffer(14, this.labels[0]),
       ...string_to_buffer(14, this.labels[1]),
+      ...string_to_buffer(14, this.labels[2]),
     ]
   }
 }

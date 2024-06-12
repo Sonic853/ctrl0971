@@ -24,7 +24,8 @@ Copyright (C) 2023, Input Labs Oy.
     <h2>Home button</h2>
     <p>Home button mappings are not configurable yet.</p>
     <p>Holding (pink) the Home button, enables the shorcuts from the Home profile. These can be modified in the Home profile page.</p>
-    <p>Double-clicking (purple) and optionally holding the Home button, emulates the native gamepad home/guide button.</p>
+    <p>Double-clicking (purple) the Home button, emulates the native gamepad home/guide button.</p>
+    <p>Holding the Home button after double-clicking it allows for combinations such as "Guide+X" when pressing other buttons.</p>
 </div>
 
 <!-- BUTTONS -->
@@ -36,36 +37,38 @@ Copyright (C) 2023, Input Labs Oy.
         <div class='island'>
             <div
                 class='iconaction'
-                *ngIf='!button.homeCycle'
+                *ngIf='!button.sticky'
                 >
-                <span class='name'>Hold</span>
+                <span class='name'>Long press</span>
                 <span class='material' (click)='button.hold=!button.hold; save()'>
                     {{button.hold ? 'check_box' : 'check_box_outline_blank'}}
                 </span>
             </div>
             <div
                 class='iconaction'
-                *ngIf='!button.homeCycle'
+                *ngIf='!button.sticky'
                 >
-                <span class='name'>Double click</span>
-                <span class='material'>select</span>
-            </div>
-            <div
-                class='iconaction'
-                *ngIf='button.hold && !button.homeCycle'
-                >
-                <span class='name'>Long press</span>
-                <span class='material' (click)='button.long=!button.long; save()'>
-                    {{button.long ? 'check_box' : 'check_box_outline_blank'}}
+                <span class='name'>Double press</span>
+                <span class='material' (click)='button.double=!button.double; save()'>
+                    {{button.double ? 'check_box' : 'check_box_outline_blank'}}
                 </span>
             </div>
             <div
                 class='iconaction'
-                *ngIf='button.hold && !button.homeCycle'
+                *ngIf='(button.hold || button.double) && !button.sticky'
                 >
-                <span class='name'>Overlap</span>
-                <span class='material' (click)='button.overlap=!button.overlap; save()'>
-                    {{button.overlap ? 'check_box' : 'check_box_outline_blank'}}
+                <span class='name'>Immediate / trigger both</span>
+                <span class='material' (click)='button.immediate=!button.immediate; save()'>
+                    {{button.immediate ? 'check_box' : 'check_box_outline_blank'}}
+                </span>
+            </div>
+            <div
+                class='iconaction'
+                *ngIf='button.hold && !button.sticky'
+                >
+                <span class='name'>Very long press</span>
+                <span class='material' (click)='button.long=!button.long; save()'>
+                    {{button.long ? 'check_box' : 'check_box_outline_blank'}}
                 </span>
             </div>
             <div
@@ -73,15 +76,15 @@ Copyright (C) 2023, Input Labs Oy.
                 *ngIf='profileIndex===0 && !button.hold'
                 >
                 <span class='name'>Home cycle</span>
-                <span class='material' (click)='button.homeCycle=!button.homeCycle; save()'>
-                    {{button.homeCycle ? 'check_box' : 'check_box_outline_blank'}}
+                <span class='material' (click)='button.sticky=!button.sticky; save()'>
+                    {{button.sticky ? 'check_box' : 'check_box_outline_blank'}}
                 </span>
             </div>
         </div>
     </div>
 
     <!-- BUTTON ACTIONS -->
-    <div class='block' *ngFor='let groupIndex of [0,1]'>
+    <div class='block' *ngFor='let groupIndex of [0,1,2]'>
         <div *ngIf='isButtonBlockVisible(groupIndex)'>
             <div class='subtitle'>{{getButtonBlockSubtitle(groupIndex)}}</div>
             <app-action-selector
