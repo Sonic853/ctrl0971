@@ -86,8 +86,10 @@ export class HeaderComponent {
     // Should display a Forced modal window?.
     if (!this.webusb.isConnectedRaw) return false
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
+    const deviceVersion = this.firmwareAsNumber(this.webusb.deviceVersion)
     const ackVersion = Number(localStorage.getItem(FIRMWARE_ACK))
-    return ackVersion < minimumVersion
+    if (!deviceVersion) return 0
+    return (deviceVersion < minimumVersion) && (ackVersion < minimumVersion)
   }
 
   shouldNotifyFirmware() {

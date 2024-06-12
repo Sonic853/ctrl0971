@@ -64,7 +64,7 @@ export class ButtonComponent {
     // Get label for actions.
     let label = this.section.labels[index] || ''
     // For rotary only show first label.
-    if (sectionIsRotary(this.section.sectionIndex) && index == 1) {
+    if (sectionIsRotary(this.section.sectionIndex) && index >= 1) {
       label = ''
     }
     return label
@@ -252,6 +252,7 @@ export class ButtonComponent {
     if (index == 2) {
       if (this.section.actions[2] === undefined) return []
       if (this.getActions(2).actions.size == 0 && this.section.labels[2] == '') return []
+      if (sectionIsRotary(this.section.sectionIndex)) return []
       return this.getActions(2).asArray()
         .map((action: number) => {
           const text = this.getText(action)

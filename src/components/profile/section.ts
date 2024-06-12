@@ -15,6 +15,7 @@ import { ThumbstickMode, ThumbstickDistanceMode, GyroMode } from 'lib/ctrl'
 import { ActionGroup } from 'lib/actions'
 import { HID, isAxis } from 'lib/hid'
 import { PIN } from 'lib/pin'
+import { delay } from 'lib/delay'
 
 @Component({
   selector: 'app-section',
@@ -37,6 +38,7 @@ export class SectionComponent {
   pickerRotary = 0
   pickerMacro = 1
   pickerTune = 0
+  profileOverwriteIndex = 0
   // Template aliases.
   HID = HID
   PIN = PIN
@@ -114,6 +116,41 @@ export class SectionComponent {
   getGyroMode() {
     const profile = this.profileService.getProfile(this.profileIndex) as Profile
     return profile.gyro.mode
+  }
+
+  async profileOverwrite() {
+    this.webusbService.sendProfileOverwrite(this.profileIndex, this.profileOverwriteIndex)
+    // Force <select> to initial value. For some reason Angular 2-way binding
+    // does not fully work on HTML elements with OS-controlled UI?.
+    // So this cannot be done with just "profileOverwriteIndex = 0".
+    const element = document.getElementById('loadProfileElement') as any
+    element.value = 0
+    // Update the profile in the UI. Delay so the controller has time to process
+    // the request before re-fetching the profile.
+    await delay(500)
+    this.profileService.fetchProfile(this.profileIndex, true)
+  }
+
+  async profileLoad(files: File[]) {
+    const reader = new FileReader()
+    reader.onload = (event: any) => {
+      this.profileService.loadFromBlob(this.profileIndex, new Uint8Array(event.target.result))
+    }
+    reader.readAsArrayBuffer(files[0])
+  }
+
+  async profileSave() {
+    const profileName = this.profileService.getProfile(this.profileIndex).meta.name
+    const filename = `${profileName}.ctrl`
+    const data = this.profileService.saveToBlob(this.profileIndex)
+    const blob = new Blob([data], {type: 'application/octet-stream'})
+    const a = document.createElement('a')
+    document.body.appendChild(a)
+    a.href = URL.createObjectURL(blob)
+    a.download = filename
+    a.click()
+    URL.revokeObjectURL(a.href)
+    a.remove()
   }
 
   showDialogKeypicker = (pickerGroup: number) => {

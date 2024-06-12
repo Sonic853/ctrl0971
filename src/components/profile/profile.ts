@@ -46,30 +46,26 @@ export class ProfileComponent {
   }
 
   async init() {
-    this.initName()  // Display previous name without flickering.
     await this.profileService.fetchProfileNames()
-    this.initName()
-    await this.profileService.fetchProfile(this.profileIndex)
-  }
-
-  initName() {
-    this.selected = this.profileService.profiles[this.profileIndex].meta
+    this.setSelectedMeta()  // Selected early to avoid flickering.
+    await this.profileService.fetchProfile(this.profileIndex, false)
+    this.setSelectedMeta()  // Selected again to connect Angular 2-way binding correctly.
   }
 
   setSelected(section: CtrlSection) {
     this.selected = section
   }
 
-  setSelectedName() {
-    this.selected = this.profileService.profiles[this.profileIndex].meta
+  setSelectedMeta() {
+    this.selected = this.profileService.getProfile(this.profileIndex).meta
   }
 
   setSelectedThumbstick() {
-    this.selected = this.profileService.profiles[this.profileIndex].thumbstick
+    this.selected = this.profileService.getProfile(this.profileIndex).thumbstick
   }
 
   setSelectedGyro() {
-    this.selected = this.profileService.profiles[this.profileIndex].gyro
+    this.selected = this.profileService.getProfile(this.profileIndex).gyro
   }
 
   getSelected() {
@@ -103,23 +99,56 @@ export class ProfileComponent {
     const rotaryUp = this.getMapping(profile.rotaryUp)
     const rotaryDown = this.getMapping(profile.rotaryDown)
     const home = this.getMapping(profile.home)
-    const buttons = profile.buttons
-      .filter((button: CtrlButton) => {
-        // Filter out thumbstick directions if mode is unfitting.
-        if (!sectionIsThumbtickButton(button.sectionIndex)) return true
-        else if (thumbstick.mode == ThumbstickMode.DIR4) return true
-        return false
-      })
-      .map((button: CtrlButton) => this.getMapping(button))
-    const gyroAxis = profile.gyroAxis
-      .filter((axis: CtrlGyroAxis) => {
-        // Filter out gyro axis if mode is unfitting.
-        if (!sectionIsGyroAxis(axis.sectionIndex)) return true
-        else if (gyro.mode == GyroMode.OFF) return false
-        return true
-      })
-      .map((axis: CtrlGyroAxis) => this.getMapping(axis))
-    return [...buttons, ...gyroAxis, rotaryUp, rotaryDown, home]
+    const buttons = [
+      this.getMapping(profile.buttonA),
+      this.getMapping(profile.buttonB),
+      this.getMapping(profile.buttonX),
+      this.getMapping(profile.buttonY),
+      this.getMapping(profile.buttonDpadLeft),
+      this.getMapping(profile.buttonDpadRight),
+      this.getMapping(profile.buttonDpadUp),
+      this.getMapping(profile.buttonDpadDown),
+      this.getMapping(profile.buttonSelect1),
+      this.getMapping(profile.buttonSelect2),
+      this.getMapping(profile.buttonStart1),
+      this.getMapping(profile.buttonStart2),
+      this.getMapping(profile.buttonL1),
+      this.getMapping(profile.buttonL2),
+      this.getMapping(profile.buttonL4),
+      this.getMapping(profile.buttonR1),
+      this.getMapping(profile.buttonR2),
+      this.getMapping(profile.buttonR4),
+      this.getMapping(profile.buttonDhatLeft),
+      this.getMapping(profile.buttonDhatRight),
+      this.getMapping(profile.buttonDhatUp),
+      this.getMapping(profile.buttonDhatDown),
+      this.getMapping(profile.buttonDhatUL),
+      this.getMapping(profile.buttonDhatUR),
+      this.getMapping(profile.buttonDhatDL),
+      this.getMapping(profile.buttonDhatDR),
+      this.getMapping(profile.buttonDhatPush),
+    ]
+    let buttonsThumbstick: any = []
+    if (thumbstick.mode == ThumbstickMode.DIR4) {
+      buttonsThumbstick = [
+        this.getMapping(profile.buttonThumbstickLeft),
+        this.getMapping(profile.buttonThumbstickRight),
+        this.getMapping(profile.buttonThumbstickUp),
+        this.getMapping(profile.buttonThumbstickDown),
+        this.getMapping(profile.buttonThumbstickPush),
+        this.getMapping(profile.buttonThumbstickInner),
+        this.getMapping(profile.buttonThumbstickOuter),
+      ]
+    }
+    let gyroAxis: any = []
+    if (gyro.mode != GyroMode.OFF) {
+      gyroAxis = [
+        this.getMapping(profile.gyroX),
+        this.getMapping(profile.gyroY),
+        this.getMapping(profile.gyroZ),
+      ]
+    }
+    return [...buttons, ...buttonsThumbstick, ...gyroAxis, rotaryUp, rotaryDown, home]
   }
 
   // Required so change detection is working better is scenarios where the

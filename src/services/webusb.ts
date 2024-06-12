@@ -24,6 +24,7 @@ import {
   CtrlStatusGet,
   CtrlStatusSet,
   CtrlStatusShare,
+  CtrlProfileOverwrite,
 } from 'lib/ctrl'
 
 const ADDR_IN = 3
@@ -72,12 +73,9 @@ export class WebusbService {
       console.log('Device disconnected')
       this.logs = []
       this.device = null
+      this.isConnected = false
       this.isConnectedRaw = false
       this.deviceVersion = [0, 0, 0]
-      delay(2000).then(() => {
-        // Do not flicker while restarting the controller.
-        if (!this.device) this.isConnected = false
-      })
     })
   }
 
@@ -137,7 +135,8 @@ export class WebusbService {
     try {
       // console.log('Listening...')
       const response = await this.device.transferIn(ADDR_IN, PACKAGE_SIZE)
-      const ctrl = Ctrl.decode(response.data.buffer as ArrayBuffer)
+      const array = new Uint8Array(response.data.buffer)
+      const ctrl = Ctrl.decode(array)
       // console.log('received', ctrl)
       if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
       if (ctrl instanceof CtrlStatusShare) this.handleCtrlStatusShare(ctrl)
@@ -216,6 +215,11 @@ export class WebusbService {
     await this.send(data)
   }
 
+  async sendProfileOverwrite(indexTo: number, indexFrom: number) {
+    const data = new CtrlProfileOverwrite(indexTo, indexFrom)
+    await this.send(data)
+  }
+
   async send(ctrl: CtrlProc | CtrlStatusGet | CtrlStatusSet | CtrlConfigGet | CtrlProfileGet) {
     console.log(ctrl)
     await this.device.transferOut(ADDR_OUT, ctrl.encode())
@@ -270,6 +274,12 @@ export class WebusbService {
     this.pendingProfile = new AsyncSubject()
     const ctrlOut = new CtrlProfileSet(profileIndex, section.sectionIndex, section.payload())
     await this.send(ctrlOut)
-    // TODO: Receive confirmation.
+    return new Promise((resolve, reject) => {
+      this.pendingProfile?.subscribe({
+        next: (ctrlIn) => {
+          resolve(ctrlIn)
+        }
+      })
+    })
   }
 }

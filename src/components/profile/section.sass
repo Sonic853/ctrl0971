@@ -51,6 +51,14 @@
         &::placeholder
             color: hsl(0deg, 0%, 25%)
 
+    input[type=file]
+        display: none
+
+    .file-upload
+        display: inline-block
+        width: 200px
+        cursor: pointer
+
     select
         height: 35px
         width: 100%
@@ -63,6 +71,20 @@
         font-weight: bold
         cursor: pointer
         appearance: none
+
+    button
+        display: block
+        width: 100%
+        background-color: black
+        border: 0
+        border-radius: 5px
+        padding: 6px 16px
+        font-family: Poppins
+        font-weight: bold
+        font-size: 14px
+        color: $green
+        margin-bottom: 10px
+        text-align: left
 
     .action
         height: 35px
@@ -237,4 +259,6 @@
             position: absolute
             bottom: 30px
             left: 420px
+            button
+                text-align: center
 
