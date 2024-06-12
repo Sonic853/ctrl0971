@@ -5,7 +5,7 @@
 
 import { Injectable } from '@angular/core'
 import { WebusbService } from 'services/webusb'
-import { Ctrl, CtrlSectionMeta, CtrlButton, CtrlRotary, CtrlThumbstick, CtrlSection } from 'lib/ctrl'
+import { Ctrl, CtrlSectionMeta, CtrlButton, CtrlRotary, CtrlThumbstick, CtrlSection, ButtonMode } from 'lib/ctrl'
 import { MessageType, SectionIndex, CtrlGyro, CtrlGyroAxis, CtrlHome } from 'lib/ctrl'
 import { ActionGroup } from 'lib/actions'
 import { HID } from 'lib/hid'
@@ -61,11 +61,18 @@ export class Profile {
   ) {
     // Fake home definitions.
     const actions = [
+      new ActionGroup([]),
       new ActionGroup([HID.PROC_PROFILE_0]),
       new ActionGroup([HID.PROC_HOME_GAMEPAD]),
     ]
-    const labels = ['', 'Gamepad home']
-    this.home = new CtrlHome(0, SectionIndex.HOME, 0, actions, labels)
+    const labels = ['', '', 'Native home']
+    this.home = new CtrlHome(
+      0,
+      SectionIndex.HOME,
+      ButtonMode.HOLD + ButtonMode.DOUBLE,
+      actions,
+      labels
+    )
   }
 
   getSections() {

@@ -6,8 +6,7 @@ import { CommonModule } from '@angular/common'
 import { ProfileService } from 'services/profiles'
 import { HID, isAxis } from 'lib/hid'
 import { ActionGroup } from 'lib/actions'
-import { ButtonMode, CtrlButton, CtrlGyroAxis, CtrlRotary, CtrlHome } from 'lib/ctrl'
-import { sectionIsRotary, sectionIsAnalog } from 'lib/ctrl'
+import { CtrlButton, CtrlGyroAxis, CtrlRotary, CtrlHome, sectionIsAnalog } from 'lib/ctrl'
 
 interface Chip {
   cls: string,
@@ -42,14 +41,16 @@ export class ButtonComponent {
     let actions = this.section.actions[index].copy()
     // Merge sticky mode actions.
     if (this.section instanceof CtrlButton) {
-      if (this.section.mode() == ButtonMode.STICKY) {
+      if (this.section.sticky) {
         if (index == 0) actions = this.section.actions[0].merge(this.section.actions[1])
         else actions = new ActionGroup([0])
       }
     }
     // For rotary only show first action group.
-    if (sectionIsRotary(this.section.sectionIndex) && index == 1) {
-      actions = new ActionGroup([0])
+    if (index == 1) {
+      if (this.section instanceof CtrlRotary) {
+        actions = new ActionGroup([0])
+      }
     }
     // Hide easter egg.
     actions.delete(HID.PROC_THANKS)
@@ -59,13 +60,22 @@ export class ButtonComponent {
   getLabel(index: number): string {
     // Do not show labels if there are 3 groups of actions.
     if (this.section instanceof CtrlButton) {
-      if (this.section.hold && this.section.double) return ''
+      const isHome = this.section instanceof CtrlHome
+      if (!isHome && this.section.hold && this.section.double) return ''
     }
     // Get label for actions.
     let label = this.section.labels[index] || ''
-    // For rotary only show first label.
-    if (sectionIsRotary(this.section.sectionIndex) && index >= 1) {
-      label = ''
+    if (index == 1) {
+      if (this.section instanceof CtrlButton) {
+        if (!this.section.hold && !this.section.sticky) label = ''
+      }
+      if (this.section instanceof CtrlRotary) label = ''
+    }
+    if (index == 2) {
+      if (this.section instanceof CtrlButton) {
+        if (!this.section.double) label = ''
+      }
+      if (this.section instanceof CtrlRotary) label = ''
     }
     return label
   }
@@ -213,10 +223,6 @@ export class ButtonComponent {
       if (index==1 && this.section.hold) cls += ' hold'
       if (index==2 && this.section.double) cls += ' double'
     }
-    if (this.section instanceof CtrlHome) {
-      if (index==0) cls += ' hold'
-      if (index==1) cls += ' double'
-    }
     if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'
     }
@@ -240,7 +246,11 @@ export class ButtonComponent {
     }
     if (index == 1) {
       if (this.section.actions[1] === undefined) return []
-      if (this.getActions(1).actions.size == 0 && this.section.labels[1] == '') return []
+      if (this.section instanceof CtrlButton) {
+        if (!this.section.hold && !this.section.sticky) return []
+        if (this.getActions(1).actions.size == 0) return [emptyHoldChip]
+      }
+      if (this.getActions(1).actions.size == 0) return []
       return this.getActions(1).asArray()
         .map((action: number) => {
           const text = this.getText(action)
@@ -251,8 +261,12 @@ export class ButtonComponent {
     }
     if (index == 2) {
       if (this.section.actions[2] === undefined) return []
-      if (this.getActions(2).actions.size == 0 && this.section.labels[2] == '') return []
-      if (sectionIsRotary(this.section.sectionIndex)) return []
+      if (this.section instanceof CtrlButton) {
+        if (!this.section.double) return []
+        if (this.getActions(2).actions.size == 0) return [emptyDoubleChip]
+      }
+      if (this.getActions(2).actions.size == 0) return []
+      if (this.section instanceof CtrlRotary) return []
       return this.getActions(2).asArray()
         .map((action: number) => {
           const text = this.getText(action)
@@ -263,4 +277,16 @@ export class ButtonComponent {
     }
     return []
   }
+}
+
+const emptyHoldChip: Chip = {
+  text: '',
+  cls: 'square round fixed hold',
+  icon: {icon: '', showLabel: false},
+}
+
+const emptyDoubleChip: Chip = {
+  text: '',
+  cls: 'square round fixed double',
+  icon: {icon: '', showLabel: false},
 }
