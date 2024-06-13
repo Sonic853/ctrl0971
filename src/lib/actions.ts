@@ -32,8 +32,11 @@ export class ActionGroup {
       this.actions.clear()
     }
 
-    sizeNonZero() {
-      return this.asArray().filter((x) => x!=0).length
+    sizeValid() {
+      const array = this.asArray()
+        .filter((x) => x != 0)
+        .filter((x) => x != HID.PROC_THANKS)
+      return array.length
     }
 
     copy() {
