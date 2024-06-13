@@ -52,8 +52,6 @@ export class ButtonComponent {
         actions = new ActionGroup([0])
       }
     }
-    // Hide easter egg.
-    actions.delete(HID.PROC_THANKS)
     return actions
   }
 
@@ -230,8 +228,12 @@ export class ButtonComponent {
   }
 
   getGroupClass(index: number) {
-    if (index==0 && this.getActions(1).sizeNonZero()==0 && this.section.labels[0]?.length>0) return 'wrap'
-    return ''
+    const wrapConditions = (
+      index==0 &&
+      this.getActions(1).sizeValid() == 0 &&
+      this.section.labels[0]?.length > 0
+    )
+    return wrapConditions ? 'wrap' : ''
   }
 
   getChips(index: number): Chip[] {
@@ -247,11 +249,16 @@ export class ButtonComponent {
     if (index == 1) {
       if (this.section.actions[1] === undefined) return []
       if (this.section instanceof CtrlButton) {
-        if (!this.section.hold && !this.section.sticky) return []
-        if (this.getActions(1).actions.size == 0) return [emptyHoldChip]
+        if (!this.section.sticky) {
+          if (!this.section.hold) return []
+          if (this.getActions(1).actions.size == 0) return [emptyHoldChip]
+        }
       }
       if (this.getActions(1).actions.size == 0) return []
       return this.getActions(1).asArray()
+        .filter((action: number) => {
+          return action != HID.PROC_THANKS  // Do not show easter egg.
+        })
         .map((action: number) => {
           const text = this.getText(action)
           const icon = this.getIcon(action)

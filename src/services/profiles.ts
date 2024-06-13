@@ -65,7 +65,7 @@ export class Profile {
       new ActionGroup([HID.PROC_PROFILE_0]),
       new ActionGroup([HID.PROC_HOME_GAMEPAD]),
     ]
-    const labels = ['', '', 'Native home']
+    const labels = ['', '', 'Gamepad home']
     this.home = new CtrlHome(
       0,
       SectionIndex.HOME,
