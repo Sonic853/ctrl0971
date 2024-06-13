@@ -437,9 +437,11 @@ export class CtrlButton extends CtrlSection {
     let mode = 0
     if (this.hold) mode += ButtonMode.HOLD
     if (this.double) mode += ButtonMode.DOUBLE
-    if (this.immediate) mode += ButtonMode.IMMEDIATE
-    if (this.long) mode += ButtonMode.LONG
-    if (this.sticky) mode += ButtonMode.STICKY
+    if (this.hold || this.double) {
+      if (this.immediate) mode += ButtonMode.IMMEDIATE
+      if (this.long) mode += ButtonMode.LONG
+    }
+    if (this.sticky) mode = ButtonMode.STICKY
     if (mode === 0) mode = ButtonMode.NORMAL
     return mode
   }
