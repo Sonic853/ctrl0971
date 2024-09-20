@@ -16,9 +16,13 @@ jobs:
       - run: npm ci
       - run: npm install @angular/cli
       - run: npx ng build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - run: cp _redirects dist/ctrl/_redirects
+      - uses: cloudflare/wrangler-action@v3
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-          projectId: ctrl-b357a
-          channelId: 'live'
+          wranglerVersion: '3'
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Use branch name to indicate Cloudflare environment: (main | staging)
+          # Cloudflare does not deploy by itself so the value is only used to
+          # determine the target environment according to defined rules.
+          command: pages deploy dist/ctrl --project-name=ctrl-app --branch=main
