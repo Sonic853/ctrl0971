@@ -26,6 +26,9 @@ export class HeaderComponent {
   route: string = ''
   dialogForget: any
   dialogFirmware: any
+  lastRouteForTools = ''
+  lastRouteForProfiles = '/profiles/0'
+  lastRouteForSettings = '/settings/protocol'
   // Template aliases.
   LATEST_FIRMWARE = MINUMUM_FIRMWARE_VERSION
   RELEASES_LINK = RELEASES_LINK
@@ -37,6 +40,16 @@ export class HeaderComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.route = event.urlAfterRedirects
+        // Remember route.
+        if (this.route.startsWith('/tools')) {
+          this.lastRouteForTools = this.route
+        }
+        if (this.route.startsWith('/profiles')) {
+          this.lastRouteForProfiles = this.route
+        }
+        if (this.route.startsWith('/settings')) {
+          this.lastRouteForSettings = this.route
+        }
       }
     })
   }

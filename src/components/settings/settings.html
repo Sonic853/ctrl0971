@@ -1,0 +1,38 @@
+<!--
+SPDX-License-Identifier: GPL-2.0-only
+Copyright (C) 2023, Input Labs Oy.
+-->
+
+<div class='settings'>
+    <h2>Advanced settings</h2>
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Long calibration</div>
+            <div class='desc'>10x longer</div>
+        </div>
+        <app-input-toggle
+            [value]='longCalibration'
+            (update)='longCalibration=$event; saveLongCalibration()'
+        />
+    </div>
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Swap gyros</div>
+            <div class='desc'>Left <-> Right</div>
+        </div>
+        <app-input-toggle
+            [value]='swapGyros'
+            (update)='swapGyros=$event; saveSwapGyros()'
+        />
+    </div>
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Invert touch polarity</div>
+            <div class='desc'>Charge vs Discharge</div>
+        </div>
+        <app-input-toggle
+            [value]='invertTouchPolarity'
+            (update)='invertTouchPolarity=$event; saveInvertTouchPolarity()'
+        />
+    </div>
+</div>

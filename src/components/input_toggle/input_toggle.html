@@ -1,0 +1,9 @@
+<!--
+SPDX-License-Identifier: GPL-2.0-only
+Copyright (C) 2023, Input Labs Oy.
+-->
+
+<div class='wrap' (click)='toggle()'>
+    <div [class.enabled]='!value' class='off'><span class='material'>close</span></div>
+    <div [class.enabled]='value' class='on'><span class='material'>check</span></div>
+</div>

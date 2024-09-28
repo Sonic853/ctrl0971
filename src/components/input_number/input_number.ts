@@ -13,35 +13,39 @@ enum Direction {
 }
 
 @Component({
-  selector: 'app-number-input',
+  selector: 'app-input-number',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './number_input.html',
-  styleUrls: ['./number_input.sass']
+  templateUrl: './input_number.html',
+  styleUrls: ['./input_number.sass']
 })
-export class NumberInputComponent {
+export class InputNumberComponent {
   @Input() value: number = 0
   @Output() update = new EventEmitter<number>()
   @Input() unit: string = ''
   @Input() min: number = 0
   @Input() max: number = 100
   @Input() step: number = 1
+  @Input() decimals: number = 0
+  @Input() factor: number = 1
   clickTime: number = 0
   timeout: any
   interval: any
   Direction = Direction
 
   minmax(value: number) {
-    return Math.min(Math.max(value, this.min), this.max)
+    const min = this.min / this.factor
+    const max = this.max / this.factor
+    return Math.min(Math.max(value, min), max)
   }
 
   decrease() {
-    const value = this.value - this.step
+    const value = this.value - (this.step / this.factor)
     this.value = this.minmax(value)
   }
 
   increase() {
-    const value = this.value + this.step
+    const value = this.value + (this.step / this.factor)
     this.value = this.minmax(value)
   }
 

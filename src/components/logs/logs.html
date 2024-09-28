@@ -5,6 +5,32 @@ Copyright (C) 2023, Input Labs Oy.
 
 <div class='terminal'>
     <h2>Firmware logs</h2>
+    <div class='filters'>
+        <button
+            class='material'
+            title='USB logs'
+            [class.active]='filterUSB'
+            (click)='filterToggle("usb")'
+            >
+            usb
+        </button>
+        <button
+            class='material'
+            title='Wireless logs'
+            [class.active]='filterWireless'
+            (click)='filterToggle("wireless")'
+            >
+            wifi
+        </button>
+        <button
+            class='material'
+            title='Touch sensitivity logs'
+            [class.active]='filterTouch'
+            (click)='filterToggle("touch")'
+            >
+            touch_app
+        </button>
+    </div>
     <pre>
         <div class='filler'></div>
         <span *ngIf='!webusb.logs.length'>Try using the restart button</span>
