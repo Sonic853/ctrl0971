@@ -52,6 +52,9 @@ export class SettingsComponent {
     this.gyroUserOffsetX = gyroUserOffset.values[0]
     this.gyroUserOffsetY = gyroUserOffset.values[1]
     this.gyroUserOffsetZ = gyroUserOffset.values[2]
+    if (this.gyroUserOffsetX > 127) this.gyroUserOffsetX -= 256
+    if (this.gyroUserOffsetY > 127) this.gyroUserOffsetY -= 256
+    if (this.gyroUserOffsetZ > 127) this.gyroUserOffsetZ -= 256
   }
 
   async saveLongCalibration() {
