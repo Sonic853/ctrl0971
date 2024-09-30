@@ -35,6 +35,7 @@ export enum ConfigIndex {
   LONG_CALIBRATION,
   SWAP_GYROS,
   TOUCH_INVERT_POLARITY,
+  GYRO_USER_OFFSET,
 }
 
 export enum SectionIndex {

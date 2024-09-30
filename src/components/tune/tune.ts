@@ -158,9 +158,9 @@ const modes: Modes = {
     decimals: 1,
     displayReversed: true,
     presets: [
-      {index: 0, name: 'Low',   desc: 'Less responsive', leds:0b0010, blink:0b0100, hidden:true},
-      {index: 1, name: 'Mid',   desc: '',                leds:0b0010, blink:0b1100, hidden:true},
-      {index: 2, name: 'High',  desc: 'More responsive', leds:0b0010, blink:0b1000, hidden:true},
+      {index: 0, name: 'Auto low',   desc: 'More stable',     leds:0b0010, blink:0b0100, hidden:true},
+      {index: 1, name: 'Auto mid',   desc: 'Default',         leds:0b0010, blink:0b1100, hidden:true},
+      {index: 2, name: 'Auto high',  desc: 'More responsive', leds:0b0010, blink:0b1000, hidden:true},
       {index: 3, name: 'Custom 2', desc: '',             leds:0b0010, blink:0b1001},
       {index: 4, name: 'Custom 1', desc: '',             leds:0b0010, blink:0b0001},
     ]
