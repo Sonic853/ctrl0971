@@ -31,6 +31,11 @@ export enum ConfigIndex {
   SENS_TOUCH,
   SENS_MOUSE,
   DEADZONE,
+  LOG_MASK,
+  LONG_CALIBRATION,
+  SWAP_GYROS,
+  TOUCH_INVERT_POLARITY,
+  GYRO_USER_OFFSET,
 }
 
 export enum SectionIndex {
@@ -90,6 +95,13 @@ export enum SectionIndex {
   MACRO_3,
   MACRO_4,
   HOME = 100,
+}
+
+export enum LogMask {
+  BASIC = 0,
+  USB = 1,
+  TOUCH = 2,
+  WIRELESS = 4,
 }
 
 export enum ButtonMode {

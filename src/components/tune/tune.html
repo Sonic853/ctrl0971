@@ -28,7 +28,7 @@ Copyright (C) 2023, Input Labs Oy.
                 class='fixedvalue readonly'
                 [value]=preset.fixed
             />
-            <app-number-input
+            <app-input-number
                 *ngIf='!preset.readonly && !preset.hidden'
                 [value]=$any(preset.value)
                 (update)='setValue(preset, $event)'
@@ -36,6 +36,8 @@ Copyright (C) 2023, Input Labs Oy.
                 [min]='mode.min'
                 [max]='mode.max'
                 [step]='mode.step'
+                [decimals]='mode.decimals || 0'
+                [factor]='mode.factor || 1'
             />
         </div>
     </div>

@@ -5,6 +5,46 @@ Copyright (C) 2023, Input Labs Oy.
 
 <div class='terminal'>
     <h2>Firmware logs</h2>
+    <div class='filters'>
+        <button
+            class='material'
+            title='Enable USB logs'
+            [class.active]='filterUSB'
+            (click)='filterToggle("usb")'
+            >
+            usb
+        </button>
+        <button
+            class='material'
+            title='Enable wireless logs'
+            [class.active]='filterWireless'
+            (click)='filterToggle("wireless")'
+            >
+            wifi
+        </button>
+        <button
+            class='material'
+            title='Enable touch sensor logs'
+            [class.active]='filterTouch'
+            (click)='filterToggle("touch")'
+            >
+            touch_app
+        </button>
+        <button
+            class='material'
+            title='Download logs'
+            (click)='downloadLogs()'
+            >
+            download
+        </button>
+        <button
+            class='material'
+            title='Clear logs'
+            (click)='webusb.clearLogs()'
+            >
+            delete_forever
+        </button>
+    </div>
     <pre>
         <div class='filler'></div>
         <span *ngIf='!webusb.logs.length'>Try using the restart button</span>
@@ -17,8 +57,6 @@ Copyright (C) 2023, Input Labs Oy.
     <h2>Commands</h2>
     <button (click)='webusb.sendProc(HID.PROC_RESTART)'>Restart</button>
     <button (click)='webusb.sendProc(HID.PROC_BOOTSEL)'>Restart in bootsel mode</button>
-    <button (click)='webusb.clearLogs()'>Clear logs</button>
-    <button (click)='downloadLogs()'>Download logs</button>
     <button (click)='dialogCalibrate.showModal()'>Calibrate</button>
     <button (click)='dialogResetConfig.showModal()'>Reset config</button>
     <button (click)='dialogResetProfiles.showModal()'>Reset all profiles</button>

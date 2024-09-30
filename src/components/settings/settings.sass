@@ -1,0 +1,76 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2023, Input Labs Oy.
+
+@use '../../styles' as *
+
+:host
+    flex-grow: 1
+    height: 100%
+    display: flex
+    flex-direction: row
+    margin: 0px
+    padding: 0px
+
+    .settings
+        flex-grow: 1
+        height: 100%
+        color: white
+        display: flex
+        flex-direction: column
+        overflow-y: hidden
+        margin: 0px
+        padding: 50px
+        padding-top: 20px
+
+        h2
+            margin-bottom: 40px
+
+        .setting
+            display: flex
+            .text
+                display: flex
+                width: 380px
+                height: 40px
+                margin-bottom: 15px
+                margin-right: 10px
+                padding-left: 16px
+                text-align: center
+                background-color: hsl(0deg, 0%, 20%)
+                border: 2px solid transparent
+                border-radius: 5px
+                .name
+                    line-height: 36px
+                    font-size: 16px
+                    font-weight: bold
+                .desc
+                    flex-grow: 1
+                    text-align: start
+                    line-height: 37px
+                    padding-left: 10px
+                    font-size: 14px
+                    color: hsl(0deg, 0%, 50%)
+                .material
+                    color: hsl(0deg, 0%, 40%)
+                    padding-top: 4px
+                    padding-right: 8px
+                    cursor: pointer
+
+
+    ::ng-deep app-input-number
+        width: 120px
+        height: 40px !important
+        & *
+            height: 40px !important
+            line-height: 40px !important
+        .number
+            border-radius: 5px
+            background-color: black
+        .value, .unit
+            font-size: 16px !important
+            font-weight: normal !important
+            color: white !important
+        .button
+            color: hsl(0deg, 0%, 40%) !important
+
+    dialog
+        width: 600px

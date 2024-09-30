@@ -11,7 +11,7 @@ Copyright (C) 2023, Input Labs Oy.
 <div class='nav'>
     <div class='tab'>
         <a
-            routerLink=''
+            routerLink='{{lastRouteForTools}}'
             [ngClass]='this.routeIsTools()'
             >
             Tools
@@ -19,7 +19,7 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
     <div class='tab'>
         <a
-            routerLink='profiles'
+            routerLink='{{lastRouteForProfiles}}'
             routerLinkActive='active'
             >
             Profiles
@@ -27,7 +27,7 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
     <div class='tab'>
         <a
-            routerLink='settings'
+            routerLink='{{lastRouteForSettings}}'
             routerLinkActive='active'
             >
             Settings
@@ -55,7 +55,7 @@ Copyright (C) 2023, Input Labs Oy.
         </div>
         <div *ngIf='webusb.isConnectedRaw' class='active' (click)='showDialogForget()'>
             {{webusb.device.productName}}
-            <span class='material'>usb</span>
+            <span class='material'>stadia_controller</span>
         </div>
     </div>
 </div>

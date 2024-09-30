@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { ActionSelectorComponent } from './action_selector'
-import { NumberInputComponent } from 'components/number_input/number_input'
+import { InputNumberComponent } from 'components/input_number/input_number'
 import { ProfileService, Profile } from 'services/profiles'
 import { WebusbService } from 'services/webusb'
 import { CtrlSection, CtrlSectionMeta, CtrlButton, CtrlRotary } from 'lib/ctrl'
@@ -23,7 +23,7 @@ import { delay } from 'lib/delay'
   imports: [
     CommonModule,
     FormsModule,
-    NumberInputComponent,
+    InputNumberComponent,
     ActionSelectorComponent,
   ],
   templateUrl: './section.html',
