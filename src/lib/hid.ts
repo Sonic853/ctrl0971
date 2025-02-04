@@ -257,6 +257,9 @@ export enum HID {
   PROC_ROTARY_MODE_3,
   PROC_ROTARY_MODE_4,
   PROC_ROTARY_MODE_5,
+
+  PROC_IGNORE_LED_WARNINGS,
+  PROC_SLEEP,
 }
 
 export function isAxis(action: HID) {

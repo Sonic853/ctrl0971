@@ -128,6 +128,7 @@ export class ButtonComponent {
     if (label == 'ALT_RIGHT') label = 'RAlt'
     if (label == 'SUPER_RIGHT') label = 'RWin'
     // Proc.
+    if (label == 'PROC_SLEEP') return 'Sleep'
     if (label == 'PROC_BOOTSEL') return 'Boot mode'
     if (label == 'PROC_CALIBRATE') return 'Calibrate'
     if (label == 'PROC_TUNE_OS') return 'OS'
