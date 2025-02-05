@@ -47,9 +47,9 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
     <pre>
         <div class='filler'></div>
-        <span *ngIf='!webusb.logs.length'>Try using the restart button</span>
-        <span *ngIf='!webusb.logs.length'>No logs in here</span>
-        <span *ngFor='let line of webusb.logs'>{{line}}</span>
+        <span *ngIf='!webusb.getLogs().length'>Try using the restart button</span>
+        <span *ngIf='!webusb.getLogs().length'>No logs in here</span>
+        <span *ngFor='let line of webusb.getLogs()'>{{line}}</span>
     </pre>
 </div>
 

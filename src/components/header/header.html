@@ -49,12 +49,12 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
 
     <div class='connection'>
-        <div *ngIf='!webusb.isConnectedRaw' (click)='webusb.requestDevice()'>
+        <div *ngIf='!webusb.isConnectedRaw()' (click)='webusb.requestDevice()'>
             Not connected
             <span class='material'>usb_off</span>
         </div>
-        <div *ngIf='webusb.isConnectedRaw' class='active' (click)='showDialogForget()'>
-            {{webusb.device.productName}}
+        <div *ngIf='webusb.isConnectedRaw()' class='active' (click)='showDialogForget()'>
+            {{webusb.getProductName()}}
             <span class='material'>stadia_controller</span>
         </div>
     </div>
@@ -63,7 +63,7 @@ Copyright (C) 2023, Input Labs Oy.
 <dialog id='dialog-forget'>
     <h3>Unpair controller</h3>
     <div>
-        The current controller ({{webusb.device?.manufacturerName}} {{webusb.device?.productName}})
+        The current controller ({{webusb.getManufacturerName()}} {{webusb.getProductName()}})
         will be disconnected and removed from the list of paired devices.
     </div>
     <div class='buttons'>
@@ -77,7 +77,7 @@ Copyright (C) 2023, Input Labs Oy.
     <div>
         The firmware on the controller is outdated, the Ctrl app won't work correctly.<br/>
         <br/>
-        Current controller firmware: <span class='em'>{{firmwareAsString(webusb.deviceVersion)}}</span><br/>
+        Current controller firmware: <span class='em'>{{firmwareAsString(webusb.getDeviceVersion())}}</span><br/>
         Minimum recommended firmware: <span class='em'>{{firmwareAsString(LATEST_FIRMWARE)}}+</span><br/>
         <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>

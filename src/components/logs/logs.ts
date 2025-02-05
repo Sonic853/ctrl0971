@@ -38,8 +38,8 @@ export class LogsComponent {
   }
 
   downloadLogs() {
-    if (this.webusb.logs.length == 0) return
-    let logs = [...this.webusb.logs]
+    if (this.webusb.getLogs().length == 0) return
+    let logs = [...this.webusb.getLogs()]
     logs.reverse()
     const data = logs.join('')
     const blob = new Blob([data], {type: 'text/plain'})
