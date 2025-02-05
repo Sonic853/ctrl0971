@@ -3,7 +3,7 @@
 
 import { AsyncSubject } from 'rxjs'
 import { HID } from 'lib/hid'
-import { Profile } from 'lib/profile'
+import { Profiles } from 'lib/profiles'
 import {
   Ctrl,
   CtrlLog,
@@ -36,12 +36,13 @@ export class Device {
   failedError?: Error
   pendingConfig?: AsyncSubject<CtrlConfigShare>
   pendingProfile?: AsyncSubject<CtrlSection>
-  profiles: Profile[] = []
+  profiles: Profiles
 
   constructor(usbDevice: USBDevice) {
     this.usbDevice = usbDevice
     this.openDevice()
     // (<any>window).device = this.device
+    this.profiles = new Profiles(this)
   }
 
   disconnectCallback() {

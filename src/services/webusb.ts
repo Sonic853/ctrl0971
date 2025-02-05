@@ -160,4 +160,9 @@ export class WebusbService {
     return await this.selectedDevice!.setSection(profileIndex, section)
   }
 
+  getProfiles() {
+    if (!this.selectedDevice) return undefined
+    return this.selectedDevice.profiles
+  }
+
 }
