@@ -18,15 +18,9 @@ export class Profiles {
   constructor(device: Device) {
     this.device = device
     this.initProfiles()
-    // // Reset profiles if controller is disconnected.
-    // if (webusb.isCompatibleBrowser()) {
-    //   navigator.usb.addEventListener('disconnect', (event:any) => {
-    //     this.initProfiles()
-    //   })
-    // }
   }
 
-  initProfiles() {
+  async initProfiles() {
     for(let i of Array(NUMBER_OF_PROFILES).keys()) this.initProfile(i)
   }
 

@@ -13,6 +13,7 @@ import { ThumbstickMode, GyroMode } from 'lib/ctrl'
 import { sectionIsGyroAxis, sectionIsHome } from 'lib/ctrl'
 import { SectionIndex } from 'lib/ctrl'
 import { Profiles } from 'lib/profiles'
+import { delay } from 'lib/delay'
 
 @Component({
   selector: 'app-profile',
@@ -41,14 +42,17 @@ export class ProfileComponent {
     activatedRoute.data.subscribe((data) => {
       this.profileIndex = data['index']
     })
-    this.profiles = this.webusb.getProfiles()!
+    this.profiles = this.webusb.selectedDevice!.profiles
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.init()
   }
 
   async init() {
+    if (!this.webusb.selectedDevice || !this.webusb.selectedDevice.isListening) {
+      await delay(100)
+    }
     await this.profiles.fetchProfileNames()
     this.setSelectedMeta()  // Selected early to avoid flickering.
     await this.profiles.fetchProfile(this.profileIndex, false)

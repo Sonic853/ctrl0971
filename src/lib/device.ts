@@ -32,6 +32,7 @@ export class Device {
   logs: string[] = []
   isConnected = false
   isConnectedRaw = false
+  isListening = false
   failed = false
   failedError?: Error
   pendingConfig?: AsyncSubject<CtrlConfigShare>
@@ -49,6 +50,7 @@ export class Device {
     this.logs = []
     this.isConnected = false
     this.isConnectedRaw = false
+    this.isListening = false
     this.deviceVersion = [0, 0, 0]
   }
 
@@ -77,6 +79,7 @@ export class Device {
   }
 
   async listen() {
+    this.isListening = true
     try {
       // console.log('Listening...')
       const response = await this.usbDevice.transferIn(ADDR_IN, PACKAGE_SIZE)
