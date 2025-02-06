@@ -20,6 +20,7 @@ export class LogsComponent {
   dialogResetFactory: any
   dialogResetConfig: any
   dialogResetProfiles: any
+  dialogForget: any
   filterDebug: boolean = false
   filterUSB: boolean = false
   filterTouch: boolean = false
@@ -34,6 +35,7 @@ export class LogsComponent {
     this.dialogResetConfig = document.getElementById('dialog-reset-config')
     this.dialogResetProfiles = document.getElementById('dialog-reset-profiles')
     this.dialogResetFactory = document.getElementById('dialog-reset-factory')
+    this.dialogForget = document.getElementById('dialog-forget')
     this.filterGet()
   }
 

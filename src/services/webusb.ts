@@ -20,18 +20,16 @@ export class WebusbService {
     private router: Router,
   ) {
     if (!this.isCompatibleBrowser()) return
-    this.findDevices()
+    this.checkForConnectedDevices()
     this.configureCallbacks()
   }
 
-  findDevices() {
+  checkForConnectedDevices() {
     navigator.usb.getDevices().then((usbDevices) => {
       console.log('Devices found:', usbDevices)
       if (usbDevices.length == 0) return
       for(let usbDevice of usbDevices) {
-        let device = new Device(usbDevice)
-        this.devices.push(device)
-        this.selectedDevice = device
+        this.addDevice(usbDevice)
       }
     })
   }
@@ -39,24 +37,13 @@ export class WebusbService {
   configureCallbacks() {
     navigator.usb.addEventListener("connect", (event:any) => {
       console.log('Device connected')
-      let device = new Device(event.device)
-      this.devices.push(device)
-      this.selectedDevice = device
+      this.addDevice(event.device)
     })
     navigator.usb.addEventListener("disconnect", (event:any) => {
       console.log('Device disconnected')
       for(let device of this.devices) {
         if (event.device == device.usbDevice) {
-          device.disconnectCallback()
-          // Remove device from list.
-          let index = this.devices.indexOf(device)
-          this.devices.splice(index, 1);
-          // Select other device.
-          if (this.devices.length > 0) {
-            this.selectedDevice = this.devices[0]
-          } else {
-            this.selectedDevice = undefined
-          }
+          this.removeDevice(device)
         }
       }
     })
@@ -113,19 +100,55 @@ export class WebusbService {
   }
 
   async requestDevice() {
-    // const filters = [
-    //   {vendorId:0x0170},
-    //   {vendorId:0x045E, productId:0x028E},
-    // ]
-    // this.device = await navigator.usb.requestDevice({filters});
-    // console.log('Request device:', this.device)
-    // await this.openDevice()
+    const filters = [
+      {vendorId:0x0170},
+      {vendorId:0x045E, productId:0x028E},
+    ]
+    let usbDevice = await navigator.usb.requestDevice({filters});
+    let usbDevices = this.devices.map((device) => device.usbDevice)
+    if (!usbDevices.includes(usbDevice)) {
+      let device = new Device(usbDevice)
+      this.devices.push(device)
+      this.selectedDevice = device
+    }
+  }
+
+  addDevice(usbDevice: USBDevice) {
+    let device = new Device(usbDevice)
+    this.devices.push(device)
+    this.selectedDevice = device
+  }
+
+  removeDevice(device: Device) {
+    device.disconnectCallback()
+    // Remove device from list.
+    let index = this.devices.indexOf(device)
+    this.devices.splice(index, 1);
+    // Select other device.
+    if (this.devices.length > 0) {
+      this.selectedDevice = this.devices[0]
+    } else {
+      this.selectedDevice = undefined
+    }
+  }
+
+  selectDevice(device: Device) {
+    this.selectedDevice = device
+  }
+
+  listDevices() {
+    return this.devices.sort((a, b) => a.isController() ? 1 : -1)
   }
 
   async forgetDevice() {
-    // this.device.forget()
+    await this.selectedDevice!.usbDevice.forget()
+    this.removeDevice(this.selectedDevice!)
     // // Nuclear option since otherwise the same device cannot be requested again.
-    // window.location.reload()
+    // window.location.reload()  // Not needed anymore?
+  }
+
+  isController() {
+    return this.selectedDevice!.isController()
   }
 
   getLogs() {

@@ -24,7 +24,6 @@ const FIRMWARE_ACK = 'firmware_ack'
 })
 export class HeaderComponent {
   route: string = ''
-  dialogForget: any
   dialogFirmware: any
   lastRouteForTools = ''
   lastRouteForProfiles = '/profiles/0'
@@ -60,16 +59,6 @@ export class HeaderComponent {
 
   routeIsTools() {
     return this.route == '/' || this.route.startsWith('/tools')  ? 'active' : ''
-  }
-
-  showDialogForget() {
-    this.dialogForget = document.getElementById('dialog-forget')
-    this.dialogForget.showModal()
-  }
-
-  hideDialogForget(): boolean {
-    this.dialogForget.close()
-    return true
   }
 
   showDialogFirmware() {

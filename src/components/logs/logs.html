@@ -57,10 +57,11 @@ Copyright (C) 2023, Input Labs Oy.
     <h2>Commands</h2>
     <button (click)='webusb.sendProc(HID.PROC_RESTART)'>Restart</button>
     <button (click)='webusb.sendProc(HID.PROC_BOOTSEL)'>Restart in bootsel mode</button>
-    <button (click)='dialogCalibrate.showModal()'>Calibrate</button>
+    <button *ngIf='webusb.isController()' (click)='dialogCalibrate.showModal()'>Calibrate</button>
     <button (click)='dialogResetConfig.showModal()'>Reset config</button>
-    <button (click)='dialogResetProfiles.showModal()'>Reset all profiles</button>
+    <button *ngIf='webusb.isController()' (click)='dialogResetProfiles.showModal()'>Reset all profiles</button>
     <button (click)='dialogResetFactory.showModal()'>Reset to factory settings</button>
+    <button (click)='dialogForget.showModal()'>Unpair</button>
 </div>
 
 <dialog id='dialog-calibrate'>
@@ -113,5 +114,17 @@ Copyright (C) 2023, Input Labs Oy.
     <div class='buttons'>
         <button (click)='dialogResetFactory.close()' class='flat'>Cancel</button>
         <button (click)='dialogResetFactory.close(); webusb.sendProc(HID.PROC_RESET_FACTORY)'>Reset to factory</button>
+    </div>
+</dialog>
+
+<dialog id='dialog-forget'>
+    <h3>Unpair controller</h3>
+    <div>
+        The current device ({{webusb.getManufacturerName()}} {{webusb.getProductName()}})
+        will be disconnected and removed from the list of paired devices.
+    </div>
+    <div class='buttons'>
+        <button (click)='dialogForget.close()' class='flat'>Cancel</button>
+        <button (click)='dialogForget.close(); webusb.forgetDevice()'>Unpair</button>
     </div>
 </dialog>

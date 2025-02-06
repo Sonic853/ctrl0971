@@ -111,6 +111,11 @@ export class Device {
     await this.listen()
   }
 
+  isController() {
+    if (this.usbDevice.productName == 'Alpakka') return true
+    return false
+  }
+
   handleCtrlLog(ctrl: CtrlLog) {
     if (!this.logs[0] || this.logs[0]?.endsWith('\n')) {
       this.logs.unshift(ctrl.logMessage)
