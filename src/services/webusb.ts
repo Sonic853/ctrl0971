@@ -148,7 +148,8 @@ export class WebusbService {
   }
 
   isController() {
-    return this.selectedDevice!.isController()
+    if (!this.selectedDevice) return false
+    return this.selectedDevice.isController()
   }
 
   getLogs() {

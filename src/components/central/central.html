@@ -4,12 +4,12 @@ Copyright (C) 2023, Input Labs Oy.
 -->
 
 <router-outlet
-    *ngIf='!mustHaveController() || webusb.isConnected()'
+    *ngIf='!mustHaveDevice() || webusb.isConnected()'
     >
 </router-outlet>
 
 <div
-    *ngIf='mustHaveController() && webusb.isCompatibleBrowser() && !webusb.isConnected() && !webusb.isFailed()'
+    *ngIf='mustHaveDevice() && webusb.isCompatibleBrowser() && !webusb.isConnected() && !webusb.isFailed()'
     class='centered'
     >
     <div class='widget'>
@@ -22,7 +22,7 @@ Copyright (C) 2023, Input Labs Oy.
 </div>
 
 <div
-    *ngIf='mustHaveController() && webusb.isCompatibleBrowser() && !webusb.isConnected() && webusb.isFailed()'
+    *ngIf='mustHaveDevice() && webusb.isCompatibleBrowser() && !webusb.isConnected() && webusb.isFailed()'
     class='centered'
     >
     <div class='widget'>
@@ -37,7 +37,7 @@ Copyright (C) 2023, Input Labs Oy.
 </div>
 
 <div
-    *ngIf='mustHaveController() && !webusb.isCompatibleBrowser()'
+    *ngIf='mustHaveDevice() && !webusb.isCompatibleBrowser()'
     class='centered'
     >
     <div class='widget'>
