@@ -4,14 +4,16 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ActivatedRoute } from '@angular/router'
-import { ProfileService } from 'services/profiles'
+import { WebusbService } from 'services/webusb'
 import { ButtonComponent } from 'components/profile/action_preview'
 import { SectionComponent } from 'components/profile/section'
 import { LedComponent, getProfileLed } from 'components/led/led'
 import { CtrlSection, CtrlSectionMeta, CtrlButton, CtrlRotary, CtrlGyroAxis } from 'lib/ctrl'
 import { ThumbstickMode, GyroMode } from 'lib/ctrl'
-import { sectionIsThumbtickButton, sectionIsGyroAxis, sectionIsHome } from 'lib/ctrl'
+import { sectionIsGyroAxis, sectionIsHome } from 'lib/ctrl'
 import { SectionIndex } from 'lib/ctrl'
+import { Profiles } from 'lib/profiles'
+import { delay } from 'lib/delay'
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +28,7 @@ import { SectionIndex } from 'lib/ctrl'
   styleUrls: ['./profile.sass']
 })
 export class ProfileComponent {
+  profiles: Profiles
   profileIndex: number = 0
   selected: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0, 0, 0, 0)
   // Template aliases.
@@ -34,21 +37,25 @@ export class ProfileComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    public profileService: ProfileService,
+    public webusb: WebusbService,
   ) {
     activatedRoute.data.subscribe((data) => {
       this.profileIndex = data['index']
     })
+    this.profiles = this.webusb.selectedDevice!.profiles
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.init()
   }
 
   async init() {
-    await this.profileService.fetchProfileNames()
+    if (!this.webusb.selectedDevice || !this.webusb.selectedDevice.isListening) {
+      await delay(100)
+    }
+    await this.profiles.fetchProfileNames()
     this.setSelectedMeta()  // Selected early to avoid flickering.
-    await this.profileService.fetchProfile(this.profileIndex, false)
+    await this.profiles.fetchProfile(this.profileIndex, false)
     this.setSelectedMeta()  // Selected again to connect Angular 2-way binding correctly.
   }
 
@@ -57,15 +64,15 @@ export class ProfileComponent {
   }
 
   setSelectedMeta() {
-    this.selected = this.profileService.getProfile(this.profileIndex).meta
+    this.selected = this.profiles.getProfile(this.profileIndex).meta
   }
 
   setSelectedThumbstick() {
-    this.selected = this.profileService.getProfile(this.profileIndex).thumbstick
+    this.selected = this.profiles.getProfile(this.profileIndex).thumbstick
   }
 
   setSelectedGyro() {
-    this.selected = this.profileService.getProfile(this.profileIndex).gyro
+    this.selected = this.profiles.getProfile(this.profileIndex).gyro
   }
 
   getSelected() {
@@ -93,7 +100,7 @@ export class ProfileComponent {
   }
 
   getMappings() {
-    const profile = this.profileService.profiles[this.profileIndex]
+    const profile = this.profiles.profiles[this.profileIndex]
     const thumbstick = profile.thumbstick
     const gyro = profile.gyro
     const rotaryUp = this.getMapping(profile.rotaryUp)

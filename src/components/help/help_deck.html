@@ -14,7 +14,7 @@ Copyright (C) 2023, Input Labs Oy.
 
 <h3>Protocol mode</h3>
 <ul>
-    <li>Controller must be either in <span class='code'>Linux Xinput</span> mode, or in <span class='code'>Generic</span> mode.</li>
+    <li>Controller must be either in <em>Linux Xinput</em> mode, or in <em>Generic</em> mode.</li>
     <li>Each mode have to be paired individually.</li>
 </ul>
 <hr/>
@@ -35,13 +35,15 @@ Copyright (C) 2023, Input Labs Oy.
 <hr/>
 
 <h3>Pair controller</h3>
-<p>Click this button and select <span class='code'>Alpakka</span> or <span class='code'>Kapybara</span> from the list.</p>
-<button class='buttonBig' (click)='webusb.requestDevice()'>Pair a new controller</button>
+<ul>
+    <li>Click the <span class='color' (click)='webusb.requestDevice()'>Add device +</span> button on the top right corner.</li>
+    <li>Select <em>Alpakka</em>, <em>Kapybara</em>, or <em>Dongle</em> from the list.</li>
+</ul>
 <hr/>
 
 <h3>Known issues</h3>
 <ul>
-    <li>The controller has to be connected <span class='code'>before opening the browser</span>.</li>
+    <li>The controller has to be connected before opening the browser.</li>
     <li>If the controller is restarted, the browser must be re-opened too.</li>
 </ul>
 

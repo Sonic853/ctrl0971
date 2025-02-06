@@ -22,58 +22,58 @@ Copyright (C) 2023, Input Labs Oy.
     </a>
 </div>
 
-<div *ngIf='this.isProfiles()'>
+<div *ngIf='this.isProfiles() && webusb.isController()'>
     <a routerLink='profiles/0' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(0)'/>
-        <div>{{profileService.getProfile(0).meta.name}}</div>
+        <div>{{getProfileName(0)}}</div>
     </a>
     <a routerLink='profiles/1' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(1)'/>
-        <div>{{profileService.getProfile(1).meta.name}}</div>
+        <div>{{getProfileName(1)}}</div>
     </a>
     <a routerLink='profiles/5' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(5)'/>
-        <div>{{profileService.getProfile(5).meta.name}}</div>
+        <div>{{getProfileName(5)}}</div>
     </a>
     <a routerLink='profiles/2' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(2)'/>
-        <div>{{profileService.getProfile(2).meta.name}}</div>
+        <div>{{getProfileName(2)}}</div>
     </a>
     <a routerLink='profiles/6' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(6)'/>
-        <div>{{profileService.getProfile(6).meta.name}}</div>
+        <div>{{getProfileName(6)}}</div>
     </a>
     <a routerLink='profiles/3' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(3)'/>
-        <div>{{profileService.getProfile(3).meta.name}}</div>
+        <div>{{getProfileName(3)}}</div>
     </a>
     <a routerLink='profiles/7' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(7)'/>
-        <div>{{profileService.getProfile(7).meta.name}}</div>
+        <div>{{getProfileName(7)}}</div>
     </a>
     <a routerLink='profiles/4' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(4)'/>
-        <div>{{profileService.getProfile(4).meta.name}}</div>
+        <div>{{getProfileName(4)}}</div>
     </a>
     <a routerLink='profiles/8' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(8)'/>
-        <div>{{profileService.getProfile(8).meta.name}}</div>
+        <div>{{getProfileName(8)}}</div>
     </a>
     <a routerLink='profiles/9' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(9)'/>
-        <div>{{profileService.getProfile(9).meta.name}}</div>
+        <div>{{getProfileName(9)}}</div>
     </a>
     <a routerLink='profiles/10' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(10)'/>
-        <div>{{profileService.getProfile(10).meta.name}}</div>
+        <div>{{getProfileName(10)}}</div>
     </a>
     <a routerLink='profiles/11' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(11)'/>
-        <div>{{profileService.getProfile(11).meta.name}}</div>
+        <div>{{getProfileName(11)}}</div>
     </a>
     <a routerLink='profiles/12' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(12)'/>
-        <div>{{profileService.getProfile(12).meta.name}}</div>
+        <div>{{getProfileName(12)}}</div>
     </a>
 </div>
 
@@ -82,19 +82,19 @@ Copyright (C) 2023, Input Labs Oy.
         <span class='material'>usb</span>
         <div>Protocol</div>
     </a>
-    <a routerLink='settings/touch_sens' routerLinkActive='active'>
+    <a routerLink='settings/touch_sens' routerLinkActive='active' *ngIf='webusb.isController()'>
         <span class='material'>touch_app</span>
         <div>Touch sensitivity</div>
     </a>
-    <a routerLink='settings/mouse_sens' routerLinkActive='active'>
+    <a routerLink='settings/mouse_sens' routerLinkActive='active' *ngIf='webusb.isController()'>
         <span class='material'>mouse</span>
         <div>Mouse sensitivity</div>
     </a>
-    <a routerLink='settings/deadzone' routerLinkActive='active'>
+    <a routerLink='settings/deadzone' routerLinkActive='active' *ngIf='webusb.isController()'>
         <span class='material'>adjust</span>
         <div>Thumbstick deadzone</div>
     </a>
-    <a routerLink='settings/advanced' routerLinkActive='active'>
+    <a routerLink='settings/advanced' routerLinkActive='active' *ngIf='webusb.isController()'>
         <span class='material'>tune</span>
         <div>Advanced</div>
     </a>

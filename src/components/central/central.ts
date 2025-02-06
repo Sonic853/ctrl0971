@@ -23,7 +23,7 @@ export class CentralComponent {
     private router: Router,
   ) {}
 
-  mustHaveController() {
+  mustHaveDevice() {
     const isHelp = this.router.url.startsWith('/help')
     return !isHelp
   }

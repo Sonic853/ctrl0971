@@ -5,7 +5,7 @@ Copyright (C) 2023, Input Labs Oy.
 
 <div class='tune'>
     <h2>{{mode.title}}</h2>
-    <div class="leds">
+    <div class="leds" *ngIf='webusb.isController()'>
         <app-led
             *ngIf='active'
             [dotsize]='9'

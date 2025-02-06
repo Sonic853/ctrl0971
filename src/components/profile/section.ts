@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { ActionSelectorComponent } from './action_selector'
 import { InputNumberComponent } from 'components/input_number/input_number'
-import { ProfileService, Profile } from 'services/profiles'
 import { WebusbService } from 'services/webusb'
+import { Profile } from 'lib/profile'
 import { CtrlSection, CtrlSectionMeta, CtrlButton, CtrlRotary } from 'lib/ctrl'
 import { CtrlThumbstick, CtrlGyro, CtrlGyroAxis, CtrlHome } from 'lib/ctrl'
 import { SectionIndex, sectionIsAnalog } from 'lib/ctrl'
@@ -39,6 +39,7 @@ export class SectionComponent {
   pickerMacro = 1
   pickerTune = 0
   profileOverwriteIndex = 0
+  profiles = this.webusb.getProfiles()!
   // Template aliases.
   HID = HID
   PIN = PIN
@@ -48,8 +49,7 @@ export class SectionComponent {
   ThumbstickDistanceMode = ThumbstickDistanceMode
 
   constructor(
-    public webusbService: WebusbService,
-    public profileService: ProfileService,
+    public webusb: WebusbService,
   ) {}
 
   sectionIsMeta = () => this.section instanceof CtrlSectionMeta
@@ -114,12 +114,12 @@ export class SectionComponent {
   }
 
   getGyroMode() {
-    const profile = this.profileService.getProfile(this.profileIndex) as Profile
+    const profile = this.profiles.getProfile(this.profileIndex) as Profile
     return profile.gyro.mode
   }
 
   async profileOverwrite() {
-    this.webusbService.sendProfileOverwrite(this.profileIndex, this.profileOverwriteIndex)
+    this.webusb.sendProfileOverwrite(this.profileIndex, this.profileOverwriteIndex)
     // Force <select> to initial value. For some reason Angular 2-way binding
     // does not fully work on HTML elements with OS-controlled UI?.
     // So this cannot be done with just "profileOverwriteIndex = 0".
@@ -128,21 +128,21 @@ export class SectionComponent {
     // Update the profile in the UI. Delay so the controller has time to process
     // the request before re-fetching the profile.
     await delay(500)
-    this.profileService.fetchProfile(this.profileIndex, true)
+    this.profiles.fetchProfile(this.profileIndex, true)
   }
 
   async profileLoad(files: File[]) {
     const reader = new FileReader()
     reader.onload = (event: any) => {
-      this.profileService.loadFromBlob(this.profileIndex, new Uint8Array(event.target.result))
+      this.profiles.loadFromBlob(this.profileIndex, new Uint8Array(event.target.result))
     }
     reader.readAsArrayBuffer(files[0])
   }
 
   async profileSave() {
-    const profileName = this.profileService.getProfile(this.profileIndex).meta.name
+    const profileName = this.profiles.getProfile(this.profileIndex).meta.name
     const filename = `${profileName}.ctrl`
-    const data = this.profileService.saveToBlob(this.profileIndex)
+    const data = this.profiles.saveToBlob(this.profileIndex)
     const blob = new Blob([data], {type: 'application/octet-stream'})
     const a = document.createElement('a')
     document.body.appendChild(a)
@@ -296,7 +296,7 @@ export class SectionComponent {
   }
 
   save = async () => {
-    await this.webusbService.setSection(this.profileIndex, this.section)
+    await this.webusb.setSection(this.profileIndex, this.section)
   }
 }
 

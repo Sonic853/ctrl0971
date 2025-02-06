@@ -3,7 +3,8 @@
 
 import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ProfileService } from 'services/profiles'
+import { WebusbService } from 'services/webusb'
+import { Profiles } from 'lib/profiles'
 import { HID, isAxis } from 'lib/hid'
 import { ActionGroup } from 'lib/actions'
 import { CtrlButton, CtrlGyroAxis, CtrlRotary, CtrlHome, sectionIsAnalog } from 'lib/ctrl'
@@ -30,7 +31,7 @@ export class ButtonComponent {
   @Input() section: CtrlButton | CtrlRotary | CtrlGyroAxis
 
   constructor(
-    public profileService: ProfileService,
+    public webusb: WebusbService,
   ) {
     this.section = undefined as unknown as CtrlButton
   }
@@ -139,7 +140,7 @@ export class ButtonComponent {
     if (label == 'PROC_TUNE_DOWN') return 'Tune down'
     if (label.startsWith('PROC_PROFILE_')) {
       const profileIndex = Number(label.split('_')[2])
-      label = this.profileService.profiles[profileIndex].meta.name
+      label = this.webusb.getProfiles()!.profiles[profileIndex].meta.name
     }
     if (label.startsWith('PROC_MACRO_')) {
       const macroIndex = Number(label.split('_')[2])

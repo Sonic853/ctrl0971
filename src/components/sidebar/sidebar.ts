@@ -5,7 +5,7 @@ import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterLink, RouterLinkActive, Router, NavigationEnd} from '@angular/router'
 import { LedComponent, LED, getProfileLed } from 'components/led/led'
-import { ProfileService } from 'services/profiles'
+import { WebusbService } from 'services/webusb'
 import { VERSION, COMMIT } from 'lib/version'
 
 @Component({
@@ -31,7 +31,7 @@ export class SidebarComponent {
 
   constructor(
     private router: Router,
-    public profileService: ProfileService,
+    public webusb: WebusbService,
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -57,6 +57,8 @@ export class SidebarComponent {
   }
 
   getProfileName(index: number) {
-    return this.profileService.profiles[index].meta.name
+    let profiles = this.webusb.getProfiles()
+    if (!profiles) return ''
+    return profiles.getProfile(index).meta.name
   }
 }

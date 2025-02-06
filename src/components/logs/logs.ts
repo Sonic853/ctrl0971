@@ -20,6 +20,7 @@ export class LogsComponent {
   dialogResetFactory: any
   dialogResetConfig: any
   dialogResetProfiles: any
+  dialogForget: any
   filterDebug: boolean = false
   filterUSB: boolean = false
   filterTouch: boolean = false
@@ -34,12 +35,13 @@ export class LogsComponent {
     this.dialogResetConfig = document.getElementById('dialog-reset-config')
     this.dialogResetProfiles = document.getElementById('dialog-reset-profiles')
     this.dialogResetFactory = document.getElementById('dialog-reset-factory')
+    this.dialogForget = document.getElementById('dialog-forget')
     this.filterGet()
   }
 
   downloadLogs() {
-    if (this.webusb.logs.length == 0) return
-    let logs = [...this.webusb.logs]
+    if (this.webusb.getLogs().length == 0) return
+    let logs = [...this.webusb.getLogs()]
     logs.reverse()
     const data = logs.join('')
     const blob = new Blob([data], {type: 'text/plain'})

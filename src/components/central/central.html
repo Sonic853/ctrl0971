@@ -4,12 +4,12 @@ Copyright (C) 2023, Input Labs Oy.
 -->
 
 <router-outlet
-    *ngIf='!mustHaveController() || webusb.isConnected'
+    *ngIf='!mustHaveDevice() || webusb.isConnected()'
     >
 </router-outlet>
 
 <div
-    *ngIf='mustHaveController() && webusb.browserIsCompatible && !webusb.isConnected && !webusb.failed'
+    *ngIf='mustHaveDevice() && webusb.isCompatibleBrowser() && !webusb.isConnected() && !webusb.isFailed()'
     class='centered'
     >
     <div class='widget'>
@@ -22,7 +22,7 @@ Copyright (C) 2023, Input Labs Oy.
 </div>
 
 <div
-    *ngIf='mustHaveController() && webusb.browserIsCompatible && !webusb.isConnected && webusb.failed'
+    *ngIf='mustHaveDevice() && webusb.isCompatibleBrowser() && !webusb.isConnected() && webusb.isFailed()'
     class='centered'
     >
     <div class='widget'>
@@ -30,14 +30,14 @@ Copyright (C) 2023, Input Labs Oy.
             <span class='material'>heart_broken</span>
         </div>
         <div class='title'>There was a problem</div>
-        <div><span class='code slim'>{{webusb.failedError}}</span></div>
+        <div><span class='code slim'>{{webusb.getFailedError()}}</span></div>
         <div class='hint'>{{webusb.getFailedHint()}}</div>
         <button routerLink='help/windows'>How to setup</button>
     </div>
 </div>
 
 <div
-    *ngIf='mustHaveController() && !webusb.browserIsCompatible'
+    *ngIf='mustHaveDevice() && !webusb.isCompatibleBrowser()'
     class='centered'
     >
     <div class='widget'>

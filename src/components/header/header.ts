@@ -24,7 +24,6 @@ const FIRMWARE_ACK = 'firmware_ack'
 })
 export class HeaderComponent {
   route: string = ''
-  dialogForget: any
   dialogFirmware: any
   lastRouteForTools = ''
   lastRouteForProfiles = '/profiles/0'
@@ -62,16 +61,6 @@ export class HeaderComponent {
     return this.route == '/' || this.route.startsWith('/tools')  ? 'active' : ''
   }
 
-  showDialogForget() {
-    this.dialogForget = document.getElementById('dialog-forget')
-    this.dialogForget.showModal()
-  }
-
-  hideDialogForget(): boolean {
-    this.dialogForget.close()
-    return true
-  }
-
   showDialogFirmware() {
     this.dialogFirmware = document.getElementById('dialog-firmware')
     this.dialogFirmware.showModal()
@@ -97,9 +86,9 @@ export class HeaderComponent {
 
   shouldWarningFirmware() {
     // Should display a Forced modal window?.
-    if (!this.webusb.isConnectedRaw) return false
+    if (!this.webusb.isConnectedRaw()) return false
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
-    const deviceVersion = this.firmwareAsNumber(this.webusb.deviceVersion)
+    const deviceVersion = this.firmwareAsNumber(this.webusb.getDeviceVersion())
     const ackVersion = Number(localStorage.getItem(FIRMWARE_ACK))
     if (!deviceVersion) return 0
     return (deviceVersion < minimumVersion) && (ackVersion < minimumVersion)
@@ -107,9 +96,9 @@ export class HeaderComponent {
 
   shouldNotifyFirmware() {
     // Should notify as an icon in the header?.
-    if (!this.webusb.isConnectedRaw) return false
+    if (!this.webusb.isConnectedRaw()) return false
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
-    const deviceVersion = this.firmwareAsNumber(this.webusb.deviceVersion)
+    const deviceVersion = this.firmwareAsNumber(this.webusb.getDeviceVersion())
     return deviceVersion < minimumVersion
   }
 }
