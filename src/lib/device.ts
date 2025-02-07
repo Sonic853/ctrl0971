@@ -3,6 +3,7 @@
 
 import { AsyncSubject } from 'rxjs'
 import { HID } from 'lib/hid'
+import { timeoutPromise } from 'lib/delay'
 import { Profiles } from 'lib/profiles'
 import {
   Ctrl,
@@ -180,26 +181,32 @@ export class Device {
     this.pendingConfig = new AsyncSubject()
     const ctrlOut = new CtrlConfigGet(index)
     await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
+    const responsePromise: Promise<PresetWithValues> = new Promise((resolve, reject) => {
       this.pendingConfig?.subscribe({
         next: (ctrlIn) => {
           resolve({presetIndex: ctrlIn.preset, values: ctrlIn.values})
         }
       })
     })
+    const timeoutMessage = `Timeout in getConfig ${ConfigIndex[index]}`
+    const timeout = timeoutPromise(200, timeoutMessage) as Promise<PresetWithValues>
+    return Promise.race([responsePromise, timeout])
   }
 
   async setConfig(index: ConfigIndex, preset: number, values: number[]): Promise<number> {
     this.pendingConfig = new AsyncSubject()
     const ctrlOut = new CtrlConfigSet(index, preset, values)
     await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
+    const responsePromise: Promise<number> = new Promise((resolve, reject) => {
       this.pendingConfig?.subscribe({
         next: (ctrlIn) => {
           resolve(ctrlIn.preset)
         }
       })
     })
+    const timeoutMessage = `Timeout in setConfig ${ConfigIndex[index]}`
+    const timeout = timeoutPromise(200, timeoutMessage) as Promise<number>
+    return Promise.race([responsePromise, timeout])
   }
 
   async getSection(
@@ -209,13 +216,16 @@ export class Device {
     this.pendingProfile = new AsyncSubject()
     const ctrlOut = new CtrlProfileGet(profileIndex, sectionIndex)
     await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
+    const responsePromise: Promise<CtrlSection> = new Promise((resolve, reject) => {
       this.pendingProfile?.subscribe({
         next: (ctrlIn) => {
           resolve(ctrlIn)
         }
       })
     })
+    const timeoutMessage = `Timeout in getSection ${SectionIndex[sectionIndex]}`
+    const timeout = timeoutPromise(200, timeoutMessage) as Promise<CtrlSection>
+    return Promise.race([responsePromise, timeout])
   }
 
   async setSection(
@@ -225,13 +235,16 @@ export class Device {
     this.pendingProfile = new AsyncSubject()
     const ctrlOut = new CtrlProfileSet(profileIndex, section.sectionIndex, section.payload())
     await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
+    const responsePromise = new Promise((resolve, reject) => {
       this.pendingProfile?.subscribe({
         next: (ctrlIn) => {
           resolve(ctrlIn)
         }
       })
     })
+    const timeoutMessage = `Timeout in setSection`
+    const timeout = timeoutPromise(200, timeoutMessage)
+    return Promise.race([responsePromise, timeout])
   }
 
 }

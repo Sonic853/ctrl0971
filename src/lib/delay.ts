@@ -5,3 +5,8 @@ export function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+export async function timeoutPromise(timeout: number, errorMessage: string) {
+    return new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(errorMessage)), timeout)
+    )
+}
