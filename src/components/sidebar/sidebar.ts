@@ -57,6 +57,7 @@ export class SidebarComponent {
   }
 
   getProfileName(index: number) {
+    if (!this.webusb.isController()) return ''
     let profiles = this.webusb.getProfiles()
     if (!profiles) return ''
     return profiles.getProfile(index).meta.name

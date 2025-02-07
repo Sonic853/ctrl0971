@@ -7,11 +7,11 @@ Copyright (C) 2023, Input Labs Oy.
     <div class='icon'>
         <span class='material'>settings_remote</span>
     </div>
-    <div>Select wireless connected</div>
-    <div>device to modify profiles</div>
+    <div>Select a wireless device</div>
+    <div>to modify profiles</div>
 </div>
 
-<div class="template" *ngIf='webusb.isController()'>
+<div class="template" *ngIf='webusb.isConnectedRaw() && webusb.isController()'>
     <div class="crop_h">
         <div class='crop_v'>
             <!-- BUTTONS -->
