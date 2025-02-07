@@ -110,6 +110,7 @@ export class WebusbService {
       let device = new Device(usbDevice)
       this.devices.push(device)
       this.selectedDevice = device
+      this.router.navigate(['/'])
     }
   }
 

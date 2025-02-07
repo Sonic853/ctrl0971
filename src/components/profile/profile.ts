@@ -50,13 +50,32 @@ export class ProfileComponent {
   }
 
   async init() {
+    // Wait until the device is ready.
     if (!this.webusb.selectedDevice || !this.webusb.selectedDevice.isListening) {
       await delay(100)
     }
-    await this.profiles.fetchProfileNames()
-    this.setSelectedMeta()  // Selected early to avoid flickering.
-    await this.profiles.fetchProfile(this.profileIndex, false)
-    this.setSelectedMeta()  // Selected again to connect Angular 2-way binding correctly.
+    // Fetch profile names, retry if it fails.
+    while(true) {
+      try {
+        await this.profiles.fetchProfileNames()
+        break
+      } catch(error) {
+        console.warn(error)
+      }
+    }
+    // Selected early to avoid flickering.
+    this.setSelectedMeta()
+    // Fetch profile sections, retry if it fails.
+    while(true) {
+      try {
+        await this.profiles.fetchProfile(this.profileIndex, false)
+        break
+      } catch(error) {
+        console.warn(error)
+      }
+    }
+    // Selected again to connect Angular 2-way binding correctly.
+    this.setSelectedMeta()
   }
 
   setSelected(section: CtrlSection) {
