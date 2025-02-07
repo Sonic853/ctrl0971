@@ -12,8 +12,11 @@ import { CtrlSection, CtrlSectionMeta, CtrlButton, CtrlRotary, CtrlGyroAxis } fr
 import { ThumbstickMode, GyroMode } from 'lib/ctrl'
 import { sectionIsGyroAxis, sectionIsHome } from 'lib/ctrl'
 import { SectionIndex } from 'lib/ctrl'
+import { Device } from 'lib/device'
 import { Profiles } from 'lib/profiles'
 import { delay } from 'lib/delay'
+
+const MAX_FETCH_ATTEMPTS = 3
 
 @Component({
   selector: 'app-profile',
@@ -28,7 +31,7 @@ import { delay } from 'lib/delay'
   styleUrls: ['./profile.sass']
 })
 export class ProfileComponent {
-  profiles: Profiles
+  device?: Device
   profileIndex: number = 0
   selected: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0, 0, 0, 0)
   // Template aliases.
@@ -42,11 +45,25 @@ export class ProfileComponent {
     activatedRoute.data.subscribe((data) => {
       this.profileIndex = data['index']
     })
-    this.profiles = this.webusb.selectedDevice!.profiles
   }
 
-  ngAfterViewInit() {
-    this.init()
+  // ngAfterViewInit() {
+  //   this.init()
+  // }
+
+  ngAfterViewChecked() {
+    // Refresh data if device changes.
+    if (!this.webusb.selectedDevice) return
+    if (!this.webusb.isController()) return
+    if (!this.device) {
+      this.device = this.webusb.selectedDevice!
+      this.init()
+      return
+    }
+    if (this.device != this.webusb.selectedDevice) {
+      this.device = this.webusb.selectedDevice!
+      this.init()
+    }
   }
 
   async init() {
@@ -55,27 +72,53 @@ export class ProfileComponent {
       await delay(100)
     }
     // Fetch profile names, retry if it fails.
-    while(true) {
-      try {
-        await this.profiles.fetchProfileNames()
-        break
-      } catch(error) {
-        console.warn(error)
-      }
-    }
+    await this.tryFetchNames()
     // Selected early to avoid flickering.
     this.setSelectedMeta()
     // Fetch profile sections, retry if it fails.
-    while(true) {
-      try {
-        await this.profiles.fetchProfile(this.profileIndex, false)
-        break
-      } catch(error) {
-        console.warn(error)
-      }
-    }
+    await this.tryFetchProfile()
     // Selected again to connect Angular 2-way binding correctly.
     this.setSelectedMeta()
+  }
+
+  async tryFetchNames() {
+    let attempts = 0
+    while(true) {
+      try {
+        const profiles = this.webusb.selectedDevice!.profiles
+        await profiles.fetchProfileNames()
+        break
+      } catch(error) {
+        attempts += 1
+        if (attempts <= MAX_FETCH_ATTEMPTS) console.warn(error)
+        else {
+          console.error(error)
+          break
+        }
+      }
+    }
+  }
+
+  async tryFetchProfile() {
+    let attempts = 0
+    while(true) {
+      try {
+        const profiles = this.webusb.selectedDevice!.profiles
+        await profiles.fetchProfile(this.profileIndex, false)
+        break
+      } catch(error) {
+        attempts += 1
+        if (attempts <= MAX_FETCH_ATTEMPTS) console.warn(error)
+        else {
+          console.error(error)
+          break
+        }
+      }
+    }
+  }
+
+  getProfile() {
+    return this.webusb.selectedDevice!.profiles.getProfile(this.profileIndex)
   }
 
   setSelected(section: CtrlSection) {
@@ -83,15 +126,15 @@ export class ProfileComponent {
   }
 
   setSelectedMeta() {
-    this.selected = this.profiles.getProfile(this.profileIndex).meta
+    this.selected = this.getProfile().meta
   }
 
   setSelectedThumbstick() {
-    this.selected = this.profiles.getProfile(this.profileIndex).thumbstick
+    this.selected = this.getProfile().thumbstick
   }
 
   setSelectedGyro() {
-    this.selected = this.profiles.getProfile(this.profileIndex).gyro
+    this.selected = this.getProfile().gyro
   }
 
   getSelected() {
@@ -119,7 +162,7 @@ export class ProfileComponent {
   }
 
   getMappings() {
-    const profile = this.profiles.profiles[this.profileIndex]
+    const profile = this.getProfile()
     const thumbstick = profile.thumbstick
     const gyro = profile.gyro
     const rotaryUp = this.getMapping(profile.rotaryUp)

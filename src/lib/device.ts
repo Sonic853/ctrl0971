@@ -26,6 +26,7 @@ import {
 
 const ADDR_IN = 3
 const ADDR_OUT = 4
+const TIMEOUT = 500
 
 export class Device {
   usbDevice: USBDevice
@@ -189,7 +190,7 @@ export class Device {
       })
     })
     const timeoutMessage = `Timeout in getConfig ${ConfigIndex[index]}`
-    const timeout = timeoutPromise(200, timeoutMessage) as Promise<PresetWithValues>
+    const timeout = timeoutPromise(TIMEOUT, timeoutMessage) as Promise<PresetWithValues>
     return Promise.race([responsePromise, timeout])
   }
 
@@ -205,7 +206,7 @@ export class Device {
       })
     })
     const timeoutMessage = `Timeout in setConfig ${ConfigIndex[index]}`
-    const timeout = timeoutPromise(200, timeoutMessage) as Promise<number>
+    const timeout = timeoutPromise(TIMEOUT, timeoutMessage) as Promise<number>
     return Promise.race([responsePromise, timeout])
   }
 
@@ -224,7 +225,7 @@ export class Device {
       })
     })
     const timeoutMessage = `Timeout in getSection ${SectionIndex[sectionIndex]}`
-    const timeout = timeoutPromise(200, timeoutMessage) as Promise<CtrlSection>
+    const timeout = timeoutPromise(TIMEOUT, timeoutMessage) as Promise<CtrlSection>
     return Promise.race([responsePromise, timeout])
   }
 
@@ -243,7 +244,7 @@ export class Device {
       })
     })
     const timeoutMessage = `Timeout in setSection`
-    const timeout = timeoutPromise(200, timeoutMessage)
+    const timeout = timeoutPromise(TIMEOUT, timeoutMessage)
     return Promise.race([responsePromise, timeout])
   }
 

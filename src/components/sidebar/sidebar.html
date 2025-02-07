@@ -22,7 +22,7 @@ Copyright (C) 2023, Input Labs Oy.
     </a>
 </div>
 
-<div *ngIf='this.isProfiles() && webusb.isController()'>
+<div *ngIf='this.isProfiles()'>
     <a routerLink='profiles/0' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(0)'/>
         <div>{{getProfileName(0)}}</div>
