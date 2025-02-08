@@ -110,7 +110,7 @@ export class WebusbService {
     if (!usbDevices.includes(usbDevice)) {
       let device = new Device(usbDevice)
       this.devices.push(device)
-      this.selectedDevice = device
+      this.selectDevice(device)
       this.router.navigate(['/'])
     }
   }
@@ -128,7 +128,7 @@ export class WebusbService {
     this.devices.splice(index, 1);
     // Select other device.
     if (this.devices.length > 0) {
-      this.selectedDevice = this.devices[0]
+      this.selectDevice(this.devices[0])
     } else {
       this.selectedDevice = undefined
     }
