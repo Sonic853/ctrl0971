@@ -68,9 +68,7 @@ export class ProfileComponent {
 
   async init() {
     // Wait until the device is ready.
-    if (!this.webusb.selectedDevice || !this.webusb.selectedDevice.isListening) {
-      await delay(100)
-    }
+    await this.device!.waitUntilReady()
     // Fetch profile names, retry if it fails.
     await this.tryFetchNames()
     // Selected early to avoid flickering.

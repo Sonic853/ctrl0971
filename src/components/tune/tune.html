@@ -7,10 +7,10 @@ Copyright (C) 2023, Input Labs Oy.
     <h2>{{mode.title}}</h2>
     <div class="leds" *ngIf='webusb.isController()'>
         <app-led
-            *ngIf='active'
+            *ngIf='getActive()'
             [dotsize]='9'
-            [on]='active.leds'
-            [blink]='active.blink'
+            [on]='getActive()!.leds'
+            [blink]='getActive()!.blink'
         />
     </div>
     <div class='presets'>

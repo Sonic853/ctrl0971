@@ -6,7 +6,8 @@
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { HID } from 'lib/hid'
-import { Device, PresetWithValues } from 'lib/device'
+import { Device } from 'lib/device'
+import { PresetWithValues } from 'lib/tunes'
 import { ConfigIndex, SectionIndex, CtrlSection } from 'lib/ctrl'
 
 @Injectable({
@@ -117,7 +118,7 @@ export class WebusbService {
   addDevice(usbDevice: USBDevice) {
     let device = new Device(usbDevice)
     this.devices.push(device)
-    this.selectedDevice = device
+    this.selectDevice(device)
   }
 
   removeDevice(device: Device) {
@@ -135,6 +136,11 @@ export class WebusbService {
 
   selectDevice(device: Device) {
     this.selectedDevice = device
+    // Force protocol setting page if new device is dongle.
+    const isDongle = !device.isController()
+    if (isDongle && this.router.url.startsWith('/settings')) {
+      this.router.navigateByUrl('/settings/protocol')
+    }
   }
 
   listDevices() {
