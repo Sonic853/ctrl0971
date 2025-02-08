@@ -98,6 +98,8 @@ export class ProfileComponent {
   }
 
   async tryFetchProfile() {
+    const log = `tryFetchProfile ${this.profileIndex}`
+    console.log(log)
     let attempts = 0
     while(true) {
       try {
@@ -113,6 +115,7 @@ export class ProfileComponent {
         }
       }
     }
+    console.log(log, 'OK')
   }
 
   getProfile() {

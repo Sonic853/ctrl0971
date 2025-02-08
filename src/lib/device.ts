@@ -37,6 +37,7 @@ export class Device {
   isConnected = false
   isConnectedRaw = false
   isListening = false
+  isBusy = false
   failed = false
   failedError?: Error
   pendingConfig?: AsyncSubject<CtrlConfigShare>
@@ -93,7 +94,7 @@ export class Device {
       if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
       if (ctrl instanceof CtrlStatusShare) this.handleCtrlStatusShare(ctrl)
       if (ctrl instanceof CtrlConfigShare) {
-        console.log(ctrl)
+        // console.log(ctrl)
         if (this.pendingConfig) {
           this.pendingConfig.next(ctrl)
           this.pendingConfig.complete()
@@ -103,7 +104,7 @@ export class Device {
         }
       }
       if (ctrl instanceof CtrlSection) {
-        console.log(ctrl)
+        // console.log(ctrl)
         if (this.pendingProfile) {
           this.pendingProfile.next(ctrl as CtrlSection)
           this.pendingProfile.complete()
@@ -119,10 +120,15 @@ export class Device {
 
   async waitUntilReady() {
     let attempts = 0
-    while (!this.isListening) {
+    while (!this.isListening || this.isBusy) {
       await delay(100)
       attempts += 1
-      if (attempts > 10) break
+      if (attempts > 10) {
+        if (this.isBusy) {
+          throw Error('Device timeout (busy)')
+        }
+        break
+      }
     }
   }
 
@@ -180,7 +186,7 @@ export class Device {
   }
 
   async send(ctrl: CtrlProc | CtrlStatusGet | CtrlStatusSet | CtrlConfigGet | CtrlProfileGet) {
-    console.log(ctrl)
+    // console.log(ctrl)
     await this.usbDevice.transferOut(ADDR_OUT, ctrl.encode())
   }
 
@@ -220,9 +226,14 @@ export class Device {
     profileIndex: number,
     sectionIndex: SectionIndex,
   ): Promise<CtrlSection> {
+    await this.waitUntilReady()
+    this.isBusy = true
     this.pendingProfile = new AsyncSubject()
     const ctrlOut = new CtrlProfileGet(profileIndex, sectionIndex)
-    await this.send(ctrlOut)
+    await this.send(ctrlOut).catch((error) => {
+      this.isBusy = false
+      throw error
+    })
     const responsePromise: Promise<CtrlSection> = new Promise((resolve, reject) => {
       this.pendingProfile?.subscribe({
         next: (ctrlIn) => {
@@ -232,7 +243,9 @@ export class Device {
     })
     const timeoutMessage = `Timeout in getSection ${SectionIndex[sectionIndex]}`
     const timeout = timeoutPromise(TIMEOUT, timeoutMessage) as Promise<CtrlSection>
-    return Promise.race([responsePromise, timeout])
+    return Promise.race([responsePromise, timeout]).finally(() => {
+      this.isBusy = false
+    })
   }
 
   async setSection(
