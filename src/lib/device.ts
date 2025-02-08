@@ -5,6 +5,8 @@ import { AsyncSubject } from 'rxjs'
 import { HID } from 'lib/hid'
 import { timeoutPromise } from 'lib/delay'
 import { Profiles } from 'lib/profiles'
+import { delay } from 'lib/delay'
+import { Tunes, PresetWithValues } from 'lib/tunes'
 import {
   Ctrl,
   CtrlLog,
@@ -40,12 +42,14 @@ export class Device {
   pendingConfig?: AsyncSubject<CtrlConfigShare>
   pendingProfile?: AsyncSubject<CtrlSection>
   profiles: Profiles
+  tunes: Tunes
 
   constructor(usbDevice: USBDevice) {
     this.usbDevice = usbDevice
     this.openDevice()
     // (<any>window).device = this.device
     this.profiles = new Profiles(this)
+    this.tunes = new Tunes(this)
   }
 
   disconnectCallback() {
@@ -74,9 +78,6 @@ export class Device {
       this.failedError = error as Error
       throw error
     }
-    // finally {
-    //   if (this.router.url.startsWith('/help')) this.router.navigate([''])
-    // }
     this.listen()
   }
 
@@ -116,6 +117,15 @@ export class Device {
     await this.listen()
   }
 
+  async waitUntilReady() {
+    let attempts = 0
+    while (!this.isListening) {
+      await delay(100)
+      attempts += 1
+      if (attempts > 10) break
+    }
+  }
+
   isController() {
     if (this.usbDevice.productName == 'Alpakka') return true
     return false
@@ -138,14 +148,10 @@ export class Device {
 
   handleCtrlConfigShare(ctrl: CtrlConfigShare) {
     // If there is no pending receiver for the config change we assume it is a
-    // change made on the controller via shortcuts, and refresh the components.
-
-    // const url = this.router.url
-    // if (url.startsWith('/settings')) {
-    //   this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-    //     this.router.navigate([url])
-    //   })
-    // }
+    // change made on the controller via shortcuts.
+    // TODO: Investigate why the ctrl object does not return real data that
+    // could be used directly (instead of nuking all data). Firmware bug?
+    this.tunes.invalidatePresets()
   }
 
   async sendEmpty() {
@@ -248,9 +254,4 @@ export class Device {
     return Promise.race([responsePromise, timeout])
   }
 
-}
-
-export interface PresetWithValues {
-  presetIndex: number,
-  values: number[],
 }

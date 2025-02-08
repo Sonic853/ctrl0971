@@ -71,7 +71,6 @@ export class LogsComponent {
   }
 
   filterSet() {
-    console.log('filterSet')
     let logMask: LogMask = LogMask.BASIC
     if (this.filterUSB) logMask += LogMask.USB
     if (this.filterTouch) logMask += LogMask.TOUCH

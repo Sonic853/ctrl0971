@@ -8,6 +8,7 @@ import { LedComponent } from 'components/led/led'
 import { InputNumberComponent } from 'components/input_number/input_number'
 import { WebusbService } from 'services/webusb'
 import { ConfigIndex } from 'lib/ctrl'
+import { Device } from 'lib/device'
 
 interface Modes  {
   [key: string]: Mode
@@ -52,10 +53,10 @@ interface Preset {
   styleUrls: ['./tune.sass']
 })
 export class TuneComponent {
+  device?: Device
   modes: Modes = modes
   mode: Mode
   title: string = ''
-  active: Preset | null = null
   dialogProtocol: any
   dialogProtocolConfirmFunc: any
 
@@ -66,8 +67,28 @@ export class TuneComponent {
     this.mode = this.modes['protocol']  // Default to avoid compiler complains.
     activatedRoute.data.subscribe((data) => {
       this.mode = this.modes[data['mode'] as string]
-      this.getPreset()
     })
+  }
+
+  ngAfterViewChecked() {
+    // Refresh data if device changes.
+    if (!this.webusb.selectedDevice) return
+    if (!this.device) {
+      this.device = this.webusb.selectedDevice!
+      this.init()
+      return
+    }
+    if (this.device != this.webusb.selectedDevice) {
+      this.device = this.webusb.selectedDevice!
+      this.init()
+    }
+  }
+
+  async init() {
+    // Wait until the device is ready.
+    await this.device!.waitUntilReady()
+    // Fetch.
+    this.getPreset()
   }
 
   getPresets() {
@@ -76,13 +97,13 @@ export class TuneComponent {
   }
 
   async getPreset() {
-    const presetWithValues = await this.webusb.getConfig(this.mode.configIndex)
+    const tunes = this.webusb.selectedDevice!.tunes
+    const presetWithValues = await tunes.getPreset(this.mode.configIndex)
     if (this.mode.url != 'protocol') {
       for(let [index, preset] of  this.mode.presets.entries()) {
         preset.value = presetWithValues.values[index]
       }
     }
-    this.setPresetFromIndex(presetWithValues.presetIndex)
   }
 
   setPresetConfirm(preset: Preset) {
@@ -94,16 +115,12 @@ export class TuneComponent {
   }
 
   async setPreset(preset: Preset) {
-    const presetIndex = await this.webusb.setConfig(
+    const tunes = this.webusb.selectedDevice!.tunes
+    const presetIndex = await tunes.setPreset(
       this.mode.configIndex,
       preset.index,
       this.mode.presets.map((preset) => preset.value as number),
     )
-    this.setPresetFromIndex(presetIndex)
-  }
-
-  setPresetFromIndex(index: number) {
-    this.active = this.mode.presets.filter((preset) => preset.index == index).pop() as Preset
   }
 
   setValue(preset:Preset, value: number) {
@@ -111,8 +128,16 @@ export class TuneComponent {
     this.setPreset(preset)
   }
 
+  getActive() {
+    const tunes = this.webusb.selectedDevice!.tunes
+    const preset = tunes.presets[this.mode.configIndex]
+    if (preset === undefined) return undefined
+    const presetIndex = preset!.presetIndex
+    return this.mode.presets.filter((preset) => preset.index === presetIndex).pop() as Preset
+  }
+
   isActive(preset: Preset) {
-    return preset === this.active ? 'selected' : ''
+    return preset === this.getActive() ? 'selected' : ''
   }
 
   showDialogProtocol() {
