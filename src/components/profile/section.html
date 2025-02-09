@@ -172,6 +172,7 @@ Copyright (C) 2023, Input Labs Oy.
             >
             <option [value]='ThumbstickMode.OFF'>Off</option>
             <option [value]='ThumbstickMode.DIR4'>4 directions</option>
+            <option [value]='ThumbstickMode.DIR8'>8 directions (only digital)</option>
             <option [value]='ThumbstickMode.ALPHANUMERIC'>Alphanumeric</option>
         </select>
     </div>
@@ -198,7 +199,7 @@ Copyright (C) 2023, Input Labs Oy.
             />
         </div>
     </div>
-    <div class='block' *ngIf='thumbstick.mode == ThumbstickMode.DIR4'>
+    <div class='block' *ngIf='thumbstick.mode==ThumbstickMode.DIR4 || thumbstick.mode==ThumbstickMode.DIR8'>
         <div class='subtitle'>Deadzone:</div>
         <div class='island'>
             <div class='iconaction'>

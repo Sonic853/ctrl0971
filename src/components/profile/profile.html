@@ -42,7 +42,7 @@ Copyright (C) 2023, Input Labs Oy.
             <div
                 class='section'
                 style='grid-area: 13 / 6'
-                [ngClass]="selected.sectionIndex == SectionIndex.THUMBSTICK ? 'selected' : ''"
+                [ngClass]="selected.sectionIndex == SectionIndex.LSTICK_SETTINGS ? 'selected' : ''"
                 (click)='setSelectedThumbstick()'
                 >
                 &nbsp;
@@ -52,7 +52,7 @@ Copyright (C) 2023, Input Labs Oy.
             <div
                 class='section'
                 style='grid-area: 17 / 14 / 19 / 14'
-                [ngClass]="selected.sectionIndex == SectionIndex.GYRO ? 'selected' : ''"
+                [ngClass]="selected.sectionIndex == SectionIndex.GYRO_SETTINGS ? 'selected' : ''"
                 (click)='setSelectedGyro()'
                 >
                 &nbsp;

@@ -85,12 +85,11 @@ export class Device {
   async listen() {
     this.isListening = true
     try {
-      // console.log('Listening...')
       const response = await this.usbDevice.transferIn(ADDR_IN, PACKAGE_SIZE)
       let data = response.data as any
       const array = new Uint8Array(data.buffer)
       const ctrl = Ctrl.decode(array)
-      // console.log('received', ctrl)
+      // console.log('Received', ctrl)
       if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
       if (ctrl instanceof CtrlStatusShare) this.handleCtrlStatusShare(ctrl)
       if (ctrl instanceof CtrlConfigShare) {

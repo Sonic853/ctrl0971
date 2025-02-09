@@ -40,8 +40,8 @@ export enum ConfigIndex {
 
 export enum SectionIndex {
   NONE,
-  META,
-  A = 2,
+  META = 1,
+  A,
   B,
   X,
   Y,
@@ -59,26 +59,33 @@ export enum SectionIndex {
   R2,
   L4,
   R4,
-  DHAT_LEFT,
-  DHAT_RIGHT,
-  DHAT_UP,
-  DHAT_DOWN,
-  DHAT_UL,
-  DHAT_UR,
-  DHAT_DL,
-  DHAT_DR,
-  DHAT_PUSH,
-  ROTARY_UP,
+  ROTARY_UP = 29,
   ROTARY_DOWN,
-  THUMBSTICK,
-  THUMBSTICK_LEFT,
-  THUMBSTICK_RIGHT,
-  THUMBSTICK_UP,
-  THUMBSTICK_DOWN,
-  THUMBSTICK_PUSH,
-  THUMBSTICK_INNER,
-  THUMBSTICK_OUTER,
-  GLYPHS_0,
+  LSTICK_SETTINGS = 31,
+  LSTICK_LEFT,
+  LSTICK_RIGHT,
+  LSTICK_UP,
+  LSTICK_DOWN,
+  LSTICK_UL = 55,
+  LSTICK_UR,
+  LSTICK_DL,
+  LSTICK_DR,
+  LSTICK_PUSH = 36,
+  LSTICK_INNER,
+  LSTICK_OUTER,
+  RSTICK_SETTINGS = 59,
+  RSTICK_LEFT = 20,
+  RSTICK_RIGHT,
+  RSTICK_UP,
+  RSTICK_DOWN,
+  RSTICK_UL,
+  RSTICK_UR,
+  RSTICK_DL,
+  RSTICK_DR,
+  RSTICK_PUSH,
+  RSTICK_INNER = 60,
+  RSTICK_OUTER,
+  GLYPHS_0 = 39,
   GLYPHS_1,
   GLYPHS_2,
   GLYPHS_3,
@@ -86,7 +93,7 @@ export enum SectionIndex {
   DAISY_1,
   DAISY_2,
   DAISY_3,
-  GYRO,
+  GYRO_SETTINGS,
   GYRO_X,
   GYRO_Y,
   GYRO_Z,
@@ -117,6 +124,7 @@ export enum ThumbstickMode {
   OFF,
   DIR4,
   ALPHANUMERIC,
+  DIR8,
 }
 
 export enum ThumbstickDistanceMode {
@@ -136,31 +144,24 @@ export function sectionIsMeta(section: SectionIndex) {
   return section == SectionIndex.META
 }
 
-export function sectionIsButton(section: SectionIndex) {
-  return (
-    (section >= SectionIndex.A && section <= SectionIndex.DHAT_PUSH) ||
-    (section >= SectionIndex.THUMBSTICK_LEFT && section <= SectionIndex.THUMBSTICK_OUTER)
-  )
-}
-
 export function sectionIsRotary(section: SectionIndex) {
   return section == SectionIndex.ROTARY_UP || section == SectionIndex.ROTARY_DOWN
 }
 
 export function sectionIsThumbtick(section: SectionIndex) {
-  return section == SectionIndex.THUMBSTICK
+  return section == SectionIndex.LSTICK_SETTINGS
 }
 
 export function sectionIsThumbtickDirection(section: SectionIndex) {
-  return section >= SectionIndex.THUMBSTICK_LEFT && section <= SectionIndex.THUMBSTICK_DOWN
+  return section >= SectionIndex.LSTICK_LEFT && section <= SectionIndex.LSTICK_DOWN
 }
 
 export function sectionIsThumbtickButton(section: SectionIndex) {
-  return sectionIsThumbtickDirection(section) || section == SectionIndex.THUMBSTICK_PUSH
+  return sectionIsThumbtickDirection(section) || section == SectionIndex.LSTICK_PUSH
 }
 
 export function sectionIsGyro(section: SectionIndex) {
-  return section == SectionIndex.GYRO
+  return section == SectionIndex.GYRO_SETTINGS
 }
 
 export function sectionIsGyroAxis(section: SectionIndex) {
@@ -213,17 +214,17 @@ export class Ctrl {
     // See: https://github.com/inputlabs/alpakka_firmware/blob/main/docs/ctrl_protocol.md
     const data = Array.from(buffer)
     const msgType = data[2]
-    if (msgType== MessageType.LOG) return CtrlLog.decode(buffer)
-    if (msgType== MessageType.STATUS_SHARE) return CtrlStatusShare.decode(buffer)
+    if (msgType == MessageType.LOG) return CtrlLog.decode(buffer)
+    if (msgType == MessageType.STATUS_SHARE) return CtrlStatusShare.decode(buffer)
     if (msgType == MessageType.CONFIG_SHARE) return CtrlConfigShare.decode(buffer)
     if (msgType == MessageType.SECTION_SHARE) {
       const section = data[5]
       if (sectionIsMeta(section)) return CtrlSectionMeta.decode(buffer)
-      if (sectionIsButton(section)) return CtrlButton.decode(buffer)
-      if (sectionIsRotary(section)) return CtrlRotary.decode(buffer)
-      if (sectionIsThumbtick(section)) return CtrlThumbstick.decode(buffer)
-      if (sectionIsGyro(section)) return CtrlGyro.decode(buffer)
-      if (sectionIsGyroAxis(section)) return CtrlGyroAxis.decode(buffer)
+      else if (sectionIsRotary(section)) return CtrlRotary.decode(buffer)
+      else if (sectionIsThumbtick(section)) return CtrlThumbstick.decode(buffer)
+      else if (sectionIsGyro(section)) return CtrlGyro.decode(buffer)
+      else if (sectionIsGyroAxis(section)) return CtrlGyroAxis.decode(buffer)
+      else return CtrlButton.decode(buffer)
     }
     return false
   }

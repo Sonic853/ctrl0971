@@ -71,33 +71,39 @@ export class Profiles {
     profile.buttonR1 = await getButton(SectionIndex.R1)
     profile.buttonR2 = await getButton(SectionIndex.R2)
     profile.buttonR4 = await getButton(SectionIndex.R4)
-    profile.buttonDhatLeft = await getButton(SectionIndex.DHAT_LEFT)
-    profile.buttonDhatRight = await getButton(SectionIndex.DHAT_RIGHT)
-    profile.buttonDhatUp = await getButton(SectionIndex.DHAT_UP)
-    profile.buttonDhatDown = await getButton(SectionIndex.DHAT_DOWN)
-    profile.buttonDhatUL = await getButton(SectionIndex.DHAT_UL)
-    profile.buttonDhatUR = await getButton(SectionIndex.DHAT_UR)
-    profile.buttonDhatDL = await getButton(SectionIndex.DHAT_DL)
-    profile.buttonDhatDR = await getButton(SectionIndex.DHAT_DR)
-    profile.buttonDhatPush = await getButton(SectionIndex.DHAT_PUSH)
-    profile.buttonThumbstickLeft = await getButton(SectionIndex.THUMBSTICK_LEFT)
-    profile.buttonThumbstickRight = await getButton(SectionIndex.THUMBSTICK_RIGHT)
-    profile.buttonThumbstickUp = await getButton(SectionIndex.THUMBSTICK_UP)
-    profile.buttonThumbstickDown = await getButton(SectionIndex.THUMBSTICK_DOWN)
-    profile.buttonThumbstickPush = await getButton(SectionIndex.THUMBSTICK_PUSH)
-    profile.buttonThumbstickInner = await getButton(SectionIndex.THUMBSTICK_INNER)
-    profile.buttonThumbstickOuter = await getButton(SectionIndex.THUMBSTICK_OUTER)
+    // Left stick.
+    profile.buttonLStickLeft = await getButton(SectionIndex.LSTICK_LEFT)
+    profile.buttonLStickRight = await getButton(SectionIndex.LSTICK_RIGHT)
+    profile.buttonLStickUp = await getButton(SectionIndex.LSTICK_UP)
+    profile.buttonLStickDown = await getButton(SectionIndex.LSTICK_DOWN)
+    profile.buttonLStickUL = await getButton(SectionIndex.LSTICK_UL)
+    profile.buttonLStickUR = await getButton(SectionIndex.LSTICK_UR)
+    profile.buttonLStickDL = await getButton(SectionIndex.LSTICK_DL)
+    profile.buttonLStickDR = await getButton(SectionIndex.LSTICK_DR)
+    profile.buttonLStickPush = await getButton(SectionIndex.LSTICK_PUSH)
+    profile.buttonLStickInner = await getButton(SectionIndex.LSTICK_INNER)
+    profile.buttonLStickOuter = await getButton(SectionIndex.LSTICK_OUTER)
+    // Right stick (thumbstick or dhat).
+    profile.buttonRStickLeft = await getButton(SectionIndex.RSTICK_LEFT)
+    profile.buttonRStickRight = await getButton(SectionIndex.RSTICK_RIGHT)
+    profile.buttonRStickUp = await getButton(SectionIndex.RSTICK_UP)
+    profile.buttonRStickDown = await getButton(SectionIndex.RSTICK_DOWN)
+    profile.buttonRStickUL = await getButton(SectionIndex.RSTICK_UL)
+    profile.buttonRStickUR = await getButton(SectionIndex.RSTICK_UR)
+    profile.buttonRStickDL = await getButton(SectionIndex.RSTICK_DL)
+    profile.buttonRStickDR = await getButton(SectionIndex.RSTICK_DR)
+    profile.buttonRStickPush = await getButton(SectionIndex.RSTICK_PUSH)
     // Rotary.
     const rotaryUp = await this.device.getSection(profileIndex, SectionIndex.ROTARY_UP) as CtrlRotary
     const rotaryDown = await this.device.getSection(profileIndex, SectionIndex.ROTARY_DOWN) as CtrlRotary
     profile.rotaryUp = rotaryUp
     profile.rotaryDown = rotaryDown
     // Thumbstick mode.
-    const ts = await this.device.getSection(profileIndex, SectionIndex.THUMBSTICK) as CtrlThumbstick
-    profile.thumbstick = ts
+    const ts = await this.device.getSection(profileIndex, SectionIndex.LSTICK_SETTINGS) as CtrlThumbstick
+    profile.settingsLStick = ts
     // Gyro mode.
-    const gyro = await this.device.getSection(profileIndex, SectionIndex.GYRO) as CtrlGyro
-    profile.gyro = gyro
+    const gyro = await this.device.getSection(profileIndex, SectionIndex.GYRO_SETTINGS) as CtrlGyro
+    profile.settingsGyro = gyro
     // Gyro Axes.
     profile.gyroX = await this.device.getSection(profileIndex, SectionIndex.GYRO_X) as CtrlGyroAxis
     profile.gyroY = await this.device.getSection(profileIndex, SectionIndex.GYRO_Y) as CtrlGyroAxis
