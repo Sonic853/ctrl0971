@@ -153,7 +153,10 @@ export function sectionIsThumbtick(section: SectionIndex) {
 }
 
 export function sectionIsThumbtickDirection(section: SectionIndex) {
-  return section >= SectionIndex.LSTICK_LEFT && section <= SectionIndex.LSTICK_DOWN
+  return (
+    (section >= SectionIndex.LSTICK_LEFT && section <= SectionIndex.LSTICK_DOWN) ||
+    (section >= SectionIndex.RSTICK_LEFT && section <= SectionIndex.RSTICK_DOWN)
+  )
 }
 
 export function sectionIsThumbtickButton(section: SectionIndex) {

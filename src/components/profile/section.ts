@@ -32,6 +32,7 @@ import { delay } from 'lib/delay'
 export class SectionComponent {
   @Input() profileIndex: number = 0
   @Input() section: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0, 0, 0, 0)
+  @Input() analog: boolean = false
   dialogKeyPicker: any
   pickerGroup = 0
   pickerProfile = 1
@@ -275,7 +276,7 @@ export class SectionComponent {
       if (this.pickerGroup==1 && this.section.hold) cls += ' holdBG'
       if (this.pickerGroup==2 && this.section.double) cls += ' doubleBG'
     }
-    if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
+    if (this.analog && sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analogBG'
     }
     if (actions.has(action)) return cls
@@ -289,7 +290,7 @@ export class SectionComponent {
       if (index==1 && this.section.hold) cls += ' hold'
       if (index==2 && this.section.double) cls += ' double'
     }
-    if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
+    if (this.analog && sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'
     }
     return cls

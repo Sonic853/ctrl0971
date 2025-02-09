@@ -29,6 +29,7 @@ interface Icon {
 })
 export class ButtonComponent {
   @Input() section: CtrlButton | CtrlRotary | CtrlGyroAxis
+  @Input() analog: boolean = false
 
   constructor(
     public webusb: WebusbService,
@@ -223,7 +224,7 @@ export class ButtonComponent {
       if (index==1 && this.section.hold) cls += ' hold'
       if (index==2 && this.section.double) cls += ' double'
     }
-    if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
+    if (this.analog && sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'
     }
     return cls

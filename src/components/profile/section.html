@@ -177,7 +177,7 @@ Copyright (C) 2023, Input Labs Oy.
         </select>
     </div>
     <div class='block' *ngIf='thumbstick.mode == ThumbstickMode.DIR4'>
-        <div class='subtitle'>Distance calculation:</div>
+        <div class='subtitle'>Analog distance calculation:</div>
         <select
             [(ngModel)]='thumbstick.distance_mode'
             (ngModelChange)='save()'
@@ -222,7 +222,7 @@ Copyright (C) 2023, Input Labs Oy.
             />
         </div>
     </div>
-    <div class='block' *ngIf='thumbstick.mode == ThumbstickMode.DIR4'>
+    <div class='block' *ngIf='thumbstick.mode==ThumbstickMode.DIR4 || thumbstick.mode==ThumbstickMode.DIR8'>
         <div class='subtitle'>Anti-deadzone:</div>
         <div class='island'>
             <app-input-number

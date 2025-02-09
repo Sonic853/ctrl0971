@@ -150,15 +150,41 @@ export class ProfileComponent {
     return cls
   }
 
-  getMapping( section: CtrlButton | CtrlRotary | CtrlGyroAxis) {
+  sectionCouldBeAnalog(section: CtrlSection) {
+    const dirLStick= [
+      SectionIndex.LSTICK_LEFT,
+      SectionIndex.LSTICK_RIGHT,
+      SectionIndex.LSTICK_UP,
+      SectionIndex.LSTICK_DOWN
+    ]
+    const dirRStick= [
+      SectionIndex.LSTICK_LEFT,
+      SectionIndex.LSTICK_RIGHT,
+      SectionIndex.LSTICK_UP,
+      SectionIndex.LSTICK_DOWN
+    ]
+    if (this.getProfile().settingsLStick.mode == ThumbstickMode.DIR4) {
+      if (dirLStick.includes(section.sectionIndex)) return true
+    }
+    if (this.getProfile().settingsRStick.mode == ThumbstickMode.DIR4) {
+      if (dirRStick.includes(section.sectionIndex)) return true
+    }
+    if (sectionIsGyroAxis(section.sectionIndex)) return true
+    return false
+  }
+
+  getMapping(section: CtrlButton | CtrlRotary | CtrlGyroAxis) {
     const pos = position.filter((x) => x.section==section.sectionIndex)[0]
     let style = {'grid-column': pos.column, 'grid-row': pos.row}
     let cls = 'cls' in pos ? <string>pos.cls : ''
+    let analog = false
+    if (this.sectionCouldBeAnalog(section)) analog = true
     if (section.sectionIndex == this.selected?.sectionIndex) cls += ' selected'
     return {
       section,
       cls,
       style,
+      analog,
       click: () => this.setSelected(section),
     }
   }
