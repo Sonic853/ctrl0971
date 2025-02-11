@@ -149,7 +149,10 @@ export function sectionIsRotary(section: SectionIndex) {
 }
 
 export function sectionIsThumbtick(section: SectionIndex) {
-  return section == SectionIndex.LSTICK_SETTINGS
+  return (
+    section==SectionIndex.LSTICK_SETTINGS ||
+    section==SectionIndex.RSTICK_SETTINGS
+  )
 }
 
 export function sectionIsThumbtickDirection(section: SectionIndex) {

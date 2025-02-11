@@ -4,7 +4,6 @@
 import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { WebusbService } from 'services/webusb'
-import { Profiles } from 'lib/profiles'
 import { HID, isAxis } from 'lib/hid'
 import { ActionGroup } from 'lib/actions'
 import { CtrlButton, CtrlGyroAxis, CtrlRotary, CtrlHome, sectionIsAnalog } from 'lib/ctrl'

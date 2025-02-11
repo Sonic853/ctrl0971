@@ -335,6 +335,7 @@ const sectionTitles: SectionTitles = {
   [SectionIndex.LSTICK_PUSH]:      'LStick Push',
   [SectionIndex.LSTICK_INNER]:     'LStick Inner',
   [SectionIndex.LSTICK_OUTER]:     'LStick Outer',
+  [SectionIndex.RSTICK_SETTINGS]:  'RStick Settings',
   [SectionIndex.RSTICK_LEFT]:      'RStick Left',
   [SectionIndex.RSTICK_RIGHT]:     'RStick Right',
   [SectionIndex.RSTICK_UP]:        'RStick Up',

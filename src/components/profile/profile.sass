@@ -19,6 +19,8 @@
             background-color: hsla(0deg, 0%, 100%, 0.1)
             &.pale
                 background-color: hsla(0deg, 0%, 100%, 0.05) !important
+            &.settings
+                background-color: hsla(0deg, 0%, 100%, 0.8) !important
         .wide
             padding-left: 15% !important
         .thin
@@ -37,7 +39,7 @@
                 background-size: contain
                 display: grid
                 grid-template-rows: 4fr 4fr 2fr 4fr 2fr 2fr 2fr 2fr 4fr 7fr 4fr 3fr 4fr 4fr 4fr 1fr 2fr 2fr 2fr 2fr 2fr 2fr
-                grid-template-columns: 12fr 12fr 3fr 3fr 3fr 3fr 1.5fr 1.5fr 1fr 1.5fr 1.5fr 3fr 3fr 3fr 3fr 12fr 12fr
+                grid-template-columns: 12fr 12fr 3fr 3fr 3fr 3fr 1.5fr 1.5fr 1fr 1.5fr 1.5fr 3fr 3fr 3fr 3fr 12fr 9fr 3fr
                 &>div
                     padding-left: 30%
 
@@ -55,7 +57,13 @@
         &.overflow
             overflow: initial
             ::ng-deep
-                min-width: 190%
+                min-width: 140%
+        &.settings
+            aspect-ratio: 1/1
+            background-color: hsl(0deg, 0%, 50%)
+            border-top: 1px solid hsl(0deg, 0%, 80%)
+            border-right: 1px solid hsl(0deg, 0%, 80%)
+            background-image: url('/assets/cog.svg')
 
     .center
         flex-grow: 1

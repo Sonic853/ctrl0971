@@ -136,6 +136,18 @@ export class Device {
     return false
   }
 
+  isDongle() {
+    return !this.isController()
+  }
+
+  isAlpakkaV0() {
+    return this.usbDevice.serialNumber == 'v0'
+  }
+
+  isAlpakkaV1() {
+    return this.usbDevice.serialNumber == 'v1'
+  }
+
   handleCtrlLog(ctrl: CtrlLog) {
     if (!this.logs[0] || this.logs[0]?.endsWith('\n')) {
       this.logs.unshift(ctrl.logMessage)

@@ -99,8 +99,10 @@ export class Profiles {
     profile.rotaryUp = rotaryUp
     profile.rotaryDown = rotaryDown
     // Thumbstick mode.
-    const ts = await this.device.getSection(profileIndex, SectionIndex.LSTICK_SETTINGS) as CtrlThumbstick
-    profile.settingsLStick = ts
+    const lStick = await this.device.getSection(profileIndex, SectionIndex.LSTICK_SETTINGS) as CtrlThumbstick
+    const rStick = await this.device.getSection(profileIndex, SectionIndex.RSTICK_SETTINGS) as CtrlThumbstick
+    profile.settingsLStick = lStick
+    profile.settingsRStick = rStick
     // Gyro mode.
     const gyro = await this.device.getSection(profileIndex, SectionIndex.GYRO_SETTINGS) as CtrlGyro
     profile.settingsGyro = gyro

@@ -131,10 +131,6 @@ export class ProfileComponent {
     this.selected = this.getProfile().meta
   }
 
-  setSelectedThumbstick() {
-    this.selected = this.getProfile().settingsLStick
-  }
-
   setSelectedGyro() {
     this.selected = this.getProfile().settingsGyro
   }
@@ -158,10 +154,10 @@ export class ProfileComponent {
       SectionIndex.LSTICK_DOWN
     ]
     const dirRStick= [
-      SectionIndex.LSTICK_LEFT,
-      SectionIndex.LSTICK_RIGHT,
-      SectionIndex.LSTICK_UP,
-      SectionIndex.LSTICK_DOWN
+      SectionIndex.RSTICK_LEFT,
+      SectionIndex.RSTICK_RIGHT,
+      SectionIndex.RSTICK_UP,
+      SectionIndex.RSTICK_DOWN
     ]
     if (this.getProfile().settingsLStick.mode == ThumbstickMode.DIR4) {
       if (dirLStick.includes(section.sectionIndex)) return true
@@ -264,24 +260,24 @@ export class ProfileComponent {
 
 const position = [
   {section: 0,                             column: 0,       row: 0 },
-  {section: SectionIndex.L2,               column: 1,       row: 1 },
-  {section: SectionIndex.L1,               column: 1,       row: 2 },
+  {section: SectionIndex.L2,               column: 1,       row: 1,     cls:'overflow' },
+  {section: SectionIndex.L1,               column: 1,       row: 2,     cls:'overflow' },
   {section: SectionIndex.DPAD_UP,          column: 1,       row: 4,     cls:'overflow' },
   {section: SectionIndex.DPAD_RIGHT,       column: 1,       row: '5/7', cls:'overflow' },
   {section: SectionIndex.DPAD_LEFT,        column: 1,       row: '7/9', cls:'overflow' },
   {section: SectionIndex.DPAD_DOWN,        column: 1,       row: 9,     cls:'overflow' },
-  {section: SectionIndex.L4,               column: 1,       row: 11 },
+  {section: SectionIndex.L4,               column: 1,       row: 11,    cls:'overflow' },
   {section: SectionIndex.SELECT_1,         column: '4/9',   row: 1 },
   {section: SectionIndex.SELECT_2,         column: '4/9',   row: 2 },
   {section: SectionIndex.START_1,          column: '10/15', row: 1 },
   {section: SectionIndex.START_2,          column: '10/15', row: 2 },
-  {section: SectionIndex.R2,               column: 17,      row: 1 },
-  {section: SectionIndex.R1,               column: 17,      row: 2 },
-  {section: SectionIndex.Y,                column: 17,      row: 4 },
-  {section: SectionIndex.X,                column: 17,      row: '5/7' },
-  {section: SectionIndex.B,                column: 17,      row: '7/9' },
-  {section: SectionIndex.A,                column: 17,      row: 9 },
-  {section: SectionIndex.R4,               column: 17,      row: 11 },
+  {section: SectionIndex.R2,               column: '17/19', row: 1 },
+  {section: SectionIndex.R1,               column: '17/19', row: 2 },
+  {section: SectionIndex.Y,                column: '17/19', row: 4 },
+  {section: SectionIndex.X,                column: '17/19', row: '5/7' },
+  {section: SectionIndex.B,                column: '17/19', row: '7/9' },
+  {section: SectionIndex.A,                column: '17/19', row: 9 },
+  {section: SectionIndex.R4,               column: '17/19', row: 11 },
 
   {section: SectionIndex.LSTICK_UL,        column: 1,       row: 13 },
   {section: SectionIndex.LSTICK_LEFT,      column: 1,       row: 14 },
@@ -296,13 +292,13 @@ const position = [
   {section: SectionIndex.LSTICK_OUTER,     column: 2,       row: '20/22' },
 
   {section: SectionIndex.RSTICK_LEFT,      column: '12/16', row: 14 },
-  {section: SectionIndex.RSTICK_RIGHT,     column: 17,      row: 14 },
+  {section: SectionIndex.RSTICK_RIGHT,     column: '17/19', row: 14 },
   {section: SectionIndex.RSTICK_UP,        column: 16,      row: 13 },
   {section: SectionIndex.RSTICK_DOWN,      column: 16,      row: 15 },
   {section: SectionIndex.RSTICK_UL,        column: '12/16', row: 13 },
-  {section: SectionIndex.RSTICK_UR,        column: 17,      row: 13 },
+  {section: SectionIndex.RSTICK_UR,        column: '17/19', row: 13 },
   {section: SectionIndex.RSTICK_DL,        column: '12/16', row: 15 },
-  {section: SectionIndex.RSTICK_DR,        column: 17,      row: 15 },
+  {section: SectionIndex.RSTICK_DR,        column: '17/19', row: 15 },
   {section: SectionIndex.RSTICK_PUSH,      column: 16,      row: 14 },
 
   {section: SectionIndex.ROTARY_UP,        column: '16/18', row: '18/20', cls:'wide'},
