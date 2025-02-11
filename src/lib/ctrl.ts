@@ -559,6 +559,7 @@ export class CtrlThumbstick extends CtrlSection {
     public overlap : number,
     public deadzone_override: boolean,
     public antideadzone: number,
+    public saturation: number,
   ) {
     super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
@@ -575,7 +576,8 @@ export class CtrlThumbstick extends CtrlSection {
       data[8],  // Deadzone.
       data[9] <= 128 ? data[9] : data[9]-256,  // Axis overlap (unsigned to signed).
       Boolean(data[10]),  // Deadzone override.
-      data[11],  // Antideadzone.
+      data[11], // Antideadzone.
+      data[12], // Saturation.
     )
   }
 
@@ -589,6 +591,7 @@ export class CtrlThumbstick extends CtrlSection {
       this.overlap,
       Number(this.deadzone_override),
       this.antideadzone,
+      this.saturation,
     ]
   }
 }
