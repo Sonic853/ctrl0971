@@ -70,25 +70,18 @@ export class TuneComponent {
     })
   }
 
-  ngAfterViewChecked() {
+  ngOnInit() {
     // Refresh data if device changes.
     if (!this.webusb.selectedDevice) return
-    if (!this.device) {
-      this.device = this.webusb.selectedDevice!
-      this.init()
-      return
-    }
-    if (this.device != this.webusb.selectedDevice) {
-      this.device = this.webusb.selectedDevice!
-      this.init()
-    }
+    this.device = this.webusb.selectedDevice
+    this.init()
   }
 
   async init() {
     // Wait until the device is ready.
     await this.device!.waitUntilReady()
     // Fetch.
-    this.getPreset()
+    await this.getPreset()
   }
 
   getPresets() {
@@ -97,6 +90,7 @@ export class TuneComponent {
   }
 
   async getPreset() {
+    console.log(`getPreset ${ConfigIndex[this.mode.configIndex]}`)
     const tunes = this.webusb.selectedDevice!.tunes
     const presetWithValues = await tunes.getPreset(this.mode.configIndex)
     if (this.mode.url != 'protocol') {
