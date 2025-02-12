@@ -45,23 +45,12 @@ export class ProfileComponent {
     })
   }
 
-  // ngAfterViewInit() {
-  //   this.init()
-  // }
-
-  ngAfterViewChecked() {
+  ngOnInit() {
     // Refresh data if device changes.
     if (!this.webusb.selectedDevice) return
     if (!this.webusb.isController()) return
-    if (!this.device) {
-      this.device = this.webusb.selectedDevice!
-      this.init()
-      return
-    }
-    if (this.device != this.webusb.selectedDevice) {
-      this.device = this.webusb.selectedDevice!
-      this.init()
-    }
+    this.device = this.webusb.selectedDevice
+    this.init()
   }
 
   async init() {
@@ -187,7 +176,9 @@ export class ProfileComponent {
 
   getMappings() {
     const profile = this.getProfile()
+    const isV0 = this.device!.isAlpakkaV0()
     const settingsLStick = profile.settingsLStick
+    const settingsRStick = profile.settingsRStick
     const gyro = profile.settingsGyro
     const rotaryUp = this.getMapping(profile.rotaryUp)
     const rotaryDown = this.getMapping(profile.rotaryDown)
@@ -211,15 +202,6 @@ export class ProfileComponent {
       this.getMapping(profile.buttonR1),
       this.getMapping(profile.buttonR2),
       this.getMapping(profile.buttonR4),
-      this.getMapping(profile.buttonRStickLeft),
-      this.getMapping(profile.buttonRStickRight),
-      this.getMapping(profile.buttonRStickUp),
-      this.getMapping(profile.buttonRStickDown),
-      this.getMapping(profile.buttonRStickUL),
-      this.getMapping(profile.buttonRStickUR),
-      this.getMapping(profile.buttonRStickDL),
-      this.getMapping(profile.buttonRStickDR),
-      this.getMapping(profile.buttonRStickPush),
     ]
     if (settingsLStick.mode==ThumbstickMode.DIR4 || settingsLStick.mode==ThumbstickMode.DIR8) {
       buttons.push(...[
@@ -238,6 +220,25 @@ export class ProfileComponent {
         this.getMapping(profile.buttonLStickUR),
         this.getMapping(profile.buttonLStickDL),
         this.getMapping(profile.buttonLStickDR),
+      ])
+    }
+    if (isV0 || settingsRStick.mode==ThumbstickMode.DIR4 || settingsRStick.mode==ThumbstickMode.DIR8) {
+      buttons.push(...[
+        this.getMapping(profile.buttonRStickLeft),
+        this.getMapping(profile.buttonRStickRight),
+        this.getMapping(profile.buttonRStickUp),
+        this.getMapping(profile.buttonRStickDown),
+        this.getMapping(profile.buttonRStickPush),
+        // this.getMapping(profile.buttonRStickInner),
+        // this.getMapping(profile.buttonRStickOuter),
+      ])
+    }
+    if (isV0 || settingsRStick.mode==ThumbstickMode.DIR8) {
+      buttons.push(...[
+        this.getMapping(profile.buttonRStickUL),
+        this.getMapping(profile.buttonRStickUR),
+        this.getMapping(profile.buttonRStickDL),
+        this.getMapping(profile.buttonRStickDR),
       ])
     }
     let gyroAxis: any = []

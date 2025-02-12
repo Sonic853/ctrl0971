@@ -130,16 +130,32 @@ export class WebusbService {
     if (this.devices.length > 0) {
       this.selectDevice(this.devices[0])
     } else {
-      this.selectedDevice = undefined
+      this.selectDevice(undefined)
     }
   }
 
-  selectDevice(device: Device) {
+  selectDevice(device?: Device) {
     this.selectedDevice = device
+    if (!device) return
+    // Force component refresh with dummy redirect technique.
+    // (retriggers component ngOnInit).
+    const refresh = (url?: string) => {
+      const originalUrl = this.router.url
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigateByUrl(url ? url : originalUrl)
+      })
+    }
     // Force protocol setting page if new device is dongle.
-    const isDongle = !device.isController()
-    if (isDongle && this.router.url.startsWith('/settings')) {
-      this.router.navigateByUrl('/settings/protocol')
+    if (device.isDongle() && this.router.url.startsWith('/settings')) {
+      refresh('/settings/protocol')
+      return
+    }
+    // If any other profile or setting page, just refresh the same page.
+    const pages = ['/profiles', '/settings']
+    for(let page of pages) {
+      if (this.router.url.startsWith(page)) {
+        refresh()
+      }
     }
   }
 
