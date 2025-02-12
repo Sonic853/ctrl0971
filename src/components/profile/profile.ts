@@ -13,8 +13,6 @@ import { ThumbstickMode, GyroMode } from 'lib/ctrl'
 import { sectionIsGyroAxis, sectionIsHome } from 'lib/ctrl'
 import { SectionIndex } from 'lib/ctrl'
 import { Device } from 'lib/device'
-import { Profiles } from 'lib/profiles'
-import { delay } from 'lib/delay'
 
 const MAX_FETCH_ATTEMPTS = 3
 
@@ -101,10 +99,12 @@ export class ProfileComponent {
     const log = `tryFetchProfile ${this.profileIndex}`
     console.log(log)
     let attempts = 0
+    let success = false
     while(true) {
       try {
         const profiles = this.webusb.selectedDevice!.profiles
         await profiles.fetchProfile(this.profileIndex, false)
+        success = true
         break
       } catch(error) {
         attempts += 1
@@ -115,7 +115,8 @@ export class ProfileComponent {
         }
       }
     }
-    console.log(log, 'OK')
+    if (success) console.log(log, 'OK')
+    else console.log(log, 'FAILED')
   }
 
   getProfile() {
@@ -130,12 +131,8 @@ export class ProfileComponent {
     this.selected = this.getProfile().meta
   }
 
-  setSelectedThumbstick() {
-    this.selected = this.getProfile().thumbstick
-  }
-
   setSelectedGyro() {
-    this.selected = this.getProfile().gyro
+    this.selected = this.getProfile().settingsGyro
   }
 
   getSelected() {
@@ -149,23 +146,49 @@ export class ProfileComponent {
     return cls
   }
 
-  getMapping( section: CtrlButton | CtrlRotary | CtrlGyroAxis) {
+  sectionCouldBeAnalog(section: CtrlSection) {
+    const dirLStick= [
+      SectionIndex.LSTICK_LEFT,
+      SectionIndex.LSTICK_RIGHT,
+      SectionIndex.LSTICK_UP,
+      SectionIndex.LSTICK_DOWN
+    ]
+    const dirRStick= [
+      SectionIndex.RSTICK_LEFT,
+      SectionIndex.RSTICK_RIGHT,
+      SectionIndex.RSTICK_UP,
+      SectionIndex.RSTICK_DOWN
+    ]
+    if (this.getProfile().settingsLStick.mode == ThumbstickMode.DIR4) {
+      if (dirLStick.includes(section.sectionIndex)) return true
+    }
+    if (this.getProfile().settingsRStick.mode == ThumbstickMode.DIR4) {
+      if (dirRStick.includes(section.sectionIndex)) return true
+    }
+    if (sectionIsGyroAxis(section.sectionIndex)) return true
+    return false
+  }
+
+  getMapping(section: CtrlButton | CtrlRotary | CtrlGyroAxis) {
     const pos = position.filter((x) => x.section==section.sectionIndex)[0]
     let style = {'grid-column': pos.column, 'grid-row': pos.row}
     let cls = 'cls' in pos ? <string>pos.cls : ''
+    let analog = false
+    if (this.sectionCouldBeAnalog(section)) analog = true
     if (section.sectionIndex == this.selected?.sectionIndex) cls += ' selected'
     return {
       section,
       cls,
       style,
+      analog,
       click: () => this.setSelected(section),
     }
   }
 
   getMappings() {
     const profile = this.getProfile()
-    const thumbstick = profile.thumbstick
-    const gyro = profile.gyro
+    const settingsLStick = profile.settingsLStick
+    const gyro = profile.settingsGyro
     const rotaryUp = this.getMapping(profile.rotaryUp)
     const rotaryDown = this.getMapping(profile.rotaryDown)
     const home = this.getMapping(profile.home)
@@ -188,27 +211,34 @@ export class ProfileComponent {
       this.getMapping(profile.buttonR1),
       this.getMapping(profile.buttonR2),
       this.getMapping(profile.buttonR4),
-      this.getMapping(profile.buttonDhatLeft),
-      this.getMapping(profile.buttonDhatRight),
-      this.getMapping(profile.buttonDhatUp),
-      this.getMapping(profile.buttonDhatDown),
-      this.getMapping(profile.buttonDhatUL),
-      this.getMapping(profile.buttonDhatUR),
-      this.getMapping(profile.buttonDhatDL),
-      this.getMapping(profile.buttonDhatDR),
-      this.getMapping(profile.buttonDhatPush),
+      this.getMapping(profile.buttonRStickLeft),
+      this.getMapping(profile.buttonRStickRight),
+      this.getMapping(profile.buttonRStickUp),
+      this.getMapping(profile.buttonRStickDown),
+      this.getMapping(profile.buttonRStickUL),
+      this.getMapping(profile.buttonRStickUR),
+      this.getMapping(profile.buttonRStickDL),
+      this.getMapping(profile.buttonRStickDR),
+      this.getMapping(profile.buttonRStickPush),
     ]
-    let buttonsThumbstick: any = []
-    if (thumbstick.mode == ThumbstickMode.DIR4) {
-      buttonsThumbstick = [
-        this.getMapping(profile.buttonThumbstickLeft),
-        this.getMapping(profile.buttonThumbstickRight),
-        this.getMapping(profile.buttonThumbstickUp),
-        this.getMapping(profile.buttonThumbstickDown),
-        this.getMapping(profile.buttonThumbstickPush),
-        this.getMapping(profile.buttonThumbstickInner),
-        this.getMapping(profile.buttonThumbstickOuter),
-      ]
+    if (settingsLStick.mode==ThumbstickMode.DIR4 || settingsLStick.mode==ThumbstickMode.DIR8) {
+      buttons.push(...[
+        this.getMapping(profile.buttonLStickLeft),
+        this.getMapping(profile.buttonLStickRight),
+        this.getMapping(profile.buttonLStickUp),
+        this.getMapping(profile.buttonLStickDown),
+        this.getMapping(profile.buttonLStickPush),
+        this.getMapping(profile.buttonLStickInner),
+        this.getMapping(profile.buttonLStickOuter),
+      ])
+    }
+    if (settingsLStick.mode==ThumbstickMode.DIR8) {
+      buttons.push(...[
+        this.getMapping(profile.buttonLStickUL),
+        this.getMapping(profile.buttonLStickUR),
+        this.getMapping(profile.buttonLStickDL),
+        this.getMapping(profile.buttonLStickDR),
+      ])
     }
     let gyroAxis: any = []
     if (gyro.mode != GyroMode.OFF) {
@@ -218,7 +248,7 @@ export class ProfileComponent {
         this.getMapping(profile.gyroZ),
       ]
     }
-    return [...buttons, ...buttonsThumbstick, ...gyroAxis, rotaryUp, rotaryDown, home]
+    return [...buttons, ...gyroAxis, rotaryUp, rotaryDown, home]
   }
 
   // Required so change detection is working better is scenarios where the
@@ -230,42 +260,49 @@ export class ProfileComponent {
 
 const position = [
   {section: 0,                             column: 0,       row: 0 },
-  {section: SectionIndex.L2,               column: 1,       row: 1 },
-  {section: SectionIndex.L1,               column: 1,       row: 2 },
+  {section: SectionIndex.L2,               column: 1,       row: 1,     cls:'overflow' },
+  {section: SectionIndex.L1,               column: 1,       row: 2,     cls:'overflow' },
   {section: SectionIndex.DPAD_UP,          column: 1,       row: 4,     cls:'overflow' },
   {section: SectionIndex.DPAD_RIGHT,       column: 1,       row: '5/7', cls:'overflow' },
   {section: SectionIndex.DPAD_LEFT,        column: 1,       row: '7/9', cls:'overflow' },
   {section: SectionIndex.DPAD_DOWN,        column: 1,       row: 9,     cls:'overflow' },
-  {section: SectionIndex.L4,               column: 1,       row: 11 },
+  {section: SectionIndex.L4,               column: 1,       row: 11,    cls:'overflow' },
   {section: SectionIndex.SELECT_1,         column: '4/9',   row: 1 },
   {section: SectionIndex.SELECT_2,         column: '4/9',   row: 2 },
   {section: SectionIndex.START_1,          column: '10/15', row: 1 },
   {section: SectionIndex.START_2,          column: '10/15', row: 2 },
-  {section: SectionIndex.R2,               column: 17,      row: 1 },
-  {section: SectionIndex.R1,               column: 17,      row: 2 },
-  {section: SectionIndex.Y,                column: 17,      row: 4 },
-  {section: SectionIndex.X,                column: 17,      row: '5/7' },
-  {section: SectionIndex.B,                column: 17,      row: '7/9' },
-  {section: SectionIndex.A,                column: 17,      row: 9 },
-  {section: SectionIndex.R4,               column: 17,      row: 11 },
-  {section: SectionIndex.DHAT_LEFT,        column: '12/16', row: 14 },
-  {section: SectionIndex.DHAT_RIGHT,       column: 17,      row: 14 },
-  {section: SectionIndex.DHAT_UP,          column: 16,      row: 13 },
-  {section: SectionIndex.DHAT_DOWN,        column: 16,      row: 15 },
-  {section: SectionIndex.DHAT_UL,          column: '12/16', row: 13 },
-  {section: SectionIndex.DHAT_UR,          column: 17,      row: 13 },
-  {section: SectionIndex.DHAT_DL,          column: '12/16', row: 15 },
-  {section: SectionIndex.DHAT_DR,          column: 17,      row: 15 },
-  {section: SectionIndex.DHAT_PUSH,        column: 16,      row: 14 },
+  {section: SectionIndex.R2,               column: '17/19', row: 1 },
+  {section: SectionIndex.R1,               column: '17/19', row: 2 },
+  {section: SectionIndex.Y,                column: '17/19', row: 4 },
+  {section: SectionIndex.X,                column: '17/19', row: '5/7' },
+  {section: SectionIndex.B,                column: '17/19', row: '7/9' },
+  {section: SectionIndex.A,                column: '17/19', row: 9 },
+  {section: SectionIndex.R4,               column: '17/19', row: 11 },
+
+  {section: SectionIndex.LSTICK_UL,        column: 1,       row: 13 },
+  {section: SectionIndex.LSTICK_LEFT,      column: 1,       row: 14 },
+  {section: SectionIndex.LSTICK_DL,        column: 1,       row: 15 },
+  {section: SectionIndex.LSTICK_UP,        column: 2,       row: 13 },
+  {section: SectionIndex.LSTICK_PUSH,      column: 2,       row: 14 },
+  {section: SectionIndex.LSTICK_DOWN,      column: 2,       row: 15 },
+  {section: SectionIndex.LSTICK_UR,        column: '3/7',   row: 13 },
+  {section: SectionIndex.LSTICK_RIGHT,     column: '3/7',   row: 14 },
+  {section: SectionIndex.LSTICK_DR,        column: '3/7',   row: 15 },
+  {section: SectionIndex.LSTICK_INNER,     column: 2,       row: '18/20' },
+  {section: SectionIndex.LSTICK_OUTER,     column: 2,       row: '20/22' },
+
+  {section: SectionIndex.RSTICK_LEFT,      column: '12/16', row: 14 },
+  {section: SectionIndex.RSTICK_RIGHT,     column: '17/19', row: 14 },
+  {section: SectionIndex.RSTICK_UP,        column: 16,      row: 13 },
+  {section: SectionIndex.RSTICK_DOWN,      column: 16,      row: 15 },
+  {section: SectionIndex.RSTICK_UL,        column: '12/16', row: 13 },
+  {section: SectionIndex.RSTICK_UR,        column: '17/19', row: 13 },
+  {section: SectionIndex.RSTICK_DL,        column: '12/16', row: 15 },
+  {section: SectionIndex.RSTICK_DR,        column: '17/19', row: 15 },
+  {section: SectionIndex.RSTICK_PUSH,      column: 16,      row: 14 },
+
   {section: SectionIndex.ROTARY_UP,        column: '16/18', row: '18/20', cls:'wide'},
   {section: SectionIndex.ROTARY_DOWN,      column: '16/18', row: '20/22', cls:'wide'},
-  {section: SectionIndex.THUMBSTICK_LEFT,  column: 1,       row: 14 },
-  {section: SectionIndex.THUMBSTICK_RIGHT, column: '3/7',   row: 14 },
-  {section: SectionIndex.THUMBSTICK_UP,    column: 2,       row: 13 },
-  {section: SectionIndex.THUMBSTICK_DOWN,  column: 2,       row: 15 },
-  {section: SectionIndex.THUMBSTICK_PUSH,  column: 2,       row: 14 },
-  {section: SectionIndex.THUMBSTICK_INNER, column: 2,       row: '18/20' },
-  {section: SectionIndex.THUMBSTICK_OUTER, column: 2,       row: '20/22' },
   {section: SectionIndex.GYRO_X,           column: '6/13',  row: '17/19', cls:'thin'},
   {section: SectionIndex.GYRO_Y,           column: '6/13',  row: '19/21', cls:'thin'},
   {section: SectionIndex.GYRO_Z,           column: '6/13',  row: '21/23', cls:'thin'},

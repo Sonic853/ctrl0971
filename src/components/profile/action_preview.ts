@@ -4,7 +4,6 @@
 import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { WebusbService } from 'services/webusb'
-import { Profiles } from 'lib/profiles'
 import { HID, isAxis } from 'lib/hid'
 import { ActionGroup } from 'lib/actions'
 import { CtrlButton, CtrlGyroAxis, CtrlRotary, CtrlHome, sectionIsAnalog } from 'lib/ctrl'
@@ -29,6 +28,7 @@ interface Icon {
 })
 export class ButtonComponent {
   @Input() section: CtrlButton | CtrlRotary | CtrlGyroAxis
+  @Input() analog: boolean = false
 
   constructor(
     public webusb: WebusbService,
@@ -223,7 +223,7 @@ export class ButtonComponent {
       if (index==1 && this.section.hold) cls += ' hold'
       if (index==2 && this.section.double) cls += ' double'
     }
-    if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
+    if (this.analog && sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'
     }
     return cls

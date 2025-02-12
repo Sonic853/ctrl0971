@@ -172,11 +172,12 @@ Copyright (C) 2023, Input Labs Oy.
             >
             <option [value]='ThumbstickMode.OFF'>Off</option>
             <option [value]='ThumbstickMode.DIR4'>4 directions</option>
+            <option [value]='ThumbstickMode.DIR8'>8 directions (only digital)</option>
             <option [value]='ThumbstickMode.ALPHANUMERIC'>Alphanumeric</option>
         </select>
     </div>
     <div class='block' *ngIf='thumbstick.mode == ThumbstickMode.DIR4'>
-        <div class='subtitle'>Distance calculation:</div>
+        <div class='subtitle'>Analog distance calculation:</div>
         <select
             [(ngModel)]='thumbstick.distance_mode'
             (ngModelChange)='save()'
@@ -184,6 +185,19 @@ Copyright (C) 2023, Input Labs Oy.
             <option [value]='ThumbstickDistanceMode.AXIAL'>Axial</option>
             <option [value]='ThumbstickDistanceMode.RADIAL'>Radial</option>
         </select>
+    </div>
+    <div class='block' *ngIf='thumbstick.mode==ThumbstickMode.DIR4 || thumbstick.mode==ThumbstickMode.DIR8'>
+        <div class='subtitle'>Saturation:</div>
+        <div class='island'>
+            <app-input-number
+                [value]='thumbstick.saturation'
+                (update)='thumbstick.saturation=$event; save()'
+                [unit]="'%'"
+                [min]='1'
+                [max]='100'
+                [step]='1'
+            />
+        </div>
     </div>
     <div class='block' *ngIf='thumbstick.mode == ThumbstickMode.DIR4'>
         <div class='subtitle'>Axis overlap:</div>
@@ -198,7 +212,7 @@ Copyright (C) 2023, Input Labs Oy.
             />
         </div>
     </div>
-    <div class='block' *ngIf='thumbstick.mode == ThumbstickMode.DIR4'>
+    <div class='block' *ngIf='thumbstick.mode==ThumbstickMode.DIR4 || thumbstick.mode==ThumbstickMode.DIR8'>
         <div class='subtitle'>Deadzone:</div>
         <div class='island'>
             <div class='iconaction'>
@@ -221,7 +235,7 @@ Copyright (C) 2023, Input Labs Oy.
             />
         </div>
     </div>
-    <div class='block' *ngIf='thumbstick.mode == ThumbstickMode.DIR4'>
+    <div class='block' *ngIf='thumbstick.mode==ThumbstickMode.DIR4'>
         <div class='subtitle'>Anti-deadzone:</div>
         <div class='island'>
             <app-input-number
@@ -535,7 +549,7 @@ Copyright (C) 2023, Input Labs Oy.
                 <div class='button' [ngClass]='pickCls(HID.GAMEPAD_START)' (click)='pick(HID.GAMEPAD_START)'><span class='material small'>menu</span></div>
             </div>
             <div>
-                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_LY_NEG)' (click)='pick(HID.GAMEPAD_AXIS_LY_NEG)'><span class='material'>keyboard_arrow_up</span></div>
+                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_LY)' (click)='pick(HID.GAMEPAD_AXIS_LY)'><span class='material'>keyboard_arrow_up</span></div>
                 <div class='spacing w9'></div>
                 <div class='button' [ngClass]='pickCls(HID.GAMEPAD_Y)' (click)='pick(HID.GAMEPAD_Y)'>Y</div>
             </div>
@@ -549,11 +563,11 @@ Copyright (C) 2023, Input Labs Oy.
                 <div class='button' [ngClass]='pickCls(HID.GAMEPAD_B)' (click)='pick(HID.GAMEPAD_B)'>B</div>
             </div>
             <div>
-                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_LY)' (click)='pick(HID.GAMEPAD_AXIS_LY)'><span class='material'>keyboard_arrow_down</span></div>
+                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_LY_NEG)' (click)='pick(HID.GAMEPAD_AXIS_LY_NEG)'><span class='material'>keyboard_arrow_down</span></div>
                 <div class='spacing w2'></div>
                 <div class='button' [ngClass]='pickCls(HID.GAMEPAD_UP)' (click)='pick(HID.GAMEPAD_UP)'><span class='material'>arrow_upward</span></div>
                 <div class='spacing w3'></div>
-                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_RY_NEG)' (click)='pick(HID.GAMEPAD_AXIS_RY_NEG)'><span class='material'>keyboard_arrow_up</span></div>
+                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_RY)' (click)='pick(HID.GAMEPAD_AXIS_RY)'><span class='material'>keyboard_arrow_up</span></div>
                 <div class='spacing w2'></div>
                 <div class='button' [ngClass]='pickCls(HID.GAMEPAD_A)' (click)='pick(HID.GAMEPAD_A)'>A</div>
             </div>
@@ -569,7 +583,7 @@ Copyright (C) 2023, Input Labs Oy.
             <div>
                 <div class='button' [ngClass]='pickCls(HID.GAMEPAD_DOWN)' (click)='pick(HID.GAMEPAD_DOWN)'><span class='material'>arrow_downward</span></div>
                 <div class='spacing w3'></div>
-                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_RY)' (click)='pick(HID.GAMEPAD_AXIS_RY)'><span class='material'>keyboard_arrow_down</span></div>
+                <div class='button' [ngClass]='pickCls(HID.GAMEPAD_AXIS_RY_NEG)' (click)='pick(HID.GAMEPAD_AXIS_RY_NEG)'><span class='material'>keyboard_arrow_down</span></div>
             </div>
         </div>
 
