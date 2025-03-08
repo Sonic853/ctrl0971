@@ -54,9 +54,10 @@ Copyright (C) 2023, Input Labs Oy.
                 [ngClass]='device==webusb.selectedDevice ? "selected" : ""'
                 (click)='webusb.selectDevice(device)'
                 >
-                <span>{{device.usbDevice.productName}}</span>
-                <span *ngIf='device.usbDevice.productName=="Alpakka"' class='material'>stadia_controller</span>
-                <span *ngIf='device.usbDevice.productName=="Dongle"' class='material'>settings_remote</span>
+                <span>{{device.getName()}}</span>
+                <span *ngIf='device.isController() && !device.isProxy()' class='material'>usb</span>
+                <span *ngIf='device.isProxy()' class='material'>sensors</span>
+                <span *ngIf='device.isDongle()' class='material'>settings_remote</span>
             </div>
         </div>
         <div class='add' (click)='webusb.requestDevice()'>

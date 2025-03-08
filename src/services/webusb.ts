@@ -6,7 +6,7 @@
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { HID } from 'lib/hid'
-import { Device } from 'lib/device'
+import { Device, deviceWirelessProxyHandler } from 'lib/device'
 import { PresetWithValues } from 'lib/tunes'
 import { ConfigIndex, SectionIndex, CtrlSection } from 'lib/ctrl'
 
@@ -118,6 +118,12 @@ export class WebusbService {
   addDevice(usbDevice: USBDevice) {
     let device = new Device(usbDevice)
     this.devices.push(device)
+    if (device.isDongle()) {
+      // Dongle wireless proxy.
+      const proxy = new Proxy(device, deviceWirelessProxyHandler)
+      device.proxiedDevice = proxy
+      this.devices.push(proxy)
+    }
     this.selectDevice(device)
   }
 
@@ -126,6 +132,9 @@ export class WebusbService {
     // Remove device from list.
     let index = this.devices.indexOf(device)
     this.devices.splice(index, 1);
+    if (device.isDongle()) {
+      this.removeDevice(device.proxiedDevice!)
+    }
     // Select other device.
     if (this.devices.length > 0) {
       this.selectDevice(this.devices[0])
@@ -137,6 +146,8 @@ export class WebusbService {
   selectDevice(device?: Device) {
     this.selectedDevice = device
     if (!device) return
+    // Proxy switch.
+    device.proxyEnabled = device.isProxy()
     // Force component refresh with dummy redirect technique.
     // (retriggers component ngOnInit).
     const refresh = (url?: string) => {
