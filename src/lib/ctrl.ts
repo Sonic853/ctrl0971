@@ -7,6 +7,11 @@ import { ActionGroup } from './actions'
 
 export const PACKAGE_SIZE = 64
 
+export enum CtrlProtocolFlags {
+  NONE = 1,
+  WIRELESS
+}
+
 enum DeviceId {
   ALPAKKA = 1,
 }
@@ -194,7 +199,7 @@ function string_to_buffer(size: number, str: string) {
 
 export class Ctrl {
   constructor(
-    public protocolVersion: number,
+    public protocolFlags: number,
     public deviceId: number,
     public messageType: MessageType,
   ) {}
@@ -206,7 +211,7 @@ export class Ctrl {
   encode() {
     const data = new Uint8Array(PACKAGE_SIZE)
     // console.log(data)
-    data[0] = this.protocolVersion
+    data[0] = this.protocolFlags
     data[1] = this.deviceId
     data[2] = this.messageType
     data[3] = this.payload().length
@@ -238,11 +243,11 @@ export class Ctrl {
 
 export class CtrlLog extends Ctrl {
   constructor(
-    public override protocolVersion: number,
+    public override protocolFlags: number,
     public override deviceId: number,
     public logMessage: string
   ) {
-    super(protocolVersion, deviceId, MessageType.LOG)
+    super(protocolFlags, deviceId, MessageType.LOG)
   }
 
   static override decode(buffer: Uint8Array) {

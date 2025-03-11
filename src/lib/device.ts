@@ -9,6 +9,7 @@ import { delay } from 'lib/delay'
 import { Tunes, PresetWithValues } from 'lib/tunes'
 import {
   Ctrl,
+  CtrlProtocolFlags,
   CtrlLog,
   CtrlProc,
   ConfigIndex,
@@ -32,8 +33,11 @@ const TIMEOUT = 500
 
 export class Device {
   usbDevice: USBDevice
+  proxiedDevice?: Device
+  proxyEnabled: boolean = false
   deviceVersion = [0, 0, 0]
   logs: string[] = []
+  logsProxy: string[] = []
   isConnected = false
   isConnectedRaw = false
   isListening = false
@@ -131,6 +135,10 @@ export class Device {
     }
   }
 
+  getName() {
+    return this.usbDevice.productName
+  }
+
   isController() {
     if (this.usbDevice.productName == 'Alpakka') return true
     return false
@@ -148,11 +156,22 @@ export class Device {
     return this.usbDevice.serialNumber == 'v1'
   }
 
+  isProxy() {
+    return false
+  }
+
+  clearLogs() {
+    if (this.proxyEnabled) this.logsProxy = []
+    else this.logs = []
+  }
+
   handleCtrlLog(ctrl: CtrlLog) {
-    if (!this.logs[0] || this.logs[0]?.endsWith('\n')) {
-      this.logs.unshift(ctrl.logMessage)
+    let targetLogs = this.logs
+    if (ctrl.protocolFlags == CtrlProtocolFlags.WIRELESS) targetLogs = this.logsProxy
+    if (!targetLogs[0] || targetLogs[0]?.endsWith('\n')) {
+      targetLogs.unshift(ctrl.logMessage)
     } else {
-      this.logs[0] += ctrl.logMessage
+      targetLogs[0] += ctrl.logMessage
     }
     // console.log(ctrl.logMessage)
   }
@@ -197,6 +216,9 @@ export class Device {
   }
 
   async send(ctrl: CtrlProc | CtrlStatusGet | CtrlStatusSet | CtrlConfigGet | CtrlProfileGet) {
+    if (this.proxyEnabled) {
+      ctrl.protocolFlags = CtrlProtocolFlags.WIRELESS
+    }
     // console.log(ctrl)
     await this.usbDevice.transferOut(ADDR_OUT, ctrl.encode())
   }
@@ -278,4 +300,21 @@ export class Device {
     return Promise.race([responsePromise, timeout])
   }
 
+}
+
+// Fake wireless device connected to dongle.
+// The WebUSB underlying operations are controlled by the dongle device,
+// but some properties are overridden via proxy.
+export const deviceWirelessProxyHandler = {
+  get(target:Device, property:keyof Device) {
+    const key = String(property)
+    if (key == 'getName') return ()=>'Alpakka'
+    if (key == 'logs') return target.logsProxy
+    if (key == 'isController') return ()=>true
+    if (key == 'isDongle') return ()=>false
+    if (key == 'isAlpakkaV0') return ()=>false
+    if (key == 'isAlpakkaV1') return ()=>true
+    if (key == 'isProxy') return ()=>true
+    return target[property]
+  }
 }
