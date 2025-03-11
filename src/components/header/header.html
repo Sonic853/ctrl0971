@@ -45,7 +45,7 @@ Copyright (C) 2023, Input Labs Oy.
     <div class=filler></div>
 
     <div class='notification' *ngIf='shouldNotifyFirmware()' (click)='showDialogFirmware()'>
-        <span class='material'>notifications</span>
+        <span class='material'>emergency_home</span>
     </div>
 
     <div class='connection'>
@@ -68,11 +68,11 @@ Copyright (C) 2023, Input Labs Oy.
 </div>
 
 <dialog id='dialog-firmware'>
-    <h3>Firmware update available</h3>
+    <h3>Firmware update required</h3>
     <div>
-        The firmware on the controller is outdated, the Ctrl app won't work correctly.<br/>
+        The firmware on the device is outdated, the Ctrl app won't work correctly.<br/>
         <br/>
-        Current controller firmware: <span class='em'>{{firmwareAsString(webusb.getDeviceVersion())}}</span><br/>
+        Current device firmware: <span class='em'>{{firmwareAsString(webusb.getDeviceVersion())}}</span><br/>
         Minimum recommended firmware: <span class='em'>{{firmwareAsString(LATEST_FIRMWARE)}}+</span><br/>
         <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>
