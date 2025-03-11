@@ -156,11 +156,6 @@ export class WebusbService {
         this.router.navigateByUrl(url ? url : originalUrl)
       })
     }
-    // Force protocol setting page if new device is dongle.
-    if (device.isDongle() && this.router.url.startsWith('/settings')) {
-      refresh('/settings/protocol')
-      return
-    }
     // If any other profile or setting page, just refresh the same page.
     const pages = ['/profiles', '/settings']
     for(let page of pages) {

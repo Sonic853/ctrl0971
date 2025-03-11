@@ -3,7 +3,7 @@
 
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ActivatedRoute } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { LedComponent } from 'components/led/led'
 import { InputNumberComponent } from 'components/input_number/input_number'
 import { WebusbService } from 'services/webusb'
@@ -61,6 +61,7 @@ export class TuneComponent {
   dialogProtocolConfirmFunc: any
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     public webusb: WebusbService,
   ) {
@@ -71,9 +72,14 @@ export class TuneComponent {
   }
 
   ngOnInit() {
-    // Refresh data if device changes.
     if (!this.webusb.selectedDevice) return
     this.device = this.webusb.selectedDevice
+    // Avoid tune options not in dongle.
+    if (this.webusb.isDongle()) {
+      if (['mouse_sens', 'touch_sens', 'deadzone'].includes(this.mode.url)) {
+        this.router.navigate(['/settings/protocol'])
+      }
+    }
     this.init()
   }
 
