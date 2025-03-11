@@ -186,12 +186,22 @@ export class WebusbService {
     return this.selectedDevice.isController()
   }
 
+  isDongle() {
+    if (!this.selectedDevice) return false
+    return this.selectedDevice.isDongle()
+  }
+
+  isProxy() {
+    if (!this.selectedDevice) return false
+    return this.selectedDevice.isProxy()
+  }
+
   getLogs() {
     return this.selectedDevice!.logs
   }
 
   clearLogs() {
-    this.selectedDevice!.logs = []
+    this.selectedDevice!.clearLogs()
   }
 
   async sendProc(proc: HID) {

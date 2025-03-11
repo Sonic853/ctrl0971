@@ -160,6 +160,11 @@ export class Device {
     return false
   }
 
+  clearLogs() {
+    if (this.proxyEnabled) this.logsProxy = []
+    else this.logs = []
+  }
+
   handleCtrlLog(ctrl: CtrlLog) {
     let targetLogs = this.logs
     if (ctrl.protocolFlags == CtrlProtocolFlags.WIRELESS) targetLogs = this.logsProxy

@@ -56,12 +56,12 @@ Copyright (C) 2023, Input Labs Oy.
 <div class='panel'>
     <h2>Commands</h2>
     <button (click)='webusb.sendProc(HID.PROC_RESTART)'>Restart</button>
-    <button (click)='webusb.sendProc(HID.PROC_BOOTSEL)'>Restart in bootsel mode</button>
+    <button *ngIf='!webusb.isProxy()' (click)='webusb.sendProc(HID.PROC_BOOTSEL)'>Restart in bootsel mode</button>
     <button *ngIf='webusb.isController()' (click)='dialogCalibrate.showModal()'>Calibrate</button>
     <button (click)='dialogResetConfig.showModal()'>Reset config</button>
     <button *ngIf='webusb.isController()' (click)='dialogResetProfiles.showModal()'>Reset all profiles</button>
     <button (click)='dialogResetFactory.showModal()'>Reset to factory settings</button>
-    <button (click)='dialogForget.showModal()'>Unpair</button>
+    <button *ngIf='!webusb.isProxy()' (click)='dialogForget.showModal()'>Unpair</button>
 </div>
 
 <dialog id='dialog-calibrate'>
