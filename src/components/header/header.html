@@ -56,7 +56,7 @@ Copyright (C) 2023, Input Labs Oy.
                 >
                 <span>{{device.getName()}}</span>
                 <span *ngIf='device.isController() && !device.isProxy()' class='material'>usb</span>
-                <span *ngIf='device.isProxy()' class='material'>sensors</span>
+                <span *ngIf='device.isProxy()' class='material'>nest_remote_comfort_sensor</span>
                 <span *ngIf='device.isDongle()' class='material'>settings_remote</span>
             </div>
         </div>
@@ -67,12 +67,12 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
 </div>
 
-<dialog id='dialog-firmware'>
+<dialog id='dialog-firmware' *ngIf='webusb.isConnected()'>
     <h3>Firmware update required</h3>
     <div>
-        The firmware on the device is outdated, the Ctrl app won't work correctly.<br/>
+        {{webusb.selectedDevice!.getConnectorName()}} firmware is outdated, the Ctrl app won't work correctly.<br/>
         <br/>
-        Current device firmware: <span class='em'>{{firmwareAsString(webusb.getDeviceVersion())}}</span><br/>
+        Current {{webusb.selectedDevice!.getConnectorName()}} firmware: <span class='em'>{{firmwareAsString(webusb.getDeviceVersion())}}</span><br/>
         Minimum recommended firmware: <span class='em'>{{firmwareAsString(LATEST_FIRMWARE)}}+</span><br/>
         <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>
