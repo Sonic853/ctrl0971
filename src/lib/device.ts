@@ -139,6 +139,11 @@ export class Device {
     return this.usbDevice.productName
   }
 
+  getConnectorName() {
+    if (this.proxyEnabled) return this.usbDevice.productName  // Proxy is bypassed.
+    else return this.getName()
+  }
+
   isController() {
     if (this.usbDevice.productName == 'Alpakka') return true
     return false
