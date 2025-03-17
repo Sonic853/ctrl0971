@@ -14,7 +14,7 @@ import { SectionIndex, sectionIsAnalog } from 'lib/ctrl'
 import { ThumbstickMode, ThumbstickDistanceMode, GyroMode } from 'lib/ctrl'
 import { ActionGroup } from 'lib/actions'
 import { HID, isAxis } from 'lib/hid'
-import { PIN } from 'lib/pin'
+import { PinV0, PinV1 } from 'lib/pin'
 import { delay } from 'lib/delay'
 
 @Component({
@@ -43,7 +43,6 @@ export class SectionComponent {
   profiles = this.webusb.getProfiles()!
   // Template aliases.
   HID = HID
-  PIN = PIN
   SectionIndex = SectionIndex
   GyroMode = GyroMode
   ThumbstickMode = ThumbstickMode
@@ -80,6 +79,11 @@ export class SectionComponent {
   getLabels() {
     const section = this.section as (CtrlButton | CtrlRotary)
     return section.labels
+  }
+
+  getPins() {
+    if (this.webusb.selectedDevice!.isAlpakkaV0()) return PinV0
+    else return PinV1
   }
 
   isButtonBlockVisible(group: number) {

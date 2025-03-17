@@ -272,28 +272,28 @@ Copyright (C) 2023, Input Labs Oy.
             [(ngModel)]='gyro.engage'
             (ngModelChange)='save()'
             >
-            <option [value]='PIN.NONE'>None</option>
-            <option [value]='PIN.TOUCH_IN'>Hexagon surface</option>
-            <option [value]='PIN.A'>A</option>
-            <option [value]='PIN.B'>B</option>
-            <option [value]='PIN.X'>X</option>
-            <option [value]='PIN.Y'>Y</option>
-            <option [value]='PIN.DPAD_LEFT'>DPad Left</option>
-            <option [value]='PIN.DPAD_RIGHT'>DPad Right</option>
-            <option [value]='PIN.DPAD_UP'>DPad Up</option>
-            <option [value]='PIN.DPAD_DOWN'>DPad Down</option>
-            <option [value]='PIN.L1'>L1</option>
-            <option [value]='PIN.L2'>L2</option>
-            <option [value]='PIN.L3'>L3</option>
-            <option [value]='PIN.L4'>L4</option>
-            <option [value]='PIN.R1'>R1</option>
-            <option [value]='PIN.R2'>R2</option>
-            <option [value]='PIN.DHAT_PUSH'>R3</option>
-            <option [value]='PIN.R4'>R4</option>
-            <option [value]='PIN.SELECT_1'>Select</option>
-            <option [value]='PIN.START_1'>Start</option>
-            <option [value]='PIN.SELECT_2'>Select (2)</option>
-            <option [value]='PIN.START_2'>Start (2)</option>
+            <option [value]='getPins().NONE'>None</option>
+            <option [value]='getPins().TOUCH_IN'>Hexagon surface</option>
+            <option [value]='getPins().A'>A</option>
+            <option [value]='getPins().B'>B</option>
+            <option [value]='getPins().X'>X</option>
+            <option [value]='getPins().Y'>Y</option>
+            <option [value]='getPins().DPAD_LEFT'>DPad Left</option>
+            <option [value]='getPins().DPAD_RIGHT'>DPad Right</option>
+            <option [value]='getPins().DPAD_UP'>DPad Up</option>
+            <option [value]='getPins().DPAD_DOWN'>DPad Down</option>
+            <option [value]='getPins().L1'>L1</option>
+            <option [value]='getPins().L2'>L2</option>
+            <option [value]='getPins().L3'>L3</option>
+            <option [value]='getPins().L4'>L4</option>
+            <option [value]='getPins().R1'>R1</option>
+            <option [value]='getPins().R2'>R2</option>
+            <option [value]='getPins().R3'>R3</option>
+            <option [value]='getPins().R4'>R4</option>
+            <option [value]='getPins().SELECT_1'>Select</option>
+            <option [value]='getPins().SELECT_2'>Select (2)</option>
+            <option [value]='getPins().START_1'>Start</option>
+            <option [value]='getPins().START_2'>Start (2)</option>
         </select>
     </div>
 </div>
