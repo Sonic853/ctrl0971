@@ -582,7 +582,7 @@ export class CtrlThumbstick extends CtrlSection {
       data[9] <= 128 ? data[9] : data[9]-256,  // Axis overlap (unsigned to signed).
       Boolean(data[10]),  // Deadzone override.
       data[11], // Antideadzone.
-      data[12], // Saturation.
+      data[12] > 0 ? data[12] : 100, // Saturation.
     )
   }
 
