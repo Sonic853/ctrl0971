@@ -3,10 +3,19 @@
 
 /// <reference types="w3c-web-usb" />
 
-import { Ctrl, CtrlSectionMeta, CtrlButton, CtrlRotary, CtrlThumbstick, CtrlSection } from 'lib/ctrl'
 import { MessageType, SectionIndex, CtrlGyro, CtrlGyroAxis } from 'lib/ctrl'
 import { Device } from 'lib/device'
 import { Profile } from 'lib/profile'
+import {
+  Ctrl,
+  CtrlSectionMeta,
+  CtrlButton,
+  CtrlRotary,
+  CtrlThumbstick,
+  CtrlSection,
+  ThumbstickMode,
+  ThumbstickDistanceMode
+} from 'lib/ctrl'
 
 const NUMBER_OF_PROFILES = 13  // Home + 12 builtin.
 
@@ -131,6 +140,7 @@ export class Profiles {
   }
 
   async loadFromBlob(profileIndex: number, data: Uint8Array) {
+    let sections: CtrlSection[] = []
     for(let i=0; i<data.length; i+=60) {
       const rawData = data.slice(i, i+60)
       const sectionData = [
@@ -142,8 +152,38 @@ export class Profiles {
         ...rawData,
       ]
       const section = Ctrl.decode(new Uint8Array(sectionData)) as CtrlSection
+      sections.push(section)
+    }
+    sections = this.upgradeFrom097to100(sections)
+    for(let section of sections) {
+      console.log('Section from blob', section)
       await this.device.setSection(profileIndex, section)
     }
     this.fetchProfile(profileIndex, true)
+  }
+
+  upgradeFrom097to100(sections: CtrlSection[]): CtrlSection[] {
+    // Inject default right stick settings if not defined.
+    // (Default made to resemble digital 8-dir as in old controllers).
+    const hasRightThumbstick = (
+      sections
+      .filter((section => section instanceof CtrlThumbstick))
+      .length == 2
+    )
+    if (!hasRightThumbstick) {
+      const rStickSection = new CtrlThumbstick(
+        sections[0].profileIndex,
+        SectionIndex.RSTICK_SETTINGS,
+        ThumbstickMode.DIR8,
+        ThumbstickDistanceMode.AXIAL,
+        60,  // Deadzone.
+        50,  // Axis overlap (unsigned to signed).
+        true,  // Deadzone override.
+        0, // Antideadzone.
+        70, // Saturation.
+      )
+      sections.push(rStickSection)
+    }
+    return sections
   }
 }
