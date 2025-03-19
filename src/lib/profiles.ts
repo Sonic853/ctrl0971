@@ -163,6 +163,11 @@ export class Profiles {
   }
 
   upgradeFrom097to100(sections: CtrlSection[]): CtrlSection[] {
+    // Bump profile version.
+    const meta = sections.find(s => s instanceof CtrlSectionMeta) as CtrlSectionMeta
+    meta.versionMajor = 1
+    meta.versionMinor = 0
+    meta.versionPatch = 0
     // Inject default right stick settings if not defined.
     // (Default made to resemble digital 8-dir as in old controllers).
     const hasRightThumbstick = (
