@@ -3,6 +3,10 @@ name: Deploy static content to Pages
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        required: true
+        default: 'main'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -26,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Build Page
         uses: actions/setup-node@v4
