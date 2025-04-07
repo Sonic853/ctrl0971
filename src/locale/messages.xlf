@@ -885,6 +885,10 @@
           <context context-type="sourcefile">src/components/logs/logs.html</context>
           <context context-type="linenumber">75</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">280</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="1412509208547146532" datatype="html">
         <source>Reset config values</source>
@@ -940,6 +944,494 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/action_selector.html</context>
           <context context-type="linenumber">13,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4915431133669985304" datatype="html">
+        <source>Profile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7658402240953727096" datatype="html">
+        <source>Name:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7603807266305377715" datatype="html">
+        <source>Copy profile from:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7251303786709815525" datatype="html">
+        <source>Select a profile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3603607767992403073" datatype="html">
+        <source>Default - FPS Fusion</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9139729764884549442" datatype="html">
+        <source>Default - FPS WASD</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3048446400833982940" datatype="html">
+        <source>Default - Racing</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4537203279060008511" datatype="html">
+        <source>Default - Flight</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7247913378996341430" datatype="html">
+        <source>Default - Console</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="488701694645754124" datatype="html">
+        <source>Default - Console Legacy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1415802650189230248" datatype="html">
+        <source>Default - Desktop</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3473816472685499365" datatype="html">
+        <source>Default - RTS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6349380662719384717" datatype="html">
+        <source>Default - Custom (empty)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1290458664974105493" datatype="html">
+        <source>Import / export:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4296018467360867315" datatype="html">
+        <source> Load from file <x id="TAG_INPUT" ctype="x-input" equiv-text="&lt;input
+                    type=&apos;file&apos;
+                    accept=&apos;.ctrl&apos;
+                    (change)=&apos;profileLoad($any($event).target.files)&apos;
+                /&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">53,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5061824733021207875" datatype="html">
+        <source>Save to file</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3007982943291829754" datatype="html">
+        <source>Home button</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8154623589922396675" datatype="html">
+        <source>Home button mappings are not configurable yet.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="841498412745733319" datatype="html">
+        <source>Holding (pink) the Home button, enables the shortcuts from the Home profile. These can be modified in the Home profile page.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="33356841036211362" datatype="html">
+        <source>Double-clicking (purple) the Home button, emulates the native gamepad home/guide button.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5270070351385858959" datatype="html">
+        <source>Double-clicking and holding the Home button allows for shortcuts such as &quot;Guide+X&quot; when pressing other buttons.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="715722649218993420" datatype="html">
+        <source>Long press</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2874231737589398838" datatype="html">
+        <source>Double press</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1743864392140452193" datatype="html">
+        <source>Immediate / trigger both</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6817431195965793398" datatype="html">
+        <source>Very long press</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5033591810829285284" datatype="html">
+        <source>Home cycle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6470483779445626442" datatype="html">
+        <source>On scroll up:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1261398282076664245" datatype="html">
+        <source>On scroll down:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3931464303130647899" datatype="html">
+        <source>Mode:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">168</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">243</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3500458863157551898" datatype="html">
+        <source>Off</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">173</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">248</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4268767554047266275" datatype="html">
+        <source>4 directions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">174</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5995733499749363419" datatype="html">
+        <source>Alphanumeric</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">175</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2115641508363916782" datatype="html">
+        <source>Distance calculation:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">179</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6867057976377925549" datatype="html">
+        <source>Axial</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">184</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="665924690919264959" datatype="html">
+        <source>Radial</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">185</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4369184567415441043" datatype="html">
+        <source>Axis overlap:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7781360806304245829" datatype="html">
+        <source>Deadzone:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">202</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="437153374710331773" datatype="html">
+        <source>Override global deadzone</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">205</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2541614838847717392" datatype="html">
+        <source>Anti-deadzone:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">225</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3357990158664370328" datatype="html">
+        <source>Always On</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">249</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5309880325977197419" datatype="html">
+        <source>Touch Off</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">250</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5676473758439073797" datatype="html">
+        <source>Touch On</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">251</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8610959434704936767" datatype="html">
+        <source>As absolute axis</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">252</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4067909080153790909" datatype="html">
+        <source>Engage surface/button:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">256</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6252070156626006029" datatype="html">
+        <source>None</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5719424070220437792" datatype="html">
+        <source>Hexagon surface</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">262</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1626736638119145418" datatype="html">
+        <source>DPad Left</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">267</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3313233846046436085" datatype="html">
+        <source>DPad Right</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">268</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7635607951232472394" datatype="html">
+        <source>DPad Up</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">269</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1270586436369095851" datatype="html">
+        <source>DPad Down</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">270</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3797570084942068182" datatype="html">
+        <source>Select</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">279</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7634175120496957716" datatype="html">
+        <source>Select (2)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">281</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2506111472765806522" datatype="html">
+        <source>Start (2)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">282</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8316992595534586700" datatype="html">
+        <source>On axis rotation (negative):</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">291</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7569412806567592923" datatype="html">
+        <source>On axis rotation (positive):</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">302</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1288662123225744920" datatype="html">
+        <source>Min Angle:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">313</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="137492010204935433" datatype="html">
+        <source>Max Angle:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">326</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6837938753645297409" datatype="html">
+        <source>SET PROFILE <x id="INTERPOLATION" equiv-text="{{pickerProfile}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">489,490</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1615506683033943537" datatype="html">
+        <source>SET ROTARY <x id="INTERPOLATION" equiv-text="{{pickerRotary}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">494,495</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6651140305118126328" datatype="html">
+        <source>MACRO <x id="INTERPOLATION" equiv-text="{{pickerMacro}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">499,500</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6383229356575987049" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>PROTOCOL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">504</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7430275318293672857" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>MOUSE SENS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">505</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="133857118319682093" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>TOUCH SENS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">506</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1871590217751752879" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>TS DEADZONE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">507</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4198665451107896783" datatype="html">
+        <source>CALIBRATE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">514</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2061433929980104347" datatype="html">
+        <source>BOOTSEL</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">515</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="97593744425467674" datatype="html">
+        <source>THANKS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">516</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7819314041543176992" datatype="html">
+        <source>Close</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">614</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8821221480638803282" datatype="html">
