@@ -1198,7 +1198,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="1743864392140452193" datatype="html">
-        <source>Immediate / trigger both</source>
+        <source>立即 / 触发两者</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">104</context>
@@ -1303,6 +1303,7 @@
       </trans-unit>
       <trans-unit id="7781360806304245829" datatype="html">
         <source>Deadzone:</source>
+        <target>死区：</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">202</context>
@@ -1310,6 +1311,7 @@
       </trans-unit>
       <trans-unit id="437153374710331773" datatype="html">
         <source>Override global deadzone</source>
+        <target>覆盖全局死区</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">205</context>
@@ -1317,6 +1319,7 @@
       </trans-unit>
       <trans-unit id="2541614838847717392" datatype="html">
         <source>Anti-deadzone:</source>
+        <target>防死区：</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">225</context>
@@ -1324,6 +1327,7 @@
       </trans-unit>
       <trans-unit id="3357990158664370328" datatype="html">
         <source>Always On</source>
+        <target>始终开启</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">249</context>
@@ -1331,6 +1335,7 @@
       </trans-unit>
       <trans-unit id="5309880325977197419" datatype="html">
         <source>Touch Off</source>
+        <target>触摸关闭</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">250</context>
@@ -1338,6 +1343,7 @@
       </trans-unit>
       <trans-unit id="5676473758439073797" datatype="html">
         <source>Touch On</source>
+        <target>触摸开启</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">251</context>
@@ -1614,6 +1620,7 @@
       </trans-unit>
       <trans-unit id="5060874843162449565" datatype="html">
         <source>Additionally on long press:</source>
+        <target>当继续长按时：</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">106</context>
