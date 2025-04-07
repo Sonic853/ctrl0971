@@ -946,6 +946,13 @@
           <context context-type="linenumber">13,15</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4897817053917542646" datatype="html">
+        <source>Add label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/action_selector.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4915431133669985304" datatype="html">
         <source>Profile</source>
         <context-group purpose="location">
@@ -1434,6 +1441,84 @@
           <context context-type="linenumber">614</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5114286400817437983" datatype="html">
+        <source>On button press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3669679395702054583" datatype="html">
+        <source>On short press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5894159537686042079" datatype="html">
+        <source>On press (always):</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="728647875682575884" datatype="html">
+        <source>On single press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="745946818439081690" datatype="html">
+        <source>On first press (always):</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7559381838139482921" datatype="html">
+        <source>On every press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7869190463389570728" datatype="html">
+        <source>Otherwise on long press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1545400936762142925" datatype="html">
+        <source>On long press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5060874843162449565" datatype="html">
+        <source>Additionally on long press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5102533559126781619" datatype="html">
+        <source>On double press:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.ts</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8821221480638803282" datatype="html">
         <source>Advanced settings</source>
         <context-group purpose="location">
@@ -1446,6 +1531,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.html</context>
           <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4396037219921401738" datatype="html">
@@ -1461,6 +1550,10 @@
           <context context-type="sourcefile">src/components/settings/settings.html</context>
           <context context-type="linenumber">23</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="3328403654633316091" datatype="html">
         <source>Left&lt;-&gt;Right</source>
@@ -1474,6 +1567,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.html</context>
           <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4527527451805092136" datatype="html">
@@ -1496,6 +1593,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.html</context>
           <context context-type="linenumber">83</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6852368223081272611" datatype="html">
@@ -1524,6 +1625,48 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.html</context>
           <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7460464286182666139" datatype="html">
+        <source>In some cases the drift could be changing direction so slowly that a normal calibration is
+        not able to capture it completely. A longer calibration will do a better job
+        averaging the drift.&lt;br&gt;&lt;br&gt;
+        After enabling this setting, any new calibration procedure will take 4x times longer.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">89,92</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6236789515702347385" datatype="html">
+        <source>In some cases one of the IMU sensors could be more sensitive to temperature-induced drift,
+        since each gyroscope sensor is configured in a slightly different way, swapping their roles
+        could help preventing this issue.&lt;br&gt;&lt;br&gt;
+        A re-calibration is required after enabling this feature.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">94,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9118109481694144206" datatype="html">
+        <source>The touch sensor works by measuring how long it takes to charge up or charge down the touch
+        plate (and anything that touches it). This polarity setting controls which one it is
+        (up or down).&lt;br&gt;&lt;br&gt;
+        If you are having problems with the touch sensor, this feature could help making the
+        measurements more stable.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">99,103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5075277402108714844" datatype="html">
+        <source>Since the calibration has to be performed with the controller on a flat surface, it is
+        possible that the piezoelectric sensor has slightly different zero readings while tilted
+        back and held in a normal gaming position.&lt;br&gt;&lt;br&gt;
+        If this problem is noticeable, it can be solved by manually adding additional offsets into
+        the calibration values.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">105,109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4355325822938424405" datatype="html">
@@ -1560,6 +1703,10 @@
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
           <context context-type="linenumber">87</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="691401936955174706" datatype="html">
         <source>Mouse sensitivity</source>
@@ -1567,12 +1714,20 @@
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
           <context context-type="linenumber">91</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="895573909873208585" datatype="html">
         <source>Thumbstick deadzone</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
           <context context-type="linenumber">95</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6201638315245239510" datatype="html">
@@ -1601,6 +1756,137 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
           <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1144181435169393677" datatype="html">
+        <source>Communication protocol</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4739888351445187545" datatype="html">
+        <source>and Steam Deck</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6486507492018628427" datatype="html">
+        <source>Generic</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4398346843190486149" datatype="html">
+        <source>aka DirectInput</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3904291878108633028" datatype="html">
+        <source>Auto low</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2116797009540918380" datatype="html">
+        <source>More stable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5417077995384162807" datatype="html">
+        <source>Auto mid</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5607669932062416162" datatype="html">
+        <source>Default</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="502909983567037693" datatype="html">
+        <source>Auto high</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8274962657524377657" datatype="html">
+        <source>More responsive</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9052440263580439664" datatype="html">
+        <source>Custom 2</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3756511278288848928" datatype="html">
+        <source>Custom 1</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="802458941707537739" datatype="html">
+        <source>Low</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9005163798035816176" datatype="html">
+        <source>Mid</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">181</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">196</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8063651736083474594" datatype="html">
+        <source>High</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">182</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">197</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6475975979382223955" datatype="html">
+        <source>Smaller center radius</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9094669397657904930" datatype="html">
+        <source>Bigger center radius</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">197</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5156047489151158244" datatype="html">
