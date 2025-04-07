@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="5123155114532157123" datatype="html">
+        <source>Setup in Windows</source>
+        <target>在 Windows 设置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2851421031928500282" datatype="html">
+        <source>Compatible browsers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7651588695311310031" datatype="html">
+        <source>Protocol mode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9181973863327176105" datatype="html">
+        <source>Pair controller</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2650032704187884883" datatype="html">
+        <source>Known issues</source>
+        <target>已知问题</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1396161949350825621" datatype="html">
+        <source>The controller may have to be <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;code&apos;&gt;"/>unplugged and plugged at least once<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> after opening the browser.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8821221480638803282" datatype="html">
+        <source>Advanced settings</source>
+        <target>高级设置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
