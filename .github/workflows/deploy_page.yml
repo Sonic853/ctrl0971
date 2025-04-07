@@ -33,16 +33,21 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch }}
 
-      - name: Build Page
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
           cache: 'npm'
 
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: latest
+
       - run: sed -i "s|0.0.0|${GITHUB_REF}|" src/lib/version.ts
       - run: sed -i "s|abcdef123456|${GITHUB_SHA}|" src/lib/version.ts
-      - run: npm ci
-      - run: npm install @angular/cli
-      - run: npx ng build --localize
+      - run: pnpm ci
+      - run: pnpm i
+      - run: pnpm run build
       - run: cp _redirects dist/ctrl/_redirects
 
       # move dist\ctrl\en-US to dist\ctrl\
