@@ -1903,6 +1903,20 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1388780615416818063" datatype="html">
+        <source>Missing Udev rules?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/services/webusb.ts</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7141219267026291384" datatype="html">
+        <source>Try re-plugging the controller.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/services/webusb.ts</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
