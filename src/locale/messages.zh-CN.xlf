@@ -125,6 +125,10 @@
           <context context-type="sourcefile">src/components/logs/logs.html</context>
           <context context-type="linenumber">114</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="5269451513559029194" datatype="html">
         <source>Unpair</source>
@@ -1888,6 +1892,30 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
           <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2638624180494426243" datatype="html">
+        <source>Protocol change</source>
+        <target>协议更改</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="448295002900108742" datatype="html">
+        <source> The controller will restart using a different protocol, you may have to pair the controller again, or revert back to the current protocol via button shotcuts. </source>
+        <target> 控制器将使用不同的协议重新启动，您可能必须再次配对控制器，或者通过按钮快捷键恢复到先前协议。 </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.html</context>
+          <context context-type="linenumber">48,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1230154438678955604" datatype="html">
+        <source>Change</source>
+        <target>更改</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.html</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1144181435169393677" datatype="html">
