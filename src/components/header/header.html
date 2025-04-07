@@ -13,6 +13,7 @@ Copyright (C) 2023, Input Labs Oy.
         <a
             routerLink='{{lastRouteForTools}}'
             [ngClass]='this.routeIsTools()'
+            i18n
             >
             Tools
         </a>
@@ -21,6 +22,7 @@ Copyright (C) 2023, Input Labs Oy.
         <a
             routerLink='{{lastRouteForProfiles}}'
             routerLinkActive='active'
+            i18n
             >
             Profiles
         </a>
@@ -29,6 +31,7 @@ Copyright (C) 2023, Input Labs Oy.
         <a
             routerLink='{{lastRouteForSettings}}'
             routerLinkActive='active'
+            i18n
             >
             Settings
         </a>
@@ -37,6 +40,7 @@ Copyright (C) 2023, Input Labs Oy.
         <a
             routerLink='help'
             routerLinkActive='active'
+            i18n
             >
             Help
         </a>
@@ -49,7 +53,7 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
 
     <div class='connection'>
-        <div *ngIf='!webusb.isConnectedRaw' (click)='webusb.requestDevice()'>
+        <div *ngIf='!webusb.isConnectedRaw' (click)='webusb.requestDevice()' i18n>
             Not connected
             <span class='material'>usb_off</span>
         </div>
@@ -61,20 +65,20 @@ Copyright (C) 2023, Input Labs Oy.
 </div>
 
 <dialog id='dialog-forget'>
-    <h3>Unpair controller</h3>
-    <div>
+    <h3 i18n>Unpair controller</h3>
+    <div i18n>
         The current controller ({{webusb.device?.manufacturerName}} {{webusb.device?.productName}})
         will be disconnected and removed from the list of paired devices.
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogForget()' class='flat'>Cancel</button>
-        <button (click)='hideDialogForget() && webusb.forgetDevice()'>Unpair</button>
+        <button (click)='hideDialogForget()' class='flat' i18n>Cancel</button>
+        <button (click)='hideDialogForget() && webusb.forgetDevice()' i18n>Unpair</button>
     </div>
 </dialog>
 
 <dialog id='dialog-firmware'>
-    <h3>Firmware update available</h3>
-    <div>
+    <h3 i18n>Firmware update available</h3>
+    <div i18n>
         The firmware on the controller is outdated, the Ctrl app won't work correctly.<br/>
         <br/>
         Current controller firmware: <span class='em'>{{firmwareAsString(webusb.deviceVersion)}}</span><br/>
@@ -82,6 +86,6 @@ Copyright (C) 2023, Input Labs Oy.
         <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogFirmware() && firmwareAck()'>Got it!</button>
+        <button (click)='hideDialogFirmware() && firmwareAck()' i18n>Got it!</button>
     </div>
 </dialog>
