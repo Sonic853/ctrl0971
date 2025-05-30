@@ -41,6 +41,7 @@ export enum ConfigIndex {
   SWAP_GYROS,
   TOUCH_INVERT_POLARITY,
   GYRO_USER_OFFSET,
+  THUMBSTICK_SMOOTH_SAMPLES,
 }
 
 export enum SectionIndex {
