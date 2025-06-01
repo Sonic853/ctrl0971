@@ -3,7 +3,7 @@
 
 import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ProfileService } from 'services/profiles'
+import { WebusbService } from 'services/webusb'
 import { HID, isAxis } from 'lib/hid'
 import { ActionGroup } from 'lib/actions'
 import { CtrlButton, CtrlGyroAxis, CtrlRotary, CtrlHome, sectionIsAnalog } from 'lib/ctrl'
@@ -28,9 +28,10 @@ interface Icon {
 })
 export class ButtonComponent {
   @Input() section: CtrlButton | CtrlRotary | CtrlGyroAxis
+  @Input() analog: boolean = false
 
   constructor(
-    public profileService: ProfileService,
+    public webusb: WebusbService,
   ) {
     this.section = undefined as unknown as CtrlButton
   }
@@ -128,6 +129,7 @@ export class ButtonComponent {
     if (label == 'ALT_RIGHT') label = 'RAlt'
     if (label == 'SUPER_RIGHT') label = 'RWin'
     // Proc.
+    if (label == 'PROC_SLEEP') return 'Sleep'
     if (label == 'PROC_BOOTSEL') return 'Boot mode'
     if (label == 'PROC_CALIBRATE') return 'Calibrate'
     if (label == 'PROC_TUNE_OS') return 'OS'
@@ -138,7 +140,7 @@ export class ButtonComponent {
     if (label == 'PROC_TUNE_DOWN') return 'Tune down'
     if (label.startsWith('PROC_PROFILE_')) {
       const profileIndex = Number(label.split('_')[2])
-      label = this.profileService.profiles[profileIndex].meta.name
+      label = this.webusb.getProfiles()!.profiles[profileIndex].meta.name
     }
     if (label.startsWith('PROC_MACRO_')) {
       const macroIndex = Number(label.split('_')[2])
@@ -221,7 +223,7 @@ export class ButtonComponent {
       if (index==1 && this.section.hold) cls += ' hold'
       if (index==2 && this.section.double) cls += ' double'
     }
-    if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
+    if (this.analog && sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'
     }
     return cls

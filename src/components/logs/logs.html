@@ -5,24 +5,63 @@ Copyright (C) 2023, Input Labs Oy.
 
 <div class='terminal'>
     <h2>Firmware logs</h2>
+    <div class='filters'>
+        <button
+            class='material'
+            title='Enable USB logs'
+            [class.active]='filterUSB'
+            (click)='filterToggle("usb")'
+            >
+            usb
+        </button>
+        <button
+            class='material'
+            title='Enable wireless logs'
+            [class.active]='filterWireless'
+            (click)='filterToggle("wireless")'
+            >
+            wifi
+        </button>
+        <button
+            class='material'
+            title='Enable touch sensor logs'
+            [class.active]='filterTouch'
+            (click)='filterToggle("touch")'
+            >
+            touch_app
+        </button>
+        <button
+            class='material'
+            title='Download logs'
+            (click)='downloadLogs()'
+            >
+            download
+        </button>
+        <button
+            class='material'
+            title='Clear logs'
+            (click)='webusb.clearLogs()'
+            >
+            delete_forever
+        </button>
+    </div>
     <pre>
         <div class='filler'></div>
-        <span *ngIf='!webusb.logs.length'>Try using the restart button</span>
-        <span *ngIf='!webusb.logs.length'>No logs in here</span>
-        <span *ngFor='let line of webusb.logs'>{{line}}</span>
+        <span *ngIf='!webusb.getLogs().length'>Try using the restart button</span>
+        <span *ngIf='!webusb.getLogs().length'>No logs in here</span>
+        <span *ngFor='let line of webusb.getLogs()'>{{line}}</span>
     </pre>
 </div>
 
 <div class='panel'>
     <h2>Commands</h2>
     <button (click)='webusb.sendProc(HID.PROC_RESTART)'>Restart</button>
-    <button (click)='webusb.sendProc(HID.PROC_BOOTSEL)'>Restart in bootsel mode</button>
-    <button (click)='webusb.clearLogs()'>Clear logs</button>
-    <button (click)='downloadLogs()'>Download logs</button>
-    <button (click)='dialogCalibrate.showModal()'>Calibrate</button>
+    <button *ngIf='!webusb.isProxy()' (click)='webusb.sendProc(HID.PROC_BOOTSEL)'>Restart in bootsel mode</button>
+    <button *ngIf='webusb.isController()' (click)='dialogCalibrate.showModal()'>Calibrate</button>
     <button (click)='dialogResetConfig.showModal()'>Reset config</button>
-    <button (click)='dialogResetProfiles.showModal()'>Reset all profiles</button>
+    <button *ngIf='webusb.isController()' (click)='dialogResetProfiles.showModal()'>Reset all profiles</button>
     <button (click)='dialogResetFactory.showModal()'>Reset to factory settings</button>
+    <button *ngIf='!webusb.isProxy()' (click)='dialogForget.showModal()'>Unpair</button>
 </div>
 
 <dialog id='dialog-calibrate'>
@@ -75,5 +114,17 @@ Copyright (C) 2023, Input Labs Oy.
     <div class='buttons'>
         <button (click)='dialogResetFactory.close()' class='flat'>Cancel</button>
         <button (click)='dialogResetFactory.close(); webusb.sendProc(HID.PROC_RESET_FACTORY)'>Reset to factory</button>
+    </div>
+</dialog>
+
+<dialog id='dialog-forget'>
+    <h3>Unpair controller</h3>
+    <div>
+        The current device ({{webusb.getManufacturerName()}} {{webusb.getProductName()}})
+        will be disconnected and removed from the list of paired devices.
+    </div>
+    <div class='buttons'>
+        <button (click)='dialogForget.close()' class='flat'>Cancel</button>
+        <button (click)='dialogForget.close(); webusb.forgetDevice()'>Unpair</button>
     </div>
 </dialog>

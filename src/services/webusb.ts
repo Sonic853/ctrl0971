@@ -5,90 +5,99 @@
 
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
-import { AsyncSubject } from 'rxjs'
-import { delay } from 'lib/delay'
 import { HID } from 'lib/hid'
-import {
-  Ctrl,
-  CtrlLog,
-  CtrlProc,
-  ConfigIndex,
-  SectionIndex,
-  PACKAGE_SIZE,
-  CtrlConfigGet,
-  CtrlConfigSet,
-  CtrlConfigShare,
-  CtrlProfileGet,
-  CtrlSection,
-  CtrlProfileSet,
-  CtrlStatusGet,
-  CtrlStatusSet,
-  CtrlStatusShare,
-  CtrlProfileOverwrite,
-} from 'lib/ctrl'
-
-const ADDR_IN = 3
-const ADDR_OUT = 4
-
-interface PresetWithValues {
-  presetIndex: number,
-  values: number[],
-}
+import { Device, deviceWirelessProxyHandler } from 'lib/device'
+import { PresetWithValues } from 'lib/tunes'
+import { ConfigIndex, SectionIndex, CtrlSection } from 'lib/ctrl'
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebusbService {
-  browserIsCompatible = false
-  device: any = null
-  deviceVersion = [0, 0, 0]
-  logs: string[] = []
-  isConnected = false
-  isConnectedRaw = false
-  failed = false
-  failedError?: Error
-  pendingConfig?: AsyncSubject<CtrlConfigShare>
-  pendingProfile?: AsyncSubject<CtrlSection>
+  devices: Device[] = []
+  selectedDevice?: Device
 
   constructor(
     private router: Router,
   ) {
-    this.logs = []
-    this.browserIsCompatible = this.isBrowserCompatible()
-    if (!this.browserIsCompatible) return
-    navigator.usb.getDevices().then((devices) => {
-      console.log('Devices found:', devices)
-      this.logs = []
-      if (!devices.length) return
-      this.device = devices[0]
-      this.openDevice()
+    if (!this.isCompatibleBrowser()) return
+    this.checkForConnectedDevices()
+    this.configureCallbacks()
+  }
+
+  checkForConnectedDevices() {
+    navigator.usb.getDevices().then((usbDevices) => {
+      console.log('Devices found:', usbDevices)
+      if (usbDevices.length == 0) return
+      for(let usbDevice of usbDevices) {
+        this.addDevice(usbDevice)
+      }
     })
+  }
+
+  configureCallbacks() {
     navigator.usb.addEventListener("connect", (event:any) => {
       console.log('Device connected')
-      this.logs = []
-      this.device = event.device
-      this.openDevice()
+      this.addDevice(event.device)
     })
     navigator.usb.addEventListener("disconnect", (event:any) => {
       console.log('Device disconnected')
-      this.logs = []
-      this.device = null
-      this.isConnected = false
-      this.isConnectedRaw = false
-      this.deviceVersion = [0, 0, 0]
+      for(let device of this.devices) {
+        if (event.device == device.usbDevice) {
+          this.removeDevice(device)
+        }
+      }
     })
   }
 
-  isBrowserCompatible() {
+  isCompatibleBrowser() {
     return !!navigator.usb
   }
 
+  isConnected() {
+    for(let device of this.devices) {
+      if (device.isConnected) return true
+    }
+    return false
+  }
+
+  isConnectedRaw() {
+    for(let device of this.devices) {
+      if (device.isConnectedRaw) return true
+    }
+    return false
+  }
+
+  isFailed() {
+    if (!this.selectedDevice) return false
+    return this.selectedDevice!.failed
+  }
+
+  getFailedError() {
+    return this.selectedDevice!.failedError
+  }
+
   getFailedHint() {
-    if (this.failedError?.message.includes('Access')) {
+    if (this.selectedDevice!.failedError?.message.includes('Access')) {
       return 'Missing Udev rules?'
     } else {
       return 'Try re-plugging the controller.'
     }
+  }
+
+  getDeviceVersion() {
+    if (!this.selectedDevice) return [0,0,0]
+    return this.selectedDevice!.deviceVersion
+  }
+
+  getManufacturerName() {
+    if (!this.selectedDevice) return ''
+    return this.selectedDevice.usbDevice.manufacturerName
+  }
+
+  getProductName() {
+    if (!this.selectedDevice) return ''
+    return this.selectedDevice.usbDevice.productName
   }
 
   async requestDevice() {
@@ -96,190 +105,127 @@ export class WebusbService {
       {vendorId:0x0170},
       {vendorId:0x045E, productId:0x028E},
     ]
-    this.device = await navigator.usb.requestDevice({filters});
-    console.log('Request device:', this.device)
-    await this.openDevice()
+    let usbDevice = await navigator.usb.requestDevice({filters});
+    let usbDevices = this.devices.map((device) => device.usbDevice)
+    if (!usbDevices.includes(usbDevice)) {
+      let device = new Device(usbDevice)
+      this.devices.push(device)
+      this.selectDevice(device)
+      this.router.navigate(['/'])
+    }
+  }
+
+  addDevice(usbDevice: USBDevice) {
+    let device = new Device(usbDevice)
+    this.devices.push(device)
+    if (device.isDongle()) {
+      // Dongle wireless proxy.
+      const proxy = new Proxy(device, deviceWirelessProxyHandler)
+      device.proxiedDevice = proxy
+      this.devices.push(proxy)
+    }
+    this.selectDevice(device)
+  }
+
+  removeDevice(device: Device) {
+    device.disconnectCallback()
+    // Remove device from list.
+    let index = this.devices.indexOf(device)
+    this.devices.splice(index, 1);
+    if (device.isDongle()) {
+      this.removeDevice(device.proxiedDevice!)
+    }
+    // Select other device.
+    if (this.devices.length > 0) {
+      this.selectDevice(this.devices[0])
+    } else {
+      this.selectDevice(undefined)
+    }
+  }
+
+  selectDevice(device?: Device) {
+    this.selectedDevice = device
+    if (!device) return
+    // Proxy switch.
+    device.proxyEnabled = device.isProxy()
+    // Force component refresh with dummy redirect technique.
+    // (retriggers component ngOnInit).
+    const refresh = (url?: string) => {
+      const originalUrl = this.router.url
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigateByUrl(url ? url : originalUrl)
+      })
+    }
+    // If any other profile or setting page, just refresh the same page.
+    const pages = ['/profiles', '/settings']
+    for(let page of pages) {
+      if (this.router.url.startsWith(page)) {
+        refresh()
+      }
+    }
+  }
+
+  listDevices() {
+    return this.devices.sort((a, b) => a.isController() ? 1 : -1)
   }
 
   async forgetDevice() {
-    this.device.forget()
-    // Nuclear option since otherwise the same device cannot be requested again.
-    window.location.reload()
+    await this.selectedDevice!.usbDevice.forget()
+    this.removeDevice(this.selectedDevice!)
+    // // Nuclear option since otherwise the same device cannot be requested again.
+    // window.location.reload()  // Not needed anymore?
   }
 
-  async openDevice() {
-    try {
-      this.failed = false;
-      (<any>window).device = this.device
-      await this.device.open()
-      console.log('Device opened')
-      await this.device.selectConfiguration(1)
-      console.log('Configuration selected')
-      await this.device.claimInterface(1)
-      console.log('Interface claimed')
-      await this.sendEmpty()
-      this.isConnected = true;
-      this.isConnectedRaw = true;
-      await this.sendStatusGet()
-    } catch (error) {
-      this.failed = true
-      this.failedError = error as Error
-      throw error
-    } finally {
-      if (this.router.url.startsWith('/help')) this.router.navigate([''])
-    }
-    this.listen()
+  isController() {
+    if (!this.selectedDevice) return false
+    return this.selectedDevice.isController()
   }
 
-  async listen() {
-    try {
-      // console.log('Listening...')
-      const response = await this.device.transferIn(ADDR_IN, PACKAGE_SIZE)
-      const array = new Uint8Array(response.data.buffer)
-      const ctrl = Ctrl.decode(array)
-      // console.log('received', ctrl)
-      if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
-      if (ctrl instanceof CtrlStatusShare) this.handleCtrlStatusShare(ctrl)
-      if (ctrl instanceof CtrlConfigShare) {
-        console.log(ctrl)
-        if (this.pendingConfig) {
-          this.pendingConfig.next(ctrl)
-          this.pendingConfig.complete()
-          this.pendingConfig = undefined
-        } else {
-          this.handleCtrlConfigShare(ctrl)
-        }
-      }
-      if (ctrl instanceof CtrlSection) {
-        console.log(ctrl)
-        if (this.pendingProfile) {
-          this.pendingProfile.next(ctrl as CtrlSection)
-          this.pendingProfile.complete()
-          this.pendingProfile = undefined
-        }
-      }
-    } catch (error:any) {
-      console.warn(error)
-      return
-    }
-    await this.listen()
+  isDongle() {
+    if (!this.selectedDevice) return false
+    return this.selectedDevice.isDongle()
   }
 
-  handleCtrlLog(ctrl: CtrlLog) {
-    if (!this.logs[0] || this.logs[0]?.endsWith('\n')) {
-      this.logs.unshift(ctrl.logMessage)
-    } else {
-      this.logs[0] += ctrl.logMessage
-    }
-    // console.log(ctrl.logMessage)
+  isProxy() {
+    if (!this.selectedDevice) return false
+    return this.selectedDevice.isProxy()
   }
 
-  handleCtrlStatusShare(ctrl: CtrlStatusShare) {
-    this.deviceVersion = ctrl.version
-    console.log('Firmware of connected device:', this.deviceVersion)
-    this.sendStatusSet()
-  }
-
-  handleCtrlConfigShare(ctrl: CtrlConfigShare) {
-    // If there is no pending receiver for the config change we assume it is a
-    // change made on the controller via shortcuts, and refresh the components.
-    const url = this.router.url
-    if (url.startsWith('/settings')) {
-      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([url])
-      })
-    }
+  getLogs() {
+    return this.selectedDevice!.logs
   }
 
   clearLogs() {
-    this.logs = []
-  }
-
-  async sendEmpty() {
-    const data = new Uint8Array(64)
-    await this.device.transferOut(ADDR_OUT, data)
-  }
-
-  async sendStatusGet() {
-    const data = new CtrlStatusGet()
-    await this.send(data)
-  }
-
-  async sendStatusSet() {
-    const data = new CtrlStatusSet(Date.now())
-    await this.send(data)
+    this.selectedDevice!.clearLogs()
   }
 
   async sendProc(proc: HID) {
-    const data = new CtrlProc(proc)
-    await this.send(data)
+    return await this.selectedDevice!.sendProc(proc)
   }
 
   async sendProfileOverwrite(indexTo: number, indexFrom: number) {
-    const data = new CtrlProfileOverwrite(indexTo, indexFrom)
-    await this.send(data)
-  }
-
-  async send(ctrl: CtrlProc | CtrlStatusGet | CtrlStatusSet | CtrlConfigGet | CtrlProfileGet) {
-    console.log(ctrl)
-    await this.device.transferOut(ADDR_OUT, ctrl.encode())
+    return await this.selectedDevice!.sendProfileOverwrite(indexTo, indexFrom)
   }
 
   async getConfig(index: ConfigIndex): Promise<PresetWithValues> {
-    this.pendingConfig = new AsyncSubject()
-    const ctrlOut = new CtrlConfigGet(index)
-    await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
-      this.pendingConfig?.subscribe({
-        next: (ctrlIn) => {
-          resolve({presetIndex: ctrlIn.preset, values: ctrlIn.values})
-        }
-      })
-    })
+    return await this.selectedDevice!.getConfig(index)
   }
 
   async setConfig(index: ConfigIndex, preset: number, values: number[]): Promise<number> {
-    this.pendingConfig = new AsyncSubject()
-    const ctrlOut = new CtrlConfigSet(index, preset, values)
-    await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
-      this.pendingConfig?.subscribe({
-        next: (ctrlIn) => {
-          resolve(ctrlIn.preset)
-        }
-      })
-    })
+    return await this.selectedDevice!.setConfig(index, preset, values)
   }
 
-  async getSection(
-    profileIndex: number,
-    sectionIndex: SectionIndex,
-  ): Promise<CtrlSection> {
-    this.pendingProfile = new AsyncSubject()
-    const ctrlOut = new CtrlProfileGet(profileIndex, sectionIndex)
-    await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
-      this.pendingProfile?.subscribe({
-        next: (ctrlIn) => {
-          resolve(ctrlIn)
-        }
-      })
-    })
+  async getSection(profileIndex: number, sectionIndex: SectionIndex): Promise<CtrlSection> {
+    return await this.selectedDevice!.getSection(profileIndex, sectionIndex)
   }
 
-  async setSection(
-    profileIndex: number,
-    section: CtrlSection,
-  ) {
-    this.pendingProfile = new AsyncSubject()
-    const ctrlOut = new CtrlProfileSet(profileIndex, section.sectionIndex, section.payload())
-    await this.send(ctrlOut)
-    return new Promise((resolve, reject) => {
-      this.pendingProfile?.subscribe({
-        next: (ctrlIn) => {
-          resolve(ctrlIn)
-        }
-      })
-    })
+  async setSection( profileIndex: number, section: CtrlSection) {
+    return await this.selectedDevice!.setSection(profileIndex, section)
   }
+
+  getProfiles() {
+    if (!this.selectedDevice) return undefined
+    return this.selectedDevice.profiles
+  }
+
 }

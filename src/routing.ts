@@ -5,6 +5,7 @@ import { Routes } from '@angular/router'
 import { LogsComponent } from 'components/logs/logs'
 import { WipComponent } from 'components/wip/wip'
 import { TuneComponent } from 'components/tune/tune'
+import { SettingsComponent } from 'components/settings/settings'
 import { ProfileComponent } from 'components/profile/profile'
 import { HelpWindowsComponent } from 'components/help/help_windows'
 import { HelpLinuxComponent } from 'components/help/help_linux'
@@ -32,7 +33,7 @@ export const routes: Routes = [
   {path: 'settings/deadzone', component: TuneComponent, data: {mode:'deadzone'}},
   {path: 'settings/touch_sens', component: TuneComponent, data: {mode:'touch_sens'}},
   {path: 'settings/mouse_sens', component: TuneComponent, data: {mode:'mouse_sens'}},
-  {path: 'settings/advanced', component: WipComponent},
+  {path: 'settings/advanced', component: SettingsComponent},
   {path: 'settings/app', component: WipComponent},
   {path: 'help/windows', component: HelpWindowsComponent},
   {path: 'help/linux', component: HelpLinuxComponent},

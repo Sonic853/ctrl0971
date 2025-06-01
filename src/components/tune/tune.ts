@@ -3,11 +3,12 @@
 
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ActivatedRoute } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { LedComponent } from 'components/led/led'
-import { NumberInputComponent } from 'components/number_input/number_input'
+import { InputNumberComponent } from 'components/input_number/input_number'
 import { WebusbService } from 'services/webusb'
 import { ConfigIndex } from 'lib/ctrl'
+import { Device } from 'lib/device'
 
 interface Modes  {
   [key: string]: Mode
@@ -20,6 +21,8 @@ interface Mode {
   min: number,
   max: number,
   step: number,
+  decimals?: number,
+  factor?: number,
   displayReversed: boolean,
   configIndex: ConfigIndex,
   presets: Preset[]
@@ -44,28 +47,47 @@ interface Preset {
   imports: [
     CommonModule,
     LedComponent,
-    NumberInputComponent,
+    InputNumberComponent,
   ],
   templateUrl: './tune.html',
   styleUrls: ['./tune.sass']
 })
 export class TuneComponent {
+  device?: Device
   modes: Modes = modes
   mode: Mode
   title: string = ''
-  active: Preset | null = null
   dialogProtocol: any
   dialogProtocolConfirmFunc: any
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     public webusb: WebusbService,
   ) {
     this.mode = this.modes['protocol']  // Default to avoid compiler complains.
     activatedRoute.data.subscribe((data) => {
       this.mode = this.modes[data['mode'] as string]
-      this.getPreset()
     })
+  }
+
+  ngOnInit() {
+    if (!this.webusb.selectedDevice) return
+    this.device = this.webusb.selectedDevice
+    // Avoid tune options not in dongle.
+    if (this.webusb.isDongle()) {
+      if (['mouse_sens', 'touch_sens', 'deadzone'].includes(this.mode.url)) {
+        this.router.navigate(['/settings/protocol'])
+      }
+    }
+    this.init()
+  }
+
+  async init() {
+    // Wait until the device is ready.
+    await this.device!.waitUntilReady()
+    // Fetch.
+    await this.getPreset()
   }
 
   getPresets() {
@@ -74,13 +96,14 @@ export class TuneComponent {
   }
 
   async getPreset() {
-    const presetWithValues = await this.webusb.getConfig(this.mode.configIndex)
+    console.log(`getPreset ${ConfigIndex[this.mode.configIndex]}`)
+    const tunes = this.webusb.selectedDevice!.tunes
+    const presetWithValues = await tunes.getPreset(this.mode.configIndex)
     if (this.mode.url != 'protocol') {
       for(let [index, preset] of  this.mode.presets.entries()) {
         preset.value = presetWithValues.values[index]
       }
     }
-    this.setPresetFromIndex(presetWithValues.presetIndex)
   }
 
   setPresetConfirm(preset: Preset) {
@@ -92,16 +115,12 @@ export class TuneComponent {
   }
 
   async setPreset(preset: Preset) {
-    const presetIndex = await this.webusb.setConfig(
+    const tunes = this.webusb.selectedDevice!.tunes
+    const presetIndex = await tunes.setPreset(
       this.mode.configIndex,
       preset.index,
       this.mode.presets.map((preset) => preset.value as number),
     )
-    this.setPresetFromIndex(presetIndex)
-  }
-
-  setPresetFromIndex(index: number) {
-    this.active = this.mode.presets.filter((preset) => preset.index == index).pop() as Preset
   }
 
   setValue(preset:Preset, value: number) {
@@ -109,8 +128,16 @@ export class TuneComponent {
     this.setPreset(preset)
   }
 
+  getActive() {
+    const tunes = this.webusb.selectedDevice!.tunes
+    const preset = tunes.presets[this.mode.configIndex]
+    if (preset === undefined) return undefined
+    const presetIndex = preset!.presetIndex
+    return this.mode.presets.filter((preset) => preset.index === presetIndex).pop() as Preset
+  }
+
   isActive(preset: Preset) {
-    return preset === this.active ? 'selected' : ''
+    return preset === this.getActive() ? 'selected' : ''
   }
 
   showDialogProtocol() {
@@ -150,25 +177,29 @@ const modes: Modes = {
     title: 'Touch sensitivity',
     unit: 'μs',
     min: 0,
-    max: 100,
-    step: 1,
+    max: 25,
+    step: 0.1,
+    factor: 0.1,
+    decimals: 1,
     displayReversed: true,
     presets: [
-      {index: 0, name: 'Auto',  desc: 'Self adjusting',  leds:0b0010, blink:0b0100, hidden:true},
-      {index: 1, name: 'Low',   desc: 'Less responsive', leds:0b0010, blink:0b1100},
-      {index: 2, name: 'Mid',   desc: '',                leds:0b0010, blink:0b1000},
-      {index: 3, name: 'High',  desc: '',                leds:0b0010, blink:0b1001},
-      {index: 4, name: 'Ultra', desc: 'More responsive', leds:0b0010, blink:0b0001},
+      {index: 0, name: 'Auto low',  desc: 'More stable',     leds:0b0010, blink:0b0100, hidden:true},
+      {index: 1, name: 'Auto mid',  desc: 'Default',         leds:0b0010, blink:0b1000, hidden:true},
+      {index: 2, name: 'Auto high', desc: 'More responsive', leds:0b0010, blink:0b0001, hidden:true},
+      {index: 3, name: 'Custom 2',  desc: '',                leds:0b0010, blink:0b1100},
+      {index: 4, name: 'Custom 1',  desc: '',                leds:0b0010, blink:0b1001},
     ]
   },
   mouse_sens: {
     configIndex: ConfigIndex.SENS_MOUSE,
     url: 'mouse_sens',
     title: 'Mouse sensitivity',
-    unit: '',
+    unit: 'x',
     min: 0,
     max: 100,
-    step: 1,
+    step: 0.1,
+    factor: 0.1,
+    decimals: 1,
     displayReversed: true,
     presets: [
       {index: 0, name: 'Low',  desc: '1080p', leds:0b0100, blink:0b1000},

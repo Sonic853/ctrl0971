@@ -11,7 +11,7 @@ Copyright (C) 2023, Input Labs Oy.
 <div class='nav'>
     <div class='tab'>
         <a
-            routerLink=''
+            routerLink='{{lastRouteForTools}}'
             [ngClass]='this.routeIsTools()'
             >
             Tools
@@ -19,7 +19,7 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
     <div class='tab'>
         <a
-            routerLink='profiles'
+            routerLink='{{lastRouteForProfiles}}'
             routerLinkActive='active'
             >
             Profiles
@@ -27,7 +27,7 @@ Copyright (C) 2023, Input Labs Oy.
     </div>
     <div class='tab'>
         <a
-            routerLink='settings'
+            routerLink='{{lastRouteForSettings}}'
             routerLinkActive='active'
             >
             Settings
@@ -45,39 +45,34 @@ Copyright (C) 2023, Input Labs Oy.
     <div class=filler></div>
 
     <div class='notification' *ngIf='shouldNotifyFirmware()' (click)='showDialogFirmware()'>
-        <span class='material'>notifications</span>
+        <span class='material'>emergency_home</span>
     </div>
 
     <div class='connection'>
-        <div *ngIf='!webusb.isConnectedRaw' (click)='webusb.requestDevice()'>
-            Not connected
-            <span class='material'>usb_off</span>
+        <div *ngFor='let device of webusb.listDevices()'>
+            <div class='device'
+                [ngClass]='device==webusb.selectedDevice ? "selected" : ""'
+                (click)='webusb.selectDevice(device)'
+                >
+                <span>{{device.getName()}}</span>
+                <span *ngIf='device.isController() && !device.isProxy()' class='material'>usb</span>
+                <span *ngIf='device.isProxy()' class='material'>settings_remote</span>
+                <span *ngIf='device.isDongle()' class='material'>settings_remote</span>
+            </div>
         </div>
-        <div *ngIf='webusb.isConnectedRaw' class='active' (click)='showDialogForget()'>
-            {{webusb.device.productName}}
-            <span class='material'>usb</span>
+        <div class='add' (click)='webusb.requestDevice()'>
+            <span *ngIf='!webusb.isConnectedRaw()'>Add device</span>
+            <span class='material'>add</span>
         </div>
     </div>
 </div>
 
-<dialog id='dialog-forget'>
-    <h3>Unpair controller</h3>
+<dialog id='dialog-firmware' *ngIf='webusb.isConnected()'>
+    <h3>Firmware update required</h3>
     <div>
-        The current controller ({{webusb.device?.manufacturerName}} {{webusb.device?.productName}})
-        will be disconnected and removed from the list of paired devices.
-    </div>
-    <div class='buttons'>
-        <button (click)='hideDialogForget()' class='flat'>Cancel</button>
-        <button (click)='hideDialogForget() && webusb.forgetDevice()'>Unpair</button>
-    </div>
-</dialog>
-
-<dialog id='dialog-firmware'>
-    <h3>Firmware update available</h3>
-    <div>
-        The firmware on the controller is outdated, the Ctrl app won't work correctly.<br/>
+        {{webusb.selectedDevice!.getConnectorName()}} firmware is outdated, the Ctrl app won't work correctly.<br/>
         <br/>
-        Current controller firmware: <span class='em'>{{firmwareAsString(webusb.deviceVersion)}}</span><br/>
+        Current {{webusb.selectedDevice!.getConnectorName()}} firmware: <span class='em'>{{firmwareAsString(webusb.getDeviceVersion())}}</span><br/>
         Minimum recommended firmware: <span class='em'>{{firmwareAsString(LATEST_FIRMWARE)}}+</span><br/>
         <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>

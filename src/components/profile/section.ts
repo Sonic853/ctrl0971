@@ -5,16 +5,16 @@ import { Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { ActionSelectorComponent } from './action_selector'
-import { NumberInputComponent } from 'components/number_input/number_input'
-import { ProfileService, Profile } from 'services/profiles'
+import { InputNumberComponent } from 'components/input_number/input_number'
 import { WebusbService } from 'services/webusb'
+import { Profile } from 'lib/profile'
 import { CtrlSection, CtrlSectionMeta, CtrlButton, CtrlRotary } from 'lib/ctrl'
 import { CtrlThumbstick, CtrlGyro, CtrlGyroAxis, CtrlHome } from 'lib/ctrl'
 import { SectionIndex, sectionIsAnalog } from 'lib/ctrl'
 import { ThumbstickMode, ThumbstickDistanceMode, GyroMode } from 'lib/ctrl'
 import { ActionGroup } from 'lib/actions'
 import { HID, isAxis } from 'lib/hid'
-import { PIN } from 'lib/pin'
+import { PinV0, PinV1 } from 'lib/pin'
 import { delay } from 'lib/delay'
 
 @Component({
@@ -23,7 +23,7 @@ import { delay } from 'lib/delay'
   imports: [
     CommonModule,
     FormsModule,
-    NumberInputComponent,
+    InputNumberComponent,
     ActionSelectorComponent,
   ],
   templateUrl: './section.html',
@@ -32,6 +32,7 @@ import { delay } from 'lib/delay'
 export class SectionComponent {
   @Input() profileIndex: number = 0
   @Input() section: CtrlSection = new CtrlSectionMeta(0, SectionIndex.META, '', 0, 0, 0, 0)
+  @Input() analog: boolean = false
   dialogKeyPicker: any
   pickerGroup = 0
   pickerProfile = 1
@@ -39,17 +40,16 @@ export class SectionComponent {
   pickerMacro = 1
   pickerTune = 0
   profileOverwriteIndex = 0
+  profiles = this.webusb.getProfiles()!
   // Template aliases.
   HID = HID
-  PIN = PIN
   SectionIndex = SectionIndex
   GyroMode = GyroMode
   ThumbstickMode = ThumbstickMode
   ThumbstickDistanceMode = ThumbstickDistanceMode
 
   constructor(
-    public webusbService: WebusbService,
-    public profileService: ProfileService,
+    public webusb: WebusbService,
   ) {}
 
   sectionIsMeta = () => this.section instanceof CtrlSectionMeta
@@ -79,6 +79,11 @@ export class SectionComponent {
   getLabels() {
     const section = this.section as (CtrlButton | CtrlRotary)
     return section.labels
+  }
+
+  getPins() {
+    if (this.webusb.selectedDevice!.isAlpakkaV0()) return PinV0
+    else return PinV1
   }
 
   isButtonBlockVisible(group: number) {
@@ -114,12 +119,12 @@ export class SectionComponent {
   }
 
   getGyroMode() {
-    const profile = this.profileService.getProfile(this.profileIndex) as Profile
-    return profile.gyro.mode
+    const profile = this.profiles.getProfile(this.profileIndex) as Profile
+    return profile.settingsGyro.mode
   }
 
   async profileOverwrite() {
-    this.webusbService.sendProfileOverwrite(this.profileIndex, this.profileOverwriteIndex)
+    this.webusb.sendProfileOverwrite(this.profileIndex, this.profileOverwriteIndex)
     // Force <select> to initial value. For some reason Angular 2-way binding
     // does not fully work on HTML elements with OS-controlled UI?.
     // So this cannot be done with just "profileOverwriteIndex = 0".
@@ -128,21 +133,21 @@ export class SectionComponent {
     // Update the profile in the UI. Delay so the controller has time to process
     // the request before re-fetching the profile.
     await delay(500)
-    this.profileService.fetchProfile(this.profileIndex, true)
+    this.profiles.fetchProfile(this.profileIndex, true)
   }
 
   async profileLoad(files: File[]) {
     const reader = new FileReader()
     reader.onload = (event: any) => {
-      this.profileService.loadFromBlob(this.profileIndex, new Uint8Array(event.target.result))
+      this.profiles.loadFromBlob(this.profileIndex, new Uint8Array(event.target.result))
     }
     reader.readAsArrayBuffer(files[0])
   }
 
   async profileSave() {
-    const profileName = this.profileService.getProfile(this.profileIndex).meta.name
+    const profileName = this.profiles.getProfile(this.profileIndex).meta.name
     const filename = `${profileName}.ctrl`
-    const data = this.profileService.saveToBlob(this.profileIndex)
+    const data = this.profiles.saveToBlob(this.profileIndex)
     const blob = new Blob([data], {type: 'application/octet-stream'})
     const a = document.createElement('a')
     document.body.appendChild(a)
@@ -275,7 +280,7 @@ export class SectionComponent {
       if (this.pickerGroup==1 && this.section.hold) cls += ' holdBG'
       if (this.pickerGroup==2 && this.section.double) cls += ' doubleBG'
     }
-    if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
+    if (this.analog && sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analogBG'
     }
     if (actions.has(action)) return cls
@@ -289,14 +294,14 @@ export class SectionComponent {
       if (index==1 && this.section.hold) cls += ' hold'
       if (index==2 && this.section.double) cls += ' double'
     }
-    if (sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
+    if (this.analog && sectionIsAnalog(this.section.sectionIndex) && isAxis(action)) {
       cls += ' analog'
     }
     return cls
   }
 
   save = async () => {
-    await this.webusbService.setSection(this.profileIndex, this.section)
+    await this.webusb.setSection(this.profileIndex, this.section)
   }
 }
 
@@ -322,26 +327,31 @@ const sectionTitles: SectionTitles = {
   [SectionIndex.R1]:               'Trigger R1',
   [SectionIndex.R2]:               'Trigger R2',
   [SectionIndex.R4]:               'Trigger R4',
-  [SectionIndex.DHAT_LEFT]:        'DHat Left',
-  [SectionIndex.DHAT_RIGHT]:       'DHat Right',
-  [SectionIndex.DHAT_UP]:          'DHat Up',
-  [SectionIndex.DHAT_DOWN]:        'DHat Down',
-  [SectionIndex.DHAT_UL]:          'DHat Up-Left',
-  [SectionIndex.DHAT_UR]:          'DHat Up-Right',
-  [SectionIndex.DHAT_DL]:          'DHat Down-Left',
-  [SectionIndex.DHAT_DR]:          'DHat Down-Right',
-  [SectionIndex.DHAT_PUSH]:        'DHat Push',
+  [SectionIndex.LSTICK_SETTINGS]:  'LStick Settings',
+  [SectionIndex.LSTICK_LEFT]:      'LStick Left',
+  [SectionIndex.LSTICK_RIGHT]:     'LStick Right',
+  [SectionIndex.LSTICK_UP]:        'LStick Up',
+  [SectionIndex.LSTICK_DOWN]:      'LStick Down',
+  [SectionIndex.LSTICK_UL]:        'LStick Up-Left',
+  [SectionIndex.LSTICK_UR]:        'LStick Up-Right',
+  [SectionIndex.LSTICK_DL]:        'LStick Down-Left',
+  [SectionIndex.LSTICK_DR]:        'LStick Down-Right',
+  [SectionIndex.LSTICK_PUSH]:      'LStick Push',
+  [SectionIndex.LSTICK_INNER]:     'LStick Inner',
+  [SectionIndex.LSTICK_OUTER]:     'LStick Outer',
+  [SectionIndex.RSTICK_SETTINGS]:  'RStick Settings',
+  [SectionIndex.RSTICK_LEFT]:      'RStick Left',
+  [SectionIndex.RSTICK_RIGHT]:     'RStick Right',
+  [SectionIndex.RSTICK_UP]:        'RStick Up',
+  [SectionIndex.RSTICK_DOWN]:      'RStick Down',
+  [SectionIndex.RSTICK_UL]:        'RStick Up-Left',
+  [SectionIndex.RSTICK_UR]:        'RStick Up-Right',
+  [SectionIndex.RSTICK_DL]:        'RStick Down-Left',
+  [SectionIndex.RSTICK_DR]:        'RStick Down-Right',
+  [SectionIndex.RSTICK_PUSH]:      'RStick Push',
   [SectionIndex.ROTARY_UP]:        'Rotary up',
   [SectionIndex.ROTARY_DOWN]:      'Rotary down',
-  [SectionIndex.THUMBSTICK]:       'Thumbstick settings',
-  [SectionIndex.THUMBSTICK_LEFT]:  'Thumbstick Left',
-  [SectionIndex.THUMBSTICK_RIGHT]: 'Thumbstick Right',
-  [SectionIndex.THUMBSTICK_UP]:    'Thumbstick Up',
-  [SectionIndex.THUMBSTICK_DOWN]:  'Thumbstick Down',
-  [SectionIndex.THUMBSTICK_PUSH]:  'Thumbstick Push',
-  [SectionIndex.THUMBSTICK_INNER]: 'Thumbstick Inner',
-  [SectionIndex.THUMBSTICK_OUTER]: 'Thumbstick Outer',
-  [SectionIndex.GYRO]:             'Gyro settings',
+  [SectionIndex.GYRO_SETTINGS]:    'Gyro settings',
   [SectionIndex.GYRO_X]:           'Gyro Axis X',
   [SectionIndex.GYRO_Y]:           'Gyro Axis Y',
   [SectionIndex.GYRO_Z]:           'Gyro Axis Z',

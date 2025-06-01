@@ -24,8 +24,10 @@ const FIRMWARE_ACK = 'firmware_ack'
 })
 export class HeaderComponent {
   route: string = ''
-  dialogForget: any
   dialogFirmware: any
+  lastRouteForTools = ''
+  lastRouteForProfiles = '/profiles/0'
+  lastRouteForSettings = '/settings/protocol'
   // Template aliases.
   LATEST_FIRMWARE = MINUMUM_FIRMWARE_VERSION
   RELEASES_LINK = RELEASES_LINK
@@ -37,6 +39,16 @@ export class HeaderComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.route = event.urlAfterRedirects
+        // Remember route.
+        if (this.route.startsWith('/tools')) {
+          this.lastRouteForTools = this.route
+        }
+        if (this.route.startsWith('/profiles')) {
+          this.lastRouteForProfiles = this.route
+        }
+        if (this.route.startsWith('/settings')) {
+          this.lastRouteForSettings = this.route
+        }
       }
     })
   }
@@ -47,16 +59,6 @@ export class HeaderComponent {
 
   routeIsTools() {
     return this.route == '/' || this.route.startsWith('/tools')  ? 'active' : ''
-  }
-
-  showDialogForget() {
-    this.dialogForget = document.getElementById('dialog-forget')
-    this.dialogForget.showModal()
-  }
-
-  hideDialogForget(): boolean {
-    this.dialogForget.close()
-    return true
   }
 
   showDialogFirmware() {
@@ -84,9 +86,9 @@ export class HeaderComponent {
 
   shouldWarningFirmware() {
     // Should display a Forced modal window?.
-    if (!this.webusb.isConnectedRaw) return false
+    if (!this.webusb.isConnectedRaw()) return false
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
-    const deviceVersion = this.firmwareAsNumber(this.webusb.deviceVersion)
+    const deviceVersion = this.firmwareAsNumber(this.webusb.getDeviceVersion())
     const ackVersion = Number(localStorage.getItem(FIRMWARE_ACK))
     if (!deviceVersion) return 0
     return (deviceVersion < minimumVersion) && (ackVersion < minimumVersion)
@@ -94,9 +96,9 @@ export class HeaderComponent {
 
   shouldNotifyFirmware() {
     // Should notify as an icon in the header?.
-    if (!this.webusb.isConnectedRaw) return false
+    if (!this.webusb.isConnectedRaw()) return false
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
-    const deviceVersion = this.firmwareAsNumber(this.webusb.deviceVersion)
+    const deviceVersion = this.firmwareAsNumber(this.webusb.getDeviceVersion())
     return deviceVersion < minimumVersion
   }
 }

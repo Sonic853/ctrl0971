@@ -7,6 +7,11 @@ import { ActionGroup } from './actions'
 
 export const PACKAGE_SIZE = 64
 
+export enum CtrlProtocolFlags {
+  NONE = 1,
+  WIRELESS
+}
+
 enum DeviceId {
   ALPAKKA = 1,
 }
@@ -31,12 +36,17 @@ export enum ConfigIndex {
   SENS_TOUCH,
   SENS_MOUSE,
   DEADZONE,
+  LOG_MASK,
+  LONG_CALIBRATION,
+  SWAP_GYROS,
+  TOUCH_INVERT_POLARITY,
+  GYRO_USER_OFFSET,
 }
 
 export enum SectionIndex {
   NONE,
-  META,
-  A = 2,
+  META = 1,
+  A,
   B,
   X,
   Y,
@@ -54,26 +64,33 @@ export enum SectionIndex {
   R2,
   L4,
   R4,
-  DHAT_LEFT,
-  DHAT_RIGHT,
-  DHAT_UP,
-  DHAT_DOWN,
-  DHAT_UL,
-  DHAT_UR,
-  DHAT_DL,
-  DHAT_DR,
-  DHAT_PUSH,
-  ROTARY_UP,
+  ROTARY_UP = 29,
   ROTARY_DOWN,
-  THUMBSTICK,
-  THUMBSTICK_LEFT,
-  THUMBSTICK_RIGHT,
-  THUMBSTICK_UP,
-  THUMBSTICK_DOWN,
-  THUMBSTICK_PUSH,
-  THUMBSTICK_INNER,
-  THUMBSTICK_OUTER,
-  GLYPHS_0,
+  LSTICK_SETTINGS = 31,
+  LSTICK_LEFT,
+  LSTICK_RIGHT,
+  LSTICK_UP,
+  LSTICK_DOWN,
+  LSTICK_UL = 55,
+  LSTICK_UR,
+  LSTICK_DL,
+  LSTICK_DR,
+  LSTICK_PUSH = 36,
+  LSTICK_INNER,
+  LSTICK_OUTER,
+  RSTICK_SETTINGS = 59,
+  RSTICK_LEFT = 20,
+  RSTICK_RIGHT,
+  RSTICK_UP,
+  RSTICK_DOWN,
+  RSTICK_UL,
+  RSTICK_UR,
+  RSTICK_DL,
+  RSTICK_DR,
+  RSTICK_PUSH,
+  RSTICK_INNER = 60,
+  RSTICK_OUTER,
+  GLYPHS_0 = 39,
   GLYPHS_1,
   GLYPHS_2,
   GLYPHS_3,
@@ -81,7 +98,7 @@ export enum SectionIndex {
   DAISY_1,
   DAISY_2,
   DAISY_3,
-  GYRO,
+  GYRO_SETTINGS,
   GYRO_X,
   GYRO_Y,
   GYRO_Z,
@@ -90,6 +107,13 @@ export enum SectionIndex {
   MACRO_3,
   MACRO_4,
   HOME = 100,
+}
+
+export enum LogMask {
+  BASIC = 0,
+  USB = 1,
+  TOUCH = 2,
+  WIRELESS = 4,
 }
 
 export enum ButtonMode {
@@ -105,6 +129,7 @@ export enum ThumbstickMode {
   OFF,
   DIR4,
   ALPHANUMERIC,
+  DIR8,
 }
 
 export enum ThumbstickDistanceMode {
@@ -124,31 +149,30 @@ export function sectionIsMeta(section: SectionIndex) {
   return section == SectionIndex.META
 }
 
-export function sectionIsButton(section: SectionIndex) {
-  return (
-    (section >= SectionIndex.A && section <= SectionIndex.DHAT_PUSH) ||
-    (section >= SectionIndex.THUMBSTICK_LEFT && section <= SectionIndex.THUMBSTICK_OUTER)
-  )
-}
-
 export function sectionIsRotary(section: SectionIndex) {
   return section == SectionIndex.ROTARY_UP || section == SectionIndex.ROTARY_DOWN
 }
 
 export function sectionIsThumbtick(section: SectionIndex) {
-  return section == SectionIndex.THUMBSTICK
+  return (
+    section==SectionIndex.LSTICK_SETTINGS ||
+    section==SectionIndex.RSTICK_SETTINGS
+  )
 }
 
 export function sectionIsThumbtickDirection(section: SectionIndex) {
-  return section >= SectionIndex.THUMBSTICK_LEFT && section <= SectionIndex.THUMBSTICK_DOWN
+  return (
+    (section >= SectionIndex.LSTICK_LEFT && section <= SectionIndex.LSTICK_DOWN) ||
+    (section >= SectionIndex.RSTICK_LEFT && section <= SectionIndex.RSTICK_DOWN)
+  )
 }
 
 export function sectionIsThumbtickButton(section: SectionIndex) {
-  return sectionIsThumbtickDirection(section) || section == SectionIndex.THUMBSTICK_PUSH
+  return sectionIsThumbtickDirection(section) || section == SectionIndex.LSTICK_PUSH
 }
 
 export function sectionIsGyro(section: SectionIndex) {
-  return section == SectionIndex.GYRO
+  return section == SectionIndex.GYRO_SETTINGS
 }
 
 export function sectionIsGyroAxis(section: SectionIndex) {
@@ -175,7 +199,7 @@ function string_to_buffer(size: number, str: string) {
 
 export class Ctrl {
   constructor(
-    public protocolVersion: number,
+    public protocolFlags: number,
     public deviceId: number,
     public messageType: MessageType,
   ) {}
@@ -187,7 +211,7 @@ export class Ctrl {
   encode() {
     const data = new Uint8Array(PACKAGE_SIZE)
     // console.log(data)
-    data[0] = this.protocolVersion
+    data[0] = this.protocolFlags
     data[1] = this.deviceId
     data[2] = this.messageType
     data[3] = this.payload().length
@@ -201,17 +225,17 @@ export class Ctrl {
     // See: https://github.com/inputlabs/alpakka_firmware/blob/main/docs/ctrl_protocol.md
     const data = Array.from(buffer)
     const msgType = data[2]
-    if (msgType== MessageType.LOG) return CtrlLog.decode(buffer)
-    if (msgType== MessageType.STATUS_SHARE) return CtrlStatusShare.decode(buffer)
+    if (msgType == MessageType.LOG) return CtrlLog.decode(buffer)
+    if (msgType == MessageType.STATUS_SHARE) return CtrlStatusShare.decode(buffer)
     if (msgType == MessageType.CONFIG_SHARE) return CtrlConfigShare.decode(buffer)
     if (msgType == MessageType.SECTION_SHARE) {
       const section = data[5]
       if (sectionIsMeta(section)) return CtrlSectionMeta.decode(buffer)
-      if (sectionIsButton(section)) return CtrlButton.decode(buffer)
-      if (sectionIsRotary(section)) return CtrlRotary.decode(buffer)
-      if (sectionIsThumbtick(section)) return CtrlThumbstick.decode(buffer)
-      if (sectionIsGyro(section)) return CtrlGyro.decode(buffer)
-      if (sectionIsGyroAxis(section)) return CtrlGyroAxis.decode(buffer)
+      else if (sectionIsRotary(section)) return CtrlRotary.decode(buffer)
+      else if (sectionIsThumbtick(section)) return CtrlThumbstick.decode(buffer)
+      else if (sectionIsGyro(section)) return CtrlGyro.decode(buffer)
+      else if (sectionIsGyroAxis(section)) return CtrlGyroAxis.decode(buffer)
+      else return CtrlButton.decode(buffer)
     }
     return false
   }
@@ -219,11 +243,11 @@ export class Ctrl {
 
 export class CtrlLog extends Ctrl {
   constructor(
-    public override protocolVersion: number,
+    public override protocolFlags: number,
     public override deviceId: number,
     public logMessage: string
   ) {
-    super(protocolVersion, deviceId, MessageType.LOG)
+    super(protocolFlags, deviceId, MessageType.LOG)
   }
 
   static override decode(buffer: Uint8Array) {
@@ -540,6 +564,7 @@ export class CtrlThumbstick extends CtrlSection {
     public overlap : number,
     public deadzone_override: boolean,
     public antideadzone: number,
+    public saturation: number,
   ) {
     super(1, DeviceId.ALPAKKA, MessageType.SECTION_SHARE)
   }
@@ -556,7 +581,8 @@ export class CtrlThumbstick extends CtrlSection {
       data[8],  // Deadzone.
       data[9] <= 128 ? data[9] : data[9]-256,  // Axis overlap (unsigned to signed).
       Boolean(data[10]),  // Deadzone override.
-      data[11],  // Antideadzone.
+      data[11], // Antideadzone.
+      data[12] > 0 ? data[12] : 100, // Saturation.
     )
   }
 
@@ -570,6 +596,7 @@ export class CtrlThumbstick extends CtrlSection {
       this.overlap,
       Number(this.deadzone_override),
       this.antideadzone,
+      this.saturation,
     ]
   }
 }

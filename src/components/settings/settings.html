@@ -1,0 +1,107 @@
+<!--
+SPDX-License-Identifier: GPL-2.0-only
+Copyright (C) 2023, Input Labs Oy.
+-->
+
+<div class='settings'>
+    <h2>Advanced settings</h2>
+
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Long calibration</div>
+            <div class='desc'>4x longer</div>
+            <div class='material' (click)='showDialogHelp("longCalibration")'>help</div>
+        </div>
+        <app-input-toggle
+            [value]='longCalibration'
+            (update)='longCalibration=$event; saveLongCalibration()'
+        />
+    </div>
+
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Swap gyros</div>
+            <div class='desc'>Left<->Right</div>
+            <div class='material' (click)='showDialogHelp("swapGyros")'>help</div>
+        </div>
+        <app-input-toggle
+            [value]='swapGyros'
+            (update)='swapGyros=$event; saveSwapGyros()'
+        />
+    </div>
+
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Invert touch polarity</div>
+            <div class='desc'>Charge vs Discharge</div>
+            <div class='material' (click)='showDialogHelp("invertTouchPolarity")'>help</div>
+        </div>
+        <app-input-toggle
+            [value]='invertTouchPolarity'
+            (update)='invertTouchPolarity=$event; saveInvertTouchPolarity()'
+        />
+    </div>
+
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Gyro calibration tweak</div>
+            <div class='desc'>X axis</div>
+            <div class='material' (click)='showDialogHelp("gyroUserOffset")'>help</div>
+        </div>
+        <app-input-number
+            [value]='gyroUserOffsetX'
+            (update)='gyroUserOffsetX=$any($event); saveGyroUserOffset()'
+            [unit]="''"
+            [min]='-1'
+            [max]='1'
+            [step]='0.01'
+            [factor]='0.01'
+            [decimals]='2'
+        />
+    </div>
+
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Gyro calibration tweak</div>
+            <div class='desc'>Y axis</div>
+            <div class='material' (click)='showDialogHelp("gyroUserOffset")'>help</div>
+        </div>
+        <app-input-number
+            [value]='gyroUserOffsetY'
+            (update)='gyroUserOffsetY=$any($event); saveGyroUserOffset()'
+            [unit]="''"
+            [min]='-1'
+            [max]='1'
+            [step]='0.01'
+            [factor]='0.01'
+            [decimals]='2'
+        />
+    </div>
+
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Gyro calibration tweak</div>
+            <div class='desc'>Z axis</div>
+            <div class='material' (click)='showDialogHelp("gyroUserOffset")'>help</div>
+        </div>
+        <app-input-number
+            [value]='gyroUserOffsetZ'
+            (update)='gyroUserOffsetZ=$any($event); saveGyroUserOffset()'
+            [unit]="''"
+            [min]='-1'
+            [max]='1'
+            [step]='0.01'
+            [factor]='0.01'
+            [decimals]='2'
+        />
+    </div>
+
+</div>
+
+<dialog id='dialog-help'>
+    <h3>{{helpTitle}}</h3>
+    <div [innerHTML]='helpText'></div>
+    <div class='buttons'>
+        <button (click)='hideDialogHelp()'>Makes sense</button>
+    </div>
+</dialog>

@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (C) 2023, Input Labs Oy.
+
+@use '../../styles' as *
+
+:host
+    user-select: none
+    cursor: pointer
+    width: 75px
+    height: 40px
+    background-color: black
+    border-radius: 5px
+    .wrap
+        display: flex
+        height: 40px
+        align-items: center
+        justify-content: space-evenly
+        div
+            width: 30px
+            height: 30px
+            text-align: center
+            border-radius: 3px
+            font-size: 28px
+            color: hsl(0deg, 0%, 20%)
+        .off
+            &.enabled
+                color: hsl(0deg, 0%, 80%)
+                background-color: hsl(0deg, 0%, 15%)
+        .on
+            &.enabled
+                color: $green
+                background-color: hsl(0deg, 0%, 20%)
+
+
+
+
