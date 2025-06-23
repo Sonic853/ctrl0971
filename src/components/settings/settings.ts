@@ -113,6 +113,11 @@ export class SettingsComponent {
         back and held in a normal gaming position.<br><br>
         If this problem is noticeable, it can be solved by manually adding additional offsets into
         the calibration values.`,
+      thumbstickSmoothing:
+        `How many additional samples are used to calculate the final value of the thumbstick.
+        More samples provide a more stable output but also increase the perceived latency.<br><br>
+        Smoothing is disabled when the number of additional samples is set to zero (only
+        the current sample is used).`,
     }
     this.helpTitle = titles[key]
     this.helpText = texts[key]
