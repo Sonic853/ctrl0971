@@ -96,6 +96,24 @@ Copyright (C) 2023, Input Labs Oy.
         />
     </div>
 
+    <div class='setting'>
+        <div class='text'>
+            <div class='name'>Thumbstick smoothing</div>
+            <div class='desc'>Samples</div>
+            <div class='material' (click)='showDialogHelp("thumbstickSmoothing")'>help</div>
+        </div>
+        <app-input-number
+            [value]='thumbstickSmoothSamples'
+            (update)='thumbstickSmoothSamples=$any($event); saveThumbstickSmoothSamples()'
+            [unit]="''"
+            [min]='0'
+            [max]='100'
+            [step]='1'
+            [factor]='1'
+            [decimals]='0'
+        />
+    </div>
+
 </div>
 
 <dialog id='dialog-help'>

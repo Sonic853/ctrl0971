@@ -27,6 +27,7 @@ export class SettingsComponent {
   gyroUserOffsetX = 0
   gyroUserOffsetY = 0
   gyroUserOffsetZ = 0
+  thumbstickSmoothSamples = 0;
   dialogHelp: any
   helpTitle = 'Title'
   helpText = 'Text'
@@ -55,6 +56,7 @@ export class SettingsComponent {
     if (this.gyroUserOffsetX > 127) this.gyroUserOffsetX -= 256
     if (this.gyroUserOffsetY > 127) this.gyroUserOffsetY -= 256
     if (this.gyroUserOffsetZ > 127) this.gyroUserOffsetZ -= 256
+    this.thumbstickSmoothSamples = await getConfig(ConfigIndex.THUMBSTICK_SMOOTH_SAMPLES)
   }
 
   async saveLongCalibration() {
@@ -75,6 +77,10 @@ export class SettingsComponent {
       this.gyroUserOffsetY,
       this.gyroUserOffsetZ,
     ])
+  }
+
+  async saveThumbstickSmoothSamples() {
+    await this.webusb.setConfig(ConfigIndex.THUMBSTICK_SMOOTH_SAMPLES, +this.thumbstickSmoothSamples, [])
   }
 
   showDialogHelp(key: string) {
@@ -107,6 +113,11 @@ export class SettingsComponent {
         back and held in a normal gaming position.<br><br>
         If this problem is noticeable, it can be solved by manually adding additional offsets into
         the calibration values.`,
+      thumbstickSmoothing:
+        `How many additional samples are used to calculate the final value of the thumbstick.
+        More samples provide a more stable output but also increase the perceived latency.<br><br>
+        Smoothing is disabled when the number of additional samples is set to zero (only
+        the current sample is used).`,
     }
     this.helpTitle = titles[key]
     this.helpText = texts[key]

@@ -260,6 +260,7 @@ export enum HID {
 
   PROC_IGNORE_LED_WARNINGS,
   PROC_SLEEP,
+  PROC_PAIR,
 }
 
 export function isAxis(action: HID) {
