@@ -1,6 +1,6 @@
 {
-  "name": "inputlabs ctrl",
-  "short_name": "inputlabs ctrl",
+  "name": "Ctrl app",
+  "short_name": "Ctrl",
   "theme_color": "#000000",
   "background_color": "#000000",
   "display": "standalone",
