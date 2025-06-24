@@ -154,15 +154,19 @@ export class Device {
   }
 
   isAlpakkaV0() {
-    return this.usbDevice.serialNumber == 'v0'
+    return this.getName() == 'Alpakka' && this.usbDevice.serialNumber == 'v0'
   }
 
   isAlpakkaV1() {
-    return this.usbDevice.serialNumber == 'v1'
+    return this.getName() == 'Alpakka' && this.usbDevice.serialNumber == 'v1'
   }
 
   isProxy() {
     return false
+  }
+
+  isWired() {
+    return !this.isProxy()
   }
 
   clearLogs() {

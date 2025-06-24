@@ -124,7 +124,7 @@ export class WebusbService {
       device.proxiedDevice = proxy
       this.devices.push(proxy)
     }
-    this.selectDevice(device)
+    this.selectDevice(this.devices.at(-1))
   }
 
   removeDevice(device: Device) {
@@ -137,7 +137,7 @@ export class WebusbService {
     }
     // Select other device.
     if (this.devices.length > 0) {
-      this.selectDevice(this.devices[0])
+      this.selectDevice(this.devices.at(-1))
     } else {
       this.selectDevice(undefined)
     }
@@ -166,7 +166,16 @@ export class WebusbService {
   }
 
   listDevices() {
-    return this.devices.sort((a, b) => a.isController() ? 1 : -1)
+    // Copy list.
+    let list = [...this.devices]
+    // Sort dongle first.
+    list = list.sort((a, b) => a.isController() ? 1 : -1)
+    // Hide wireless Alpakka if wired is connected.
+    if (this.deviceListHasDongle() && this.deviceListHasWiredAlpakka()) {
+      list = list.filter(device => device.isWired())
+    }
+    // Return.
+    return list
   }
 
   async forgetDevice() {
@@ -174,6 +183,14 @@ export class WebusbService {
     this.removeDevice(this.selectedDevice!)
     // // Nuclear option since otherwise the same device cannot be requested again.
     // window.location.reload()  // Not needed anymore?
+  }
+
+  deviceListHasDongle() {
+    return this.devices.some(device => device.isDongle())
+  }
+
+  deviceListHasWiredAlpakka() {
+    return this.devices.some(device => device.isAlpakkaV1() && device.isWired())
   }
 
   isController() {
