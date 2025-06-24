@@ -3,7 +3,7 @@ SPDX-License-Identifier: GPL-2.0-only
 Copyright (C) 2023, Input Labs Oy.
 -->
 
-<div *ngIf='this.isTools()'>
+<div *ngIf='this.isSettings()'>
     <a
         routerLink=''
         routerLinkActive='active'
@@ -12,14 +12,43 @@ Copyright (C) 2023, Input Labs Oy.
         <span class='material'>terminal</span>
         <div>Logs and commands</div>
     </a>
-    <a routerLink='tools/tester' routerLinkActive='active'>
+    <!-- Tune -->
+    <a routerLink='settings/protocol' routerLinkActive='active' *ngIf='webusb.isController()'>
+        <span class='material'>usb</span>
+        <div>Protocol</div>
+    </a>
+    <a routerLink='settings/touch_sens' routerLinkActive='active' *ngIf='webusb.isController()'>
+        <span class='material'>touch_app</span>
+        <div>Touch sensitivity</div>
+    </a>
+    <a routerLink='settings/mouse_sens' routerLinkActive='active' *ngIf='webusb.isController()'>
+        <span class='material'>mouse</span>
+        <div>Mouse sensitivity</div>
+    </a>
+    <a routerLink='settings/deadzone' routerLinkActive='active' *ngIf='webusb.isController()'>
+        <span class='material'>adjust</span>
+        <div>Thumbstick deadzone</div>
+    </a>
+    <a routerLink='settings/advanced' routerLinkActive='active' *ngIf='webusb.isController()'>
+        <span class='material'>tune</span>
+        <div>Advanced</div>
+    </a>
+    <!-- <a routerLink='settings/dongle' routerLinkActive='active' *ngIf='webusb.isDongle()'>
+        <span class='material'>tune</span>
+        <div>Dongle</div>
+    </a> -->
+    <a routerLink='settings/app' routerLinkActive='active'>
+        <span class='material'>screenshot_monitor</span>
+        <div>App settings</div>
+    </a>
+    <!-- <a routerLink='tools/tester' routerLinkActive='active'>
         <span class='material'>sports_esports</span>
         <div>Output tester</div>
     </a>
     <a routerLink='tools/fw_update' routerLinkActive='active'>
         <span class='material'>install_mobile</span>
         <div>Firmware update</div>
-    </a>
+    </a> -->
 </div>
 
 <div *ngIf='this.isProfiles()'>
@@ -74,33 +103,6 @@ Copyright (C) 2023, Input Labs Oy.
     <a routerLink='profiles/12' routerLinkActive='active'>
         <app-led [colorOff]='ledColorOff' [dotsize]='16' [on]='getProfileLed(12)'/>
         <div>{{getProfileName(12)}}</div>
-    </a>
-</div>
-
-<div *ngIf='this.isSettings()'>
-    <a routerLink='settings/protocol' routerLinkActive='active'>
-        <span class='material'>usb</span>
-        <div>Protocol</div>
-    </a>
-    <a routerLink='settings/touch_sens' routerLinkActive='active' *ngIf='webusb.isController()'>
-        <span class='material'>touch_app</span>
-        <div>Touch sensitivity</div>
-    </a>
-    <a routerLink='settings/mouse_sens' routerLinkActive='active' *ngIf='webusb.isController()'>
-        <span class='material'>mouse</span>
-        <div>Mouse sensitivity</div>
-    </a>
-    <a routerLink='settings/deadzone' routerLinkActive='active' *ngIf='webusb.isController()'>
-        <span class='material'>adjust</span>
-        <div>Thumbstick deadzone</div>
-    </a>
-    <a routerLink='settings/advanced' routerLinkActive='active' *ngIf='webusb.isController()'>
-        <span class='material'>tune</span>
-        <div>Advanced</div>
-    </a>
-    <a routerLink='settings/app' routerLinkActive='active'>
-        <span class='material'>screenshot_monitor</span>
-        <div>App settings</div>
     </a>
 </div>
 

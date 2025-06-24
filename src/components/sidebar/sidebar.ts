@@ -40,16 +40,12 @@ export class SidebarComponent {
     })
   }
 
-  isTools() {
-    return this.route == '/' || this.route.startsWith('/tools')
+  isSettings() {
+    return this.route == '/' || this.route.startsWith('/settings')
   }
 
   isProfiles() {
     return this.route.startsWith('/profiles')
-  }
-
-  isSettings() {
-    return this.route.startsWith('/settings')
   }
 
   isHelp() {

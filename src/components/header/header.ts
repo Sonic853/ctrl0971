@@ -27,7 +27,7 @@ export class HeaderComponent {
   dialogFirmware: any
   lastRouteForTools = ''
   lastRouteForProfiles = '/profiles/0'
-  lastRouteForSettings = '/settings/protocol'
+  lastRouteForSettings = '/'
   // Template aliases.
   LATEST_FIRMWARE = MINUMUM_FIRMWARE_VERSION
   RELEASES_LINK = RELEASES_LINK
@@ -40,13 +40,10 @@ export class HeaderComponent {
       if (event instanceof NavigationEnd) {
         this.route = event.urlAfterRedirects
         // Remember route.
-        if (this.route.startsWith('/tools')) {
-          this.lastRouteForTools = this.route
-        }
         if (this.route.startsWith('/profiles')) {
           this.lastRouteForProfiles = this.route
         }
-        if (this.route.startsWith('/settings')) {
+        if (this.route.startsWith('/settings') || this.route == '/') {
           this.lastRouteForSettings = this.route
         }
       }
@@ -57,8 +54,8 @@ export class HeaderComponent {
     if (this.shouldWarningFirmware()) this.showDialogFirmware()
   }
 
-  routeIsTools() {
-    return this.route == '/' || this.route.startsWith('/tools')  ? 'active' : ''
+  routeIsSettings() {
+    return this.route == '/' || this.route.startsWith('/settings')  ? 'active' : ''
   }
 
   showDialogFirmware() {
