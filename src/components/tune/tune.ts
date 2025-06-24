@@ -76,8 +76,8 @@ export class TuneComponent {
     this.device = this.webusb.selectedDevice
     // Avoid tune options not in dongle.
     if (this.webusb.isDongle()) {
-      if (['mouse_sens', 'touch_sens', 'deadzone'].includes(this.mode.url)) {
-        this.router.navigate(['/settings/protocol'])
+      if (['protocol', 'mouse_sens', 'touch_sens', 'deadzone'].includes(this.mode.url)) {
+        this.router.navigate(['/'])
       }
     }
     this.init()
