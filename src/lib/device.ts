@@ -30,12 +30,14 @@ import {
 const ADDR_IN = 3
 const ADDR_OUT = 4
 const TIMEOUT = 500
+const STATUS_FETCH_MAX_ATTEMPTS = 10
+const STATUS_FETCH_DELAY_ATTEMPT = 200
 
 export class Device {
   usbDevice: USBDevice
   proxiedDevice?: Device
   proxyEnabled: boolean = false
-  deviceVersion = [0, 0, 0]
+  firmwareVersion = [0, 0, 0]
   logs: string[] = []
   logsProxy: string[] = []
   isConnected = false
@@ -44,6 +46,7 @@ export class Device {
   isBusy = false
   failed = false
   failedError?: Error
+  pendingStatus?: AsyncSubject<CtrlStatusShare>
   pendingConfig?: AsyncSubject<CtrlConfigShare>
   pendingProfile?: AsyncSubject<CtrlSection>
   profiles: Profiles
@@ -62,7 +65,7 @@ export class Device {
     this.isConnected = false
     this.isConnectedRaw = false
     this.isListening = false
-    this.deviceVersion = [0, 0, 0]
+    this.firmwareVersion = [0, 0, 0]
   }
 
   async openDevice() {
@@ -77,7 +80,6 @@ export class Device {
       await this.sendEmpty()
       this.isConnected = true;
       this.isConnectedRaw = true;
-      await this.sendStatusGet()
     } catch (error) {
       this.failed = true
       this.failedError = error as Error
@@ -89,15 +91,23 @@ export class Device {
   async listen() {
     this.isListening = true
     try {
+      // Listen to incoming USB data.
       const response = await this.usbDevice.transferIn(ADDR_IN, PACKAGE_SIZE)
       let data = response.data as any
       const array = new Uint8Array(data.buffer)
       const ctrl = Ctrl.decode(array)
       // console.log('Received', ctrl)
       if (ctrl instanceof CtrlLog) this.handleCtrlLog(ctrl)
-      if (ctrl instanceof CtrlStatusShare) this.handleCtrlStatusShare(ctrl)
+      if (ctrl instanceof CtrlStatusShare) {
+        if (this.pendingStatus) {
+          this.pendingStatus.next(ctrl)
+          this.pendingStatus.complete()
+          this.pendingStatus = undefined
+        } else {
+          this.handleCtrlStatusShare(ctrl)
+        }
+      }
       if (ctrl instanceof CtrlConfigShare) {
-        // console.log(ctrl)
         if (this.pendingConfig) {
           this.pendingConfig.next(ctrl)
           this.pendingConfig.complete()
@@ -107,7 +117,6 @@ export class Device {
         }
       }
       if (ctrl instanceof CtrlSection) {
-        // console.log(ctrl)
         if (this.pendingProfile) {
           this.pendingProfile.next(ctrl as CtrlSection)
           this.pendingProfile.complete()
@@ -137,6 +146,10 @@ export class Device {
 
   getName() {
     return this.usbDevice.productName
+  }
+
+  getFirmwareAsString() {
+    return `${this.firmwareVersion[0]}.${this.firmwareVersion[1]}.${this.firmwareVersion[2]}`
   }
 
   getConnectorName() {
@@ -186,9 +199,10 @@ export class Device {
   }
 
   handleCtrlStatusShare(ctrl: CtrlStatusShare) {
-    this.deviceVersion = ctrl.version
-    console.log('Firmware of connected device:', this.deviceVersion)
-    this.sendStatusSet()
+    this.firmwareVersion = ctrl.version
+    const wired = this.isProxy() ? 'wireless' : 'wired'
+    console.log(`Firmware of device "${this.getName()}" (${wired}): ${this.getFirmwareAsString()}`)
+    // this.sendStatusSet()
   }
 
   handleCtrlConfigShare(ctrl: CtrlConfigShare) {
@@ -230,6 +244,45 @@ export class Device {
     }
     // console.log(ctrl)
     await this.usbDevice.transferOut(ADDR_OUT, ctrl.encode())
+  }
+
+  async getStatus(): Promise<CtrlStatusShare> {
+    this.pendingStatus = new AsyncSubject()
+    const ctrlOut = new CtrlStatusGet()
+    await this.send(ctrlOut)
+    const responsePromise: Promise<CtrlStatusShare> = new Promise((resolve, reject) => {
+      this.pendingStatus?.subscribe({
+        next: (ctrlIn) => {
+          resolve(ctrlIn)
+        }
+      })
+    })
+    const timeoutMessage = `Timeout in getStatus`
+    const timeout = timeoutPromise(TIMEOUT, timeoutMessage) as Promise<CtrlStatusShare>
+    return Promise.race([responsePromise, timeout])
+  }
+
+  async tryGetStatus() {
+    console.log('tryGetStatus', this.getName())
+    await delay(100)  // Increase the chances device is already connected.
+    let attempts = 0
+    while(true) {
+      try {
+        if (!this.isConnected) throw Error('tryGetStatus: Device not connected')
+        if (this.getFirmwareAsString() !== '0.0.0') break
+        const status = await this.getStatus()
+        this.handleCtrlStatusShare(status)
+        break
+      } catch(error) {
+        attempts += 1
+        if (attempts <= STATUS_FETCH_MAX_ATTEMPTS) console.warn(error)
+        else {
+          console.error(error)
+          break
+        }
+        await delay(STATUS_FETCH_DELAY_ATTEMPT)
+      }
+    }
   }
 
   async getConfig(index: ConfigIndex): Promise<PresetWithValues> {

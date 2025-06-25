@@ -64,7 +64,8 @@ Copyright (C) 2023, Input Labs Oy.
     <div>
         {{webusb.selectedDevice!.getConnectorName()}} firmware is outdated, the Ctrl app won't work correctly.<br/>
         <br/>
-        Current {{webusb.selectedDevice!.getConnectorName()}} firmware: <span class='em'>{{firmwareAsString(webusb.getDeviceVersion())}}</span><br/>
+        Current {{webusb.selectedDevice!.getConnectorName()}}
+        firmware: <span class='em'>{{firmwareAsString(webusb.getFirmwareVersion())}}</span><br/>
         Minimum recommended firmware: <span class='em'>{{firmwareAsString(LATEST_FIRMWARE)}}+</span><br/>
         <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>

@@ -32,13 +32,14 @@ export class WebusbService {
       for(let usbDevice of usbDevices) {
         this.addDevice(usbDevice)
       }
+      this.selectDevice(this.listDevices().at(-1))
     })
   }
 
   configureCallbacks() {
     navigator.usb.addEventListener("connect", (event:any) => {
       console.log('Device connected')
-      this.addDevice(event.device)
+      this.addDevice(event.device, true)
     })
     navigator.usb.addEventListener("disconnect", (event:any) => {
       console.log('Device disconnected')
@@ -85,9 +86,14 @@ export class WebusbService {
     }
   }
 
-  getDeviceVersion() {
+  getFirmwareVersion() {
     if (!this.selectedDevice) return [0,0,0]
-    return this.selectedDevice!.deviceVersion
+    return this.selectedDevice!.firmwareVersion
+  }
+
+  getFirmwareAsString() {
+    if (!this.selectedDevice) return '0.0.0'
+    return this.selectedDevice!.getFirmwareAsString()
   }
 
   getManufacturerName() {
@@ -115,7 +121,7 @@ export class WebusbService {
     }
   }
 
-  addDevice(usbDevice: USBDevice) {
+  addDevice(usbDevice: USBDevice, select=false) {
     let device = new Device(usbDevice)
     this.devices.push(device)
     if (device.isDongle()) {
@@ -124,7 +130,7 @@ export class WebusbService {
       device.proxiedDevice = proxy
       this.devices.push(proxy)
     }
-    this.selectDevice(this.devices.at(-1))
+    if (select) this.selectDevice(device)
   }
 
   removeDevice(device: Device) {
@@ -143,11 +149,14 @@ export class WebusbService {
     }
   }
 
-  selectDevice(device?: Device) {
+  async selectDevice(device?: Device) {
+    console.log('selectDevice', device)
     this.selectedDevice = device
     if (!device) return
     // Proxy switch.
     device.proxyEnabled = device.isProxy()
+    // Request device firmware version.
+    await device.tryGetStatus()
     // Force component refresh with dummy redirect technique.
     // (retriggers component ngOnInit).
     const refresh = (url?: string) => {

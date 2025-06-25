@@ -84,8 +84,9 @@ export class HeaderComponent {
   shouldWarningFirmware() {
     // Should display a Forced modal window?.
     if (!this.webusb.isConnectedRaw()) return false
+    if (this.webusb.getFirmwareAsString() === '0.0.0') return
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
-    const deviceVersion = this.firmwareAsNumber(this.webusb.getDeviceVersion())
+    const deviceVersion = this.firmwareAsNumber(this.webusb.getFirmwareVersion())
     const ackVersion = Number(localStorage.getItem(FIRMWARE_ACK))
     if (!deviceVersion) return 0
     return (deviceVersion < minimumVersion) && (ackVersion < minimumVersion)
@@ -94,8 +95,9 @@ export class HeaderComponent {
   shouldNotifyFirmware() {
     // Should notify as an icon in the header?.
     if (!this.webusb.isConnectedRaw()) return false
+    if (this.webusb.getFirmwareAsString() === '0.0.0') return
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
-    const deviceVersion = this.firmwareAsNumber(this.webusb.getDeviceVersion())
+    const deviceVersion = this.firmwareAsNumber(this.webusb.getFirmwareVersion())
     return deviceVersion < minimumVersion
   }
 }
