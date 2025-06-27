@@ -64,7 +64,7 @@ export class LogsComponent {
   }
 
   async filterGet() {
-    const config = await this.webusb.getConfig(ConfigIndex.LOG_MASK)
+    const config = await this.webusb.tryGetConfig(ConfigIndex.LOG_MASK)
     this.filterUSB = !!(config.presetIndex & LogMask.USB)
     this.filterTouch = !!(config.presetIndex & LogMask.TOUCH)
     this.filterWireless = !!(config.presetIndex & LogMask.WIRELESS)
@@ -75,6 +75,6 @@ export class LogsComponent {
     if (this.filterUSB) logMask += LogMask.USB
     if (this.filterTouch) logMask += LogMask.TOUCH
     if (this.filterWireless) logMask += LogMask.WIRELESS
-    this.webusb.setConfig(ConfigIndex.LOG_MASK, logMask, [])
+    this.webusb.trySetConfig(ConfigIndex.LOG_MASK, logMask, [])
   }
 }

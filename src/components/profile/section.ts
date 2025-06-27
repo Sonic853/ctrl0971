@@ -301,7 +301,7 @@ export class SectionComponent {
   }
 
   save = async () => {
-    await this.webusb.setSection(this.profileIndex, this.section)
+    await this.webusb.trySetSection(this.profileIndex, this.section)
   }
 }
 

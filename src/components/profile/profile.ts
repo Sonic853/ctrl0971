@@ -14,8 +14,6 @@ import { sectionIsGyroAxis, sectionIsHome } from 'lib/ctrl'
 import { SectionIndex } from 'lib/ctrl'
 import { Device } from 'lib/device'
 
-const MAX_FETCH_ATTEMPTS = 3
-
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -67,45 +65,14 @@ export class ProfileComponent {
   }
 
   async tryFetchNames() {
-    let attempts = 0
-    while(true) {
-      try {
-        const profiles = this.webusb.selectedDevice!.profiles
-        await profiles.fetchProfileNames()
-        break
-      } catch(error) {
-        attempts += 1
-        if (attempts <= MAX_FETCH_ATTEMPTS) console.warn(error)
-        else {
-          console.error(error)
-          break
-        }
-      }
-    }
+    const profiles = this.webusb.selectedDevice!.profiles
+    await profiles.fetchProfileNames()
   }
 
   async tryFetchProfile() {
-    const log = `tryFetchProfile ${this.profileIndex}`
-    console.log(log)
-    let attempts = 0
-    let success = false
-    while(true) {
-      try {
-        const profiles = this.webusb.selectedDevice!.profiles
-        await profiles.fetchProfile(this.profileIndex, false)
-        success = true
-        break
-      } catch(error) {
-        attempts += 1
-        if (attempts <= MAX_FETCH_ATTEMPTS) console.warn(error)
-        else {
-          console.error(error)
-          break
-        }
-      }
-    }
-    if (success) console.log(log, 'OK')
-    else console.log(log, 'FAILED')
+    console.log('tryFetchProfile', this.profileIndex)
+    const profiles = this.webusb.selectedDevice!.profiles
+    await profiles.fetchProfile(this.profileIndex, false)
   }
 
   getProfile() {

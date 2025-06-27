@@ -18,7 +18,7 @@ export class Tunes {
   }
 
   async fetchPreset(configIndex: number) {
-    const presetWithValues = await this.device.getConfig(configIndex)
+    const presetWithValues = await this.device.tryGetConfig(configIndex)
     this.presets[configIndex] = presetWithValues
   }
 
@@ -31,7 +31,7 @@ export class Tunes {
 
   async setPreset(configIndex: number, presetIndex: number, values: number[]) {
     this.presets[configIndex] = {presetIndex, values}
-    return await this.device.setConfig(configIndex, presetIndex, values)
+    return await this.device.trySetConfig(configIndex, presetIndex, values)
   }
 
   async invalidatePresets() {

@@ -47,7 +47,7 @@ export class Profiles {
   }
 
   async fetchProfileName(index: number) {
-    const section = await this.device.getSection(index, SectionIndex.META)
+    const section = await this.device.tryGetSection(index, SectionIndex.META)
     this.profiles[index].meta = section as CtrlSectionMeta
   }
 
@@ -56,11 +56,11 @@ export class Profiles {
     // Replace internal meta properties instead of the whole object, so Angular
     // reference to the object is not lost. (Profile name is special because is
     // linked in many dynamic UI elements).
-    const meta = await this.device.getSection(profileIndex, SectionIndex.META) as CtrlSectionMeta
+    const meta = await this.device.tryGetSection(profileIndex, SectionIndex.META) as CtrlSectionMeta
     profile.meta.replaceContentsWith(meta)
     // Buttons.
     const getButton = async (sectionIndex: SectionIndex) => {
-      return await this.device.getSection(profileIndex, sectionIndex) as CtrlButton
+      return await this.device.tryGetSection(profileIndex, sectionIndex) as CtrlButton
     }
     profile.buttonA = await getButton(SectionIndex.A)
     profile.buttonB = await getButton(SectionIndex.B)
@@ -103,22 +103,22 @@ export class Profiles {
     profile.buttonRStickDR = await getButton(SectionIndex.RSTICK_DR)
     profile.buttonRStickPush = await getButton(SectionIndex.RSTICK_PUSH)
     // Rotary.
-    const rotaryUp = await this.device.getSection(profileIndex, SectionIndex.ROTARY_UP) as CtrlRotary
-    const rotaryDown = await this.device.getSection(profileIndex, SectionIndex.ROTARY_DOWN) as CtrlRotary
+    const rotaryUp = await this.device.tryGetSection(profileIndex, SectionIndex.ROTARY_UP) as CtrlRotary
+    const rotaryDown = await this.device.tryGetSection(profileIndex, SectionIndex.ROTARY_DOWN) as CtrlRotary
     profile.rotaryUp = rotaryUp
     profile.rotaryDown = rotaryDown
     // Thumbstick mode.
-    const lStick = await this.device.getSection(profileIndex, SectionIndex.LSTICK_SETTINGS) as CtrlThumbstick
-    const rStick = await this.device.getSection(profileIndex, SectionIndex.RSTICK_SETTINGS) as CtrlThumbstick
+    const lStick = await this.device.tryGetSection(profileIndex, SectionIndex.LSTICK_SETTINGS) as CtrlThumbstick
+    const rStick = await this.device.tryGetSection(profileIndex, SectionIndex.RSTICK_SETTINGS) as CtrlThumbstick
     profile.settingsLStick = lStick
     profile.settingsRStick = rStick
     // Gyro mode.
-    const gyro = await this.device.getSection(profileIndex, SectionIndex.GYRO_SETTINGS) as CtrlGyro
+    const gyro = await this.device.tryGetSection(profileIndex, SectionIndex.GYRO_SETTINGS) as CtrlGyro
     profile.settingsGyro = gyro
     // Gyro Axes.
-    profile.gyroX = await this.device.getSection(profileIndex, SectionIndex.GYRO_X) as CtrlGyroAxis
-    profile.gyroY = await this.device.getSection(profileIndex, SectionIndex.GYRO_Y) as CtrlGyroAxis
-    profile.gyroZ = await this.device.getSection(profileIndex, SectionIndex.GYRO_Z) as CtrlGyroAxis
+    profile.gyroX = await this.device.tryGetSection(profileIndex, SectionIndex.GYRO_X) as CtrlGyroAxis
+    profile.gyroY = await this.device.tryGetSection(profileIndex, SectionIndex.GYRO_Y) as CtrlGyroAxis
+    profile.gyroZ = await this.device.tryGetSection(profileIndex, SectionIndex.GYRO_Z) as CtrlGyroAxis
   }
 
   getProfile(profileIndex: number) {
@@ -157,7 +157,7 @@ export class Profiles {
     sections = this.upgradeFrom097to100(sections)
     for(let section of sections) {
       console.log('Section from blob', section)
-      await this.device.setSection(profileIndex, section)
+      await this.device.trySetSection(profileIndex, section)
     }
     this.fetchProfile(profileIndex, true)
   }
