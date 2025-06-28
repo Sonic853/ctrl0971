@@ -273,6 +273,7 @@ Copyright (C) 2023, Input Labs Oy.
             (ngModelChange)='save()'
             >
             <option [value]='getPins().NONE'>None</option>
+            <option [value]='getPins().TOUCH_IN_RC' *ngIf='gyro.engage===getPins().TOUCH_IN_RC'>Hexagon surface (rc)</option>
             <option [value]='getPins().TOUCH_IN'>Hexagon surface</option>
             <option [value]='getPins().A'>A</option>
             <option [value]='getPins().B'>B</option>
