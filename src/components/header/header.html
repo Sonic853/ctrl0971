@@ -36,7 +36,11 @@ Copyright (C) 2023, Input Labs Oy.
 
     <div class=filler></div>
 
-    <div class='notification' *ngIf='shouldNotifyFirmware()' (click)='showDialogFirmware()'>
+    <div class='notification' *ngIf='shouldNotifyFirmware()' (click)='showDialog("firmware")'>
+        <span class='material'>emergency_home</span>
+    </div>
+
+    <div class='notification' *ngIf='shouldNotifySerial()' (click)='showDialog("serial")'>
         <span class='material'>emergency_home</span>
     </div>
 
@@ -70,6 +74,19 @@ Copyright (C) 2023, Input Labs Oy.
         <a [href]='RELEASES_LINK' target='_blank'>Check latest firmware releases</a>
     </div>
     <div class='buttons'>
-        <button (click)='hideDialogFirmware() && firmwareAck()'>Got it!</button>
+        <button (click)='hideDialog() && firmwareAck()'>Got it!</button>
+    </div>
+</dialog>
+
+<dialog id='dialog-serial'>
+    <h3>Controller model undefined</h3>
+    <div>
+        The identifier for the controller model cannot be read.
+        The app functionality is limited without this piece of information.
+        <br/><br/>
+        A privacy protector (for example Brave Shields) could be blocking the access to it.
+    </div>
+    <div class='buttons'>
+        <button (click)='hideDialog()'>Close</button>
     </div>
 </dialog>

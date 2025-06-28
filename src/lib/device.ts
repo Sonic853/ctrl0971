@@ -184,6 +184,12 @@ export class Device {
     return !this.isProxy()
   }
 
+  canReadSerialNumber() {
+    if (!this.usbDevice.serialNumber) return false
+    if (this.usbDevice.serialNumber.length >= 8) return false  // Brave Shield obfuscation case.
+    return true
+  }
+
   clearLogs() {
     if (this.proxyEnabled) this.logsProxy = []
     else this.logs = []

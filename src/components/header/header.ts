@@ -24,7 +24,7 @@ const FIRMWARE_ACK = 'firmware_ack'
 })
 export class HeaderComponent {
   route: string = ''
-  dialogFirmware: any
+  dialog: any
   lastRouteForTools = ''
   lastRouteForProfiles = '/profiles/0'
   lastRouteForSettings = '/'
@@ -51,20 +51,20 @@ export class HeaderComponent {
   }
 
   ngAfterViewChecked() {
-    if (this.shouldWarningFirmware()) this.showDialogFirmware()
+    if (this.shouldWarningFirmware()) this.showDialog('firmware')
   }
 
   routeIsSettings() {
     return this.route == '/' || this.route.startsWith('/settings')  ? 'active' : ''
   }
 
-  showDialogFirmware() {
-    this.dialogFirmware = document.getElementById('dialog-firmware')
-    this.dialogFirmware.showModal()
+  showDialog(id: string) {
+    this.dialog = document.getElementById(`dialog-${id}`)
+    this.dialog.showModal()
   }
 
-  hideDialogFirmware(): boolean {
-    this.dialogFirmware.close()
+  hideDialog(): boolean {
+    this.dialog.close()
     return true
   }
 
@@ -99,5 +99,12 @@ export class HeaderComponent {
     const minimumVersion = this.firmwareAsNumber(MINUMUM_FIRMWARE_VERSION)
     const deviceVersion = this.firmwareAsNumber(this.webusb.getFirmwareVersion())
     return deviceVersion < minimumVersion
+  }
+
+  shouldNotifySerial() {
+    if (!this.webusb.selectedDevice) return false
+    if (!this.webusb.selectedDevice.isConnected) return false
+    if (!this.webusb.selectedDevice.isController()) return false
+    return !this.webusb.selectedDevice.canReadSerialNumber()
   }
 }
