@@ -503,11 +503,11 @@ Copyright (C) 2023, Input Labs Oy.
                 <span (click)='pickProfile()'>SET PROFILE {{pickerProfile}}</span>
                 <span class='prevnext' (click)='pickProfile(+1)'>⏵</span>
             </div>
-            <div class='key' [ngClass]='pickCls(HID.PROC_ROTARY_MODE_0 + pickerRotary)'>
+            <!-- <div class='key' [ngClass]='pickCls(HID.PROC_ROTARY_MODE_0 + pickerRotary)'>
                 <span class='prevnext' (click)='pickRotary(-1)'>⏴</span>
                 <span (click)='pickRotary()'>SET ROTARY {{pickerRotary}}</span>
                 <span class='prevnext' (click)='pickRotary(+1)'>⏵</span>
-            </div>
+            </div> -->
             <div class='key' [ngClass]='pickCls(HID.PROC_MACRO_1 + pickerMacro - 1)'>
                 <span class='prevnext' (click)='pickMacro(-1)'>⏴</span>
                 <span (click)='pickMacro()'>MACRO {{pickerMacro}}</span>
@@ -527,7 +527,8 @@ Copyright (C) 2023, Input Labs Oy.
             </div>
             <div class='key' [ngClass]='pickCls(HID.PROC_CALIBRATE)' (click)='pick(HID.PROC_CALIBRATE)'>CALIBRATE</div>
             <div class='key' [ngClass]='pickCls(HID.PROC_BOOTSEL)' (click)='pick(HID.PROC_BOOTSEL)'>BOOTSEL</div>
-            <div class='key' [ngClass]='pickCls(HID.PROC_THANKS)' (click)='pick(HID.PROC_THANKS)'>THANKS</div>
+            <div class='key' [ngClass]='pickCls(HID.PROC_PAIR)' (click)='pick(HID.PROC_PAIR)'>PAIR</div>
+            <div class='key' [ngClass]='pickCls(HID.PROC_SLEEP)' (click)='pick(HID.PROC_SLEEP)'>SLEEP</div>
         </div>
 
         <div class='compact gamepad'>
