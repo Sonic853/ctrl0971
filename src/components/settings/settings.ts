@@ -44,12 +44,12 @@ export class SettingsComponent {
 
   async load() {
     const getConfig = async(index: ConfigIndex) => {
-      return (await this.webusb.getConfig(index)).presetIndex
+      return (await this.webusb.tryGetConfig(index)).presetIndex
     }
     this.longCalibration = !!await getConfig(ConfigIndex.LONG_CALIBRATION)
     this.swapGyros = !!await getConfig(ConfigIndex.SWAP_GYROS)
     this.invertTouchPolarity = !!await getConfig(ConfigIndex.TOUCH_INVERT_POLARITY)
-    const gyroUserOffset = await this.webusb.getConfig(ConfigIndex.GYRO_USER_OFFSET)
+    const gyroUserOffset = await this.webusb.tryGetConfig(ConfigIndex.GYRO_USER_OFFSET)
     this.gyroUserOffsetX = gyroUserOffset.values[0]
     this.gyroUserOffsetY = gyroUserOffset.values[1]
     this.gyroUserOffsetZ = gyroUserOffset.values[2]
@@ -60,19 +60,19 @@ export class SettingsComponent {
   }
 
   async saveLongCalibration() {
-    await this.webusb.setConfig(ConfigIndex.LONG_CALIBRATION, +this.longCalibration, [])
+    await this.webusb.trySetConfig(ConfigIndex.LONG_CALIBRATION, +this.longCalibration, [])
   }
 
   async saveSwapGyros() {
-    await this.webusb.setConfig(ConfigIndex.SWAP_GYROS, +this.swapGyros, [])
+    await this.webusb.trySetConfig(ConfigIndex.SWAP_GYROS, +this.swapGyros, [])
   }
 
   async saveInvertTouchPolarity() {
-    await this.webusb.setConfig(ConfigIndex.TOUCH_INVERT_POLARITY, +this.invertTouchPolarity, [])
+    await this.webusb.trySetConfig(ConfigIndex.TOUCH_INVERT_POLARITY, +this.invertTouchPolarity, [])
   }
 
   async saveGyroUserOffset() {
-    await this.webusb.setConfig(ConfigIndex.GYRO_USER_OFFSET, 0, [
+    await this.webusb.trySetConfig(ConfigIndex.GYRO_USER_OFFSET, 0, [
       this.gyroUserOffsetX,
       this.gyroUserOffsetY,
       this.gyroUserOffsetZ,
@@ -80,7 +80,7 @@ export class SettingsComponent {
   }
 
   async saveThumbstickSmoothSamples() {
-    await this.webusb.setConfig(ConfigIndex.THUMBSTICK_SMOOTH_SAMPLES, +this.thumbstickSmoothSamples, [])
+    await this.webusb.trySetConfig(ConfigIndex.THUMBSTICK_SMOOTH_SAMPLES, +this.thumbstickSmoothSamples, [])
   }
 
   showDialogHelp(key: string) {

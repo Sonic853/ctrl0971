@@ -96,7 +96,7 @@ export class TuneComponent {
   }
 
   async getPreset() {
-    console.log(`getPreset ${ConfigIndex[this.mode.configIndex]}`)
+    // console.log(`getPreset ${ConfigIndex[this.mode.configIndex]}`)
     const tunes = this.webusb.selectedDevice!.tunes
     const presetWithValues = await tunes.getPreset(this.mode.configIndex)
     if (this.mode.url != 'protocol') {

@@ -233,20 +233,20 @@ export class WebusbService {
     return await this.selectedDevice!.sendProfileOverwrite(indexTo, indexFrom)
   }
 
-  async getConfig(index: ConfigIndex): Promise<PresetWithValues> {
-    return await this.selectedDevice!.getConfig(index)
+  async tryGetConfig(index: ConfigIndex): Promise<PresetWithValues> {
+    return await this.selectedDevice!.tryGetConfig(index)
   }
 
-  async setConfig(index: ConfigIndex, preset: number, values: number[]): Promise<number> {
-    return await this.selectedDevice!.setConfig(index, preset, values)
+  async trySetConfig(index: ConfigIndex, preset: number, values: number[]): Promise<number> {
+    return await this.selectedDevice!.trySetConfig(index, preset, values)
   }
 
-  async getSection(profileIndex: number, sectionIndex: SectionIndex): Promise<CtrlSection> {
-    return await this.selectedDevice!.getSection(profileIndex, sectionIndex)
+  async tryGetSection(profileIndex: number, sectionIndex: SectionIndex): Promise<CtrlSection> {
+    return await this.selectedDevice!.tryGetSection(profileIndex, sectionIndex)
   }
 
-  async setSection( profileIndex: number, section: CtrlSection) {
-    return await this.selectedDevice!.setSection(profileIndex, section)
+  async trySetSection( profileIndex: number, section: CtrlSection) {
+    return await this.selectedDevice!.trySetSection(profileIndex, section)
   }
 
   getProfiles() {

@@ -30,8 +30,10 @@ import {
 const ADDR_IN = 3
 const ADDR_OUT = 4
 const TIMEOUT = 500
-const STATUS_FETCH_MAX_ATTEMPTS = 10
-const STATUS_FETCH_DELAY_ATTEMPT = 200
+
+const FETCH_GENERIC_MAX_ATTEMPTS = 5
+const FETCH_STATUS_MAX_ATTEMPTS = 10
+const FETCH_STATUS_DELAY_ATTEMPT = 250
 
 export class Device {
   usbDevice: USBDevice
@@ -262,29 +264,6 @@ export class Device {
     return Promise.race([responsePromise, timeout])
   }
 
-  async tryGetStatus() {
-    console.log('tryGetStatus', this.getName())
-    await delay(100)  // Increase the chances device is already connected.
-    let attempts = 0
-    while(true) {
-      try {
-        if (!this.isConnected) throw Error('tryGetStatus: Device not connected')
-        if (this.getFirmwareAsString() !== '0.0.0') break
-        const status = await this.getStatus()
-        this.handleCtrlStatusShare(status)
-        break
-      } catch(error) {
-        attempts += 1
-        if (attempts <= STATUS_FETCH_MAX_ATTEMPTS) console.warn(error)
-        else {
-          console.error(error)
-          break
-        }
-        await delay(STATUS_FETCH_DELAY_ATTEMPT)
-      }
-    }
-  }
-
   async getConfig(index: ConfigIndex): Promise<PresetWithValues> {
     this.pendingConfig = new AsyncSubject()
     const ctrlOut = new CtrlConfigGet(index)
@@ -360,6 +339,60 @@ export class Device {
     const timeoutMessage = `Timeout in setSection`
     const timeout = timeoutPromise(TIMEOUT, timeoutMessage)
     return Promise.race([responsePromise, timeout])
+  }
+
+  async tryGetStatus() {
+    console.log('tryGetStatus', this.getName())
+    await delay(100)  // Increase the chances device is already connected.
+    let attempts = 0
+    while(true) {
+      try {
+        if (!this.isConnected) throw Error('tryGetStatus: Device not connected')
+        if (this.getFirmwareAsString() !== '0.0.0') break
+        const status = await this.getStatus()
+        this.handleCtrlStatusShare(status)
+        break
+      } catch(error) {
+        attempts += 1
+        if (attempts <= FETCH_STATUS_MAX_ATTEMPTS) console.warn(error)
+        else {
+          console.error(error)
+          break
+        }
+        await delay(FETCH_STATUS_DELAY_ATTEMPT)
+      }
+    }
+  }
+
+  async tryFetch(func: any) {
+    let attempts = 0
+    while(true) {
+      try {
+        return await func()
+      } catch(error) {
+        attempts += 1
+        if (attempts <= FETCH_GENERIC_MAX_ATTEMPTS) console.warn(error)
+        else throw error
+      }
+    }
+  }
+
+  async tryGetConfig(index: ConfigIndex) {
+    console.log('tryGetConfig', ConfigIndex[index])
+    return this.tryFetch(() => this.getConfig(index))
+  }
+
+  async trySetConfig(index: ConfigIndex, preset: number, values: number[]) {
+    console.log('tryGetConfig', ConfigIndex[index], preset, values)
+    return this.tryFetch(() => this.setConfig(index, preset, values))
+  }
+
+  async tryGetSection(profileIndex: number, sectionIndex: SectionIndex) {
+    return this.tryFetch(() => this.getSection(profileIndex, sectionIndex))
+  }
+
+  async trySetSection(profileIndex: number, section: CtrlSection) {
+    return this.tryFetch(() => this.setSection(profileIndex, section))
   }
 
 }
