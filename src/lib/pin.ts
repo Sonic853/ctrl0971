@@ -16,6 +16,7 @@ export enum PinV0 {
   NONE = 0,
   HOME = 20,
   TOUCH_IN = 7,
+  TOUCH_IN_RC = -1,  // For type consistency (there is no v0 rc).
   SELECT_1 = 114,
   SELECT_2 = 113,
   DPAD_LEFT = 104,
@@ -46,6 +47,7 @@ export enum PinV1 {
   NONE = 0,
   HOME = 24,
   TOUCH_IN = 12,
+  TOUCH_IN_RC = 13,
   SELECT_1 = 114,
   SELECT_2 = 110,
   DPAD_LEFT = 104,
