@@ -12,7 +12,6 @@ Copyright (C) 2023, Input Labs Oy.
         <span class='material'>terminal</span>
         <div>Logs and commands</div>
     </a>
-    <!-- Tune -->
     <a routerLink='settings/protocol' routerLinkActive='active' *ngIf='webusb.isController()'>
         <span class='material'>usb</span>
         <div>Protocol</div>
@@ -33,10 +32,6 @@ Copyright (C) 2023, Input Labs Oy.
         <span class='material'>tune</span>
         <div>Advanced</div>
     </a>
-    <!-- <a routerLink='settings/dongle' routerLinkActive='active' *ngIf='webusb.isDongle()'>
-        <span class='material'>tune</span>
-        <div>Dongle</div>
-    </a> -->
     <a routerLink='settings/app' routerLinkActive='active'>
         <span class='material'>screenshot_monitor</span>
         <div>App settings</div>
@@ -108,16 +103,20 @@ Copyright (C) 2023, Input Labs Oy.
 
 <div *ngIf='this.isHelp()'>
     <a routerLink='help/windows' routerLinkActive='active'>
-        <span class='material'>laptop</span>
+        <span class='material'>desktop_windows</span>
         <div>Setup in Windows</div>
-    </a>
-    <a routerLink='help/linux' routerLinkActive='active'>
-        <span class='material'>laptop</span>
-        <div>Setup in Linux</div>
     </a>
     <a routerLink='help/deck' routerLinkActive='active'>
         <span class='material'>stay_current_landscape</span>
         <div>Setup in Steam Deck</div>
+    </a>
+    <a routerLink='help/linux' routerLinkActive='active'>
+        <span class='material'>terminal</span>
+        <div>Setup in Linux</div>
+    </a>
+    <a routerLink='help/pwa' routerLinkActive='active'>
+        <span class='material'>package_2</span>
+        <div>Install as an App</div>
     </a>
     <a routerLink='help/privacy' routerLinkActive='active'>
         <span class='material'>verified_user</span>

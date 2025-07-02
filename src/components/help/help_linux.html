@@ -9,6 +9,7 @@ Copyright (C) 2023, Input Labs Oy.
 <h3>Compatible browsers</h3>
 <ul>
     <li>Chrome / Chromium.</li>
+    <li>Brave.</li>
 </ul>
 <hr/>
 
@@ -17,19 +18,6 @@ Copyright (C) 2023, Input Labs Oy.
     <li>Controller must be either in <em>Linux XInput</em> mode, or in <em>Generic</em> mode.</li>
     <li>Each mode have to be paired individually.</li>
 </ul>
-<hr/>
-
-<h3>OS configuration</h3>
-<p>Create a file with udev rules:</p>
-<p><span class='code'>sudo nano /etc/udev/rules.d/99-alpakka.rules</span></p>
-<div class='code'>
-    <pre>
-{{'SUBSYSTEMS=="usb", ATTRS{idVendor}=="045e", MODE="0660", GROUP="plugdev", SYMLINK+="webusb"'}}
-{{'SUBSYSTEMS=="usb", ATTRS{idVendor}=="0170", MODE="0660", GROUP="plugdev", SYMLINK+="webusb"'}}</pre>
-</div>
-<p>Reconnect the controller and verify the rule has been loaded by checking if <span class='code'>/dev/webusb</span> exist.</p>
-<p>If Chromium was installed using <em>Snap</em>, it may require additional permissions to access USB devices:</p>
-<span class='code'>snap connect chromium:raw-usb</span>
 <hr/>
 
 <h3>Pair controller</h3>
@@ -42,4 +30,16 @@ Copyright (C) 2023, Input Labs Oy.
 <h3>Known issues</h3>
 <p>The controller may have to be unplugged and plugged at least once after opening the browser.</p>
 
-
+<hr/>
+<h3>Additional OS configuration</h3>
+<p>Some distros may require additional Udev rules to allow access to USB devices.</p>
+<p>Create a file with udev rules:</p>
+<p><span class='code'>sudo nano /etc/udev/rules.d/99-alpakka.rules</span></p>
+<div class='code'>
+    <pre>
+{{'SUBSYSTEMS=="usb", ATTRS{idVendor}=="045e", MODE="0660", GROUP="plugdev", SYMLINK+="webusb"'}}
+{{'SUBSYSTEMS=="usb", ATTRS{idVendor}=="0170", MODE="0660", GROUP="plugdev", SYMLINK+="webusb"'}}</pre>
+</div>
+<p>Reconnect the controller and verify the rule has been loaded by checking if <span class='code'>/dev/webusb</span> exist.</p>
+<p>If Chromium was installed using <em>Snap</em>, it may require additional permissions to access USB devices:</p>
+<span class='code'>snap connect chromium:raw-usb</span>

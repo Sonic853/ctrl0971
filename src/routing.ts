@@ -11,6 +11,7 @@ import { HelpWindowsComponent } from 'components/help/help_windows'
 import { HelpLinuxComponent } from 'components/help/help_linux'
 import { HelpDeckComponent } from 'components/help/help_deck'
 import { HelpPrivacyComponent } from 'components/help/help_privacy'
+import { HelpPWAComponent } from 'components/help/help_pwa'
 
 export const routes: Routes = [
   {path: '', component: LogsComponent},
@@ -38,6 +39,7 @@ export const routes: Routes = [
   {path: 'help/windows', component: HelpWindowsComponent},
   {path: 'help/linux', component: HelpLinuxComponent},
   {path: 'help/deck', component: HelpDeckComponent},
+  {path: 'help/pwa', component: HelpPWAComponent},
   {path: 'help/privacy', component: HelpPrivacyComponent},
   // Redirects
   {path: 'profiles', redirectTo: '/profiles/0', pathMatch: 'full' },
