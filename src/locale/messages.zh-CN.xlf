@@ -46,9 +46,9 @@
           <context context-type="linenumber">49,51</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2779596500656409800" datatype="html">
-        <source> Tools </source>
-        <target> 工具 </target>
+      <trans-unit id="4426319772533875265" datatype="html">
+        <source> Settings </source>
+        <target> 设置 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/header/header.html</context>
           <context context-type="linenumber">17,19</context>
@@ -62,20 +62,12 @@
           <context context-type="linenumber">26,28</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4426319772533875265" datatype="html">
-        <source> Settings </source>
-        <target> 设置 </target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/header/header.html</context>
-          <context context-type="linenumber">35,37</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="4349446481980481506" datatype="html">
         <source> Help </source>
         <target> 帮助 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/header/header.html</context>
-          <context context-type="linenumber">44,46</context>
+          <context context-type="linenumber">35,37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8250520580967139485" datatype="html">
@@ -83,7 +75,7 @@
         <target>添加设备</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/header/header.html</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6791540235622735409" datatype="html">
@@ -91,15 +83,15 @@
         <target>需要更新固件</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/header/header.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1541078726057754643" datatype="html">
-        <source> <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> firmware is outdated, the Ctrl app won&apos;t work correctly.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> Current <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> firmware: <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_1" equiv-text="{{firmwareAsString(webusb.getDeviceVersion())}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> Minimum recommended firmware: <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_2" equiv-text="{{firmwareAsString(LATEST_FIRMWARE)}}"/>+<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="START_LINK" ctype="x-a" equiv-text="&lt;a [href]=&apos;RELEASES_LINK&apos; target=&apos;_blank&apos;&gt;"/>Check latest firmware releases<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
-        <target> <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> 固件已过时，Ctrl 应用程序将无法正常工作。<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> 当前 <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> 固件： <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_1" equiv-text="{{firmwareAsString(webusb.getDeviceVersion())}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> 建议最低固件：<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_2" equiv-text="{{firmwareAsString(LATEST_FIRMWARE)}}"/>+<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="START_LINK" ctype="x-a" equiv-text="&lt;a [href]=&apos;RELEASES_LINK&apos; target=&apos;_blank&apos;&gt;"/>查看最新固件版本<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <source> <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> firmware is outdated, the Ctrl app won&apos;t work correctly.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> Current <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> firmware: <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_1" equiv-text="{{firmwareAsString(webusb.getFirmwareVersion())}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> Minimum recommended firmware: <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_2" equiv-text="{{firmwareAsString(LATEST_FIRMWARE)}}"/>+<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="START_LINK" ctype="x-a" equiv-text="&lt;a [href]=&apos;RELEASES_LINK&apos; target=&apos;_blank&apos;&gt;"/>Check latest firmware releases<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <target> <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> 固件已过时，Ctrl 应用程序将无法正常工作。<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> 当前 <x id="INTERPOLATION" equiv-text="{{webusb.selectedDevice!.getConnectorName()}}"/> 固件：<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_1" equiv-text="{{firmwareAsString(webusb.getFirmwareVersion())}}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> 建议最低固件：<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;em&apos;&gt;"/><x id="INTERPOLATION_2" equiv-text="{{firmwareAsString(LATEST_FIRMWARE)}}"/>+<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="START_LINK" ctype="x-a" equiv-text="&lt;a [href]=&apos;RELEASES_LINK&apos; target=&apos;_blank&apos;&gt;"/>查看最新固件版本<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/header/header.html</context>
-          <context context-type="linenumber">76,81</context>
+          <context context-type="linenumber">71,77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="464916539454098167" datatype="html">
@@ -107,7 +99,35 @@
         <target>知道了！</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/header/header.html</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9200093425260901876" datatype="html">
+        <source>Controller model undefined</source>
+        <target>控制器型号未定义</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/header/header.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8582967473875359975" datatype="html">
+        <source> The identifier for the controller model cannot be read. The app functionality is limited without this piece of information. <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/> A privacy protector (for example Brave Shields) could be blocking the access to it. </source>
+        <target> 无法读取控制器型号的标识符。如果没有此信息，应用功能将受到限制。<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>隐私保护程序（例如 Brave Shields）可能阻止了对它的访问。 </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/header/header.html</context>
+          <context context-type="linenumber">86,91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7819314041543176992" datatype="html">
+        <source>Close</source>
+        <target>关闭</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/header/header.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">630</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7824287251368444664" datatype="html">
@@ -150,32 +170,52 @@
           <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4884019850022158047" datatype="html">
+        <source>Brave.</source>
+        <target>Brave</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_deck.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2616701059565857738" datatype="html">
+        <source>(Install with Discover)</source>
+        <target>（通过 Discover 安装）</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_deck.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7651588695311310031" datatype="html">
         <source>Protocol mode</source>
         <target>协议模式</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">17</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">16</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_windows.html</context>
           <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3512453988529376856" datatype="html">
+      <trans-unit id="8430782854814932084" datatype="html">
         <source>Controller must be either in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Linux XInput<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode, or in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Generic<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode.</source>
         <target>控制器必须处于<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Linux XInput<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>模式，或者<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>通用<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>模式。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">17</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3619117754361172801" datatype="html">
@@ -183,67 +223,15 @@
         <target>每种模式都必须单独配对。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">20</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">19</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_windows.html</context>
           <context context-type="linenumber">20</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2746941338332933500" datatype="html">
-        <source>OS configuration</source>
-        <target>操作系统配置</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4547028449468321252" datatype="html">
-        <source>Go into desktop mode, in the terminal app set a password for your user:</source>
-        <target>进入桌面模式，在终端应用程序中为您的用户设置密码：</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5325053508911106879" datatype="html">
-        <source>Type a new password (it won&apos;t be visible while typing).</source>
-        <target>输入新密码（输入时密码不可见）。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8602490615831858880" datatype="html">
-        <source>Create a file with udev rules:</source>
-        <target>创建包含 udev 规则的文件：</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6563310080463756063" datatype="html">
-        <source>Reconnect the controller and verify the rule has been loaded by checking if <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;code&apos;&gt;"/>/dev/webusb<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> exist.</source>
-        <target>重新连接控制器并通过检查<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;code&apos;&gt;"/>/dev/webusb<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>是否存在来验证规则是否已经加载。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">34</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9181973863327176105" datatype="html">
@@ -251,11 +239,11 @@
         <target>配对控制器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">24</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_windows.html</context>
@@ -267,11 +255,11 @@
         <target>点击右上角的<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;color&apos; (click)=&apos;webusb.requestDevice()&apos;&gt;"/>添加设备 +<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>按钮添加。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">26</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">25</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_windows.html</context>
@@ -283,47 +271,15 @@
         <target>从列表中选择<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Alpakka<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>，<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Kapybara<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>，或<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Dongle<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">27</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">26</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_windows.html</context>
           <context context-type="linenumber">27</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2650032704187884883" datatype="html">
-        <source>Known issues</source>
-        <target>已知问题</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">44</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">42</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_windows.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8298731855752153359" datatype="html">
-        <source>The controller has to be connected before opening the browser.</source>
-        <target>打开浏览器之前先连接控制器。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">46</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2130409044840773087" datatype="html">
-        <source>If the controller is restarted, the browser must be re-opened too.</source>
-        <target>如果重新启动控制器，则必须重新打开浏览器。</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_deck.html</context>
-          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6124655972120311049" datatype="html">
@@ -334,11 +290,23 @@
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8524033241974879009" datatype="html">
-        <source>If Chromium was installed using <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Snap<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>, it may require additional permissions to access USB devices:</source>
-        <target>如果 Chromium 是通过<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Snap<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>安装，则可能需要额外的权限来访问 USB 设备：</target>
+      <trans-unit id="3512453988529376856" datatype="html">
+        <source>Controller must be either in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Linux XInput<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode, or in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Generic<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode.</source>
+        <target>控制器必须处于<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Linux XInput<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>模式，或者<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>通用<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>模式。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2650032704187884883" datatype="html">
+        <source>Known issues</source>
+        <target>已知问题</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_windows.html</context>
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
@@ -347,11 +315,51 @@
         <target>打开浏览器后，可能需要至少插拔一次控制器。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">31</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_windows.html</context>
           <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1250718490616716458" datatype="html">
+        <source>Additional OS configuration</source>
+        <target>额外的操作系统配置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3036599521153885494" datatype="html">
+        <source>Some distros may require additional Udev rules to allow access to USB devices.</source>
+        <target>一些系统发行版可能需要额外的 Udev 规则来允许访问 USB 设备。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8602490615831858880" datatype="html">
+        <source>Create a file with udev rules:</source>
+        <target>创建包含 udev 规则的文件：</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6563310080463756063" datatype="html">
+        <source>Reconnect the controller and verify the rule has been loaded by checking if <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;code&apos;&gt;"/>/dev/webusb<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> exist.</source>
+        <target>重新连接控制器并检查<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&apos;code&apos;&gt;"/>/dev/webusb<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>文件是否存在以验证规则是否正常加载。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8524033241974879009" datatype="html">
+        <source>If Chromium was installed using <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Snap<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>, it may require additional permissions to access USB devices:</source>
+        <target>如果使用<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Snap<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>安装的 Chromium 浏览器，则可能需要额外的权限才能访问 USB 设备：</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6090931838305354672" datatype="html">
@@ -363,12 +371,12 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">122</context>
+          <context context-type="linenumber">123</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5474739883699006762" datatype="html">
         <source>This Privacy Policy describes how ctrl.inputlabs.io (the &quot;Site&quot; or &quot;we&quot;) collects, uses, and discloses your Personal Information when you visit the Site.</source>
-        <target>隐私政策</target>
+        <target>本隐私政策描述了 ctrl.inputlabs.io（“网站”或“我们”）在您访问网站时如何收集、使用和披露您的个人信息。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_privacy.html</context>
           <context context-type="linenumber">7</context>
@@ -725,6 +733,78 @@
           <context context-type="linenumber">92</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5567728860787308785" datatype="html">
+        <source>Install Ctrl app</source>
+        <target>安装 Ctrl app 应用</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8504898945372633175" datatype="html">
+        <source>Progressive Web App</source>
+        <target>渐进式 Web 应用</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9122426310870487702" datatype="html">
+        <source>The Ctrl app is a PWA that can be installed like a native OS app, and get many benefits: </source>
+        <target>Ctrl app 现在是一个 PWA（渐进式 Web 应用），可以像本机系统应用程序一样安装，并获得许多好处：</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1150016250581168376" datatype="html">
+        <source>Full operating system integration with launcher icon, taskbar icon, etc.</source>
+        <target>与启动器图标、任务栏图标等完全集成的操作系统。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4307397241351908712" datatype="html">
+        <source>Clean window without browser tabs nor borders.</source>
+        <target>干净的窗口，没有浏览器标签或边框。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6583882160733720516" datatype="html">
+        <source>Offline support.</source>
+        <target>支持离线使用。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7782318443969629664" datatype="html">
+        <source>Guaranteed cache / faster loading times.</source>
+        <target>保证缓存/更快的加载时间。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2065801045919366323" datatype="html">
+        <source>How to install</source>
+        <target>如何安装</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8019130634823488922" datatype="html">
+        <source>In Chrome / Edge / Brave, an <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Install app<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> icon shows up on the right side of the URL bar.</source>
+        <target>在 Chrome / Edge / Brave 中，地址栏右侧会显示一个<x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>安装应用<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>图标。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_pwa.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5123155114532157123" datatype="html">
         <source>Setup in Windows</source>
         <target>在 Windows 设置</target>
@@ -734,7 +814,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">110</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7897017871808402390" datatype="html">
@@ -743,14 +823,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_windows.html</context>
           <context context-type="linenumber">12</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4884019850022158047" datatype="html">
-        <source>Brave.</source>
-        <target>Brave</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_windows.html</context>
-          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6319563012413580927" datatype="html">
@@ -769,12 +841,52 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="5537194192782185628" datatype="html">
+        <source>Enable USB logs</source>
+        <target>启用 USB 日志</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/logs/logs.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3355200176433443193" datatype="html">
+        <source>Enable wireless logs</source>
+        <target>启用无线日志</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/logs/logs.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4494728073362273977" datatype="html">
+        <source>Enable touch sensor logs</source>
+        <target>启用触摸传感器日志</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/logs/logs.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8601511221316154701" datatype="html">
+        <source>Download logs</source>
+        <target>下载日志</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/logs/logs.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="440654097944535156" datatype="html">
+        <source>Clear logs</source>
+        <target>清除日志</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/logs/logs.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8773412883246811858" datatype="html">
         <source>Try using the restart button</source>
         <target>尝试使用重启按钮</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2048128464022329296" datatype="html">
@@ -782,7 +894,7 @@
         <target>这里没有任何日志</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="21275452006765587" datatype="html">
@@ -790,7 +902,7 @@
         <target>命令</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1236604279860679031" datatype="html">
@@ -798,7 +910,7 @@
         <target>重启</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3199462773419298809" datatype="html">
@@ -806,7 +918,7 @@
         <target>重启到 bootsel 模式</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="205321723260710470" datatype="html">
@@ -814,7 +926,7 @@
         <target>校准</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3663888230558616651" datatype="html">
@@ -822,11 +934,11 @@
         <target>重置设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">66</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">89</context>
+          <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="553186460981674820" datatype="html">
@@ -834,11 +946,11 @@
         <target>重置所有配置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">99</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9082101511154676018" datatype="html">
@@ -846,7 +958,7 @@
         <target>重置为出厂设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5269451513559029194" datatype="html">
@@ -854,11 +966,11 @@
         <target>取消配对</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">69</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">133</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2598420328756701675" datatype="html">
@@ -866,7 +978,7 @@
         <target>控制器校准</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6041951957185496244" datatype="html">
@@ -874,7 +986,7 @@
         <target> 陀螺仪、加速度传感器和摇杆将被校准，请将控制器放在平坦的表面上并等待该校准过程完成。 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">69,73</context>
+          <context context-type="linenumber">74,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2159130950882492111" datatype="html">
@@ -882,27 +994,27 @@
         <target>撤销</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">80</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">93</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">106</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">120</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">132</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/tune/tune.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5162686434580248853" datatype="html">
@@ -910,11 +1022,11 @@
         <target>开始</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">81</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">295</context>
+          <context context-type="linenumber">296</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -926,7 +1038,7 @@
         <target>重置设置值</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">86</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5002505847053594234" datatype="html">
@@ -934,7 +1046,7 @@
         <target> 所有设置值都将被丢弃（校准、协议模式、灵敏度等）。配置文件不会受到影响。<x id="LINE_BREAK" ctype="lb"/><x id="LINE_BREAK" ctype="lb"/>控制器将在默认 Windows 模式下重新启动。 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">82,86</context>
+          <context context-type="linenumber">87,91</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4163248802541639272" datatype="html">
@@ -942,7 +1054,7 @@
         <target> 所有配置文件都将恢复为默认内置配置文件（如手册中所定义）。<x id="LINE_BREAK" ctype="lb"/><x id="LINE_BREAK" ctype="lb"/>当前配置文件将永远丢失。 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">95,99</context>
+          <context context-type="linenumber">100,104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5637852788337509627" datatype="html">
@@ -950,7 +1062,7 @@
         <target>重置配置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">102</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4926099772000923631" datatype="html">
@@ -958,7 +1070,7 @@
         <target>重置为出厂默认设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">107</context>
+          <context context-type="linenumber">112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5555551554619855542" datatype="html">
@@ -966,7 +1078,7 @@
         <target> 所有设置值将被丢弃（校准、协议模式、灵敏度等）。配置文件将恢复为内置默认值。<x id="LINE_BREAK" ctype="lb"/><x id="LINE_BREAK" ctype="lb"/>控制器将在默认 Windows 模式下重新启动。 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">108,113</context>
+          <context context-type="linenumber">113,118</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5920181885448938770" datatype="html">
@@ -974,7 +1086,7 @@
         <target>恢复出厂设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">116</context>
+          <context context-type="linenumber">121</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4250388001730708481" datatype="html">
@@ -982,7 +1094,7 @@
         <target>取消配对控制器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">121</context>
+          <context context-type="linenumber">126</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7896709963512456550" datatype="html">
@@ -990,7 +1102,7 @@
         <target> 当前设备（<x id="INTERPOLATION" equiv-text="{{webusb.getManufacturerName()}}"/> <x id="INTERPOLATION_1" equiv-text="{{webusb.getProductName()}}"/>）将断开连接并从配对设备列表中删除。 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/logs/logs.html</context>
-          <context context-type="linenumber">122,125</context>
+          <context context-type="linenumber">127,130</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2099687720835547962" datatype="html">
@@ -1009,17 +1121,17 @@
           <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1230484278622027391" datatype="html">
-        <source>Select a wireless device</source>
-        <target>选择一个无线设备</target>
+      <trans-unit id="6996172024429660596" datatype="html">
+        <source>The dongle does not store profiles.</source>
+        <target>加密狗接收器不存储配置文件。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/profile.html</context>
           <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5816995557857482955" datatype="html">
-        <source>to modify profiles</source>
-        <target>修改配置</target>
+      <trans-unit id="3109854312321385284" datatype="html">
+        <source>Select a controller in the top-right corner</source>
+        <target>在右上角选择一个控制器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/profile.html</context>
           <context context-type="linenumber">11</context>
@@ -1163,7 +1275,7 @@
       </trans-unit>
       <trans-unit id="3007982943291829754" datatype="html">
         <source>Home button</source>
-        <target>主页键</target>
+        <target>Home 键</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">68</context>
@@ -1171,7 +1283,7 @@
       </trans-unit>
       <trans-unit id="8154623589922396675" datatype="html">
         <source>Home button mappings are not configurable yet.</source>
-        <target>主页键映射尚未配置。</target>
+        <target>Home 键映射尚未配置。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">69</context>
@@ -1179,6 +1291,7 @@
       </trans-unit>
       <trans-unit id="841498412745733319" datatype="html">
         <source>Holding (pink) the Home button, enables the shortcuts from the Home profile. These can be modified in the Home profile page.</source>
+        <target>按住（粉色）Home 键，即可启用主页配置中的快捷键。这些快捷键可在主页配置页中进行修改。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">70</context>
@@ -1186,6 +1299,7 @@
       </trans-unit>
       <trans-unit id="33356841036211362" datatype="html">
         <source>Double-clicking (purple) the Home button, emulates the native gamepad home/guide button.</source>
+        <target>双击（紫色）主页按钮，模拟原生游戏手柄的 Home/Guide 键。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">71</context>
@@ -1193,6 +1307,7 @@
       </trans-unit>
       <trans-unit id="5270070351385858959" datatype="html">
         <source>Double-clicking and holding the Home button allows for shortcuts such as &quot;Guide+X&quot; when pressing other buttons.</source>
+        <target>双击并按住 Home 键可在按下其他按钮时使用诸如“Guide+X”之类的快捷键。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">72</context>
@@ -1216,7 +1331,7 @@
       </trans-unit>
       <trans-unit id="1743864392140452193" datatype="html">
         <source>Immediate / trigger both</source>
-        <source>立即 / 触发两者</source>
+        <target>立即 / 触发两者</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">104</context>
@@ -1411,19 +1526,26 @@
           <context context-type="linenumber">275</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5719424070220437792" datatype="html">
-        <source>Hexagon surface</source>
+      <trans-unit id="3489718618134426717" datatype="html">
+        <source>Hexagon surface (rc)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">276</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1626736638119145418" datatype="html">
-        <source>DPad Left</source>
-        <target>DPad 左</target>
+      <trans-unit id="5719424070220437792" datatype="html">
+        <source>Hexagon surface</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">281</context>
+          <context context-type="linenumber">277</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1626736638119145418" datatype="html">
+        <source>DPad Left</source>
+        <target>方向键左</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">282</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -1432,10 +1554,10 @@
       </trans-unit>
       <trans-unit id="3313233846046436085" datatype="html">
         <source>DPad Right</source>
-        <target>DPad 右</target>
+        <target>方向键右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">282</context>
+          <context context-type="linenumber">283</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -1444,10 +1566,10 @@
       </trans-unit>
       <trans-unit id="7635607951232472394" datatype="html">
         <source>DPad Up</source>
-        <target>DPad 上</target>
+        <target>方向键上</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">283</context>
+          <context context-type="linenumber">284</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -1456,10 +1578,10 @@
       </trans-unit>
       <trans-unit id="1270586436369095851" datatype="html">
         <source>DPad Down</source>
-        <target>DPad 下</target>
+        <target>方向键下</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">284</context>
+          <context context-type="linenumber">285</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -1471,7 +1593,7 @@
         <target>选择</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">293</context>
+          <context context-type="linenumber">294</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -1483,7 +1605,7 @@
         <target>选择（2）</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">294</context>
+          <context context-type="linenumber">295</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -1495,7 +1617,7 @@
         <target>开始（2）</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">296</context>
+          <context context-type="linenumber">297</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
@@ -1507,7 +1629,7 @@
         <target>当轴旋转（负）：</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">305</context>
+          <context context-type="linenumber">306</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7569412806567592923" datatype="html">
@@ -1515,7 +1637,7 @@
         <target>当轴旋转（正）：</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">316</context>
+          <context context-type="linenumber">317</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1288662123225744920" datatype="html">
@@ -1523,7 +1645,7 @@
         <target>最小角度：</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">327</context>
+          <context context-type="linenumber">328</context>
         </context-group>
       </trans-unit>
       <trans-unit id="137492010204935433" datatype="html">
@@ -1531,7 +1653,7 @@
         <target>最大角度：</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">340</context>
+          <context context-type="linenumber">341</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6837938753645297409" datatype="html">
@@ -1539,22 +1661,15 @@
         <target>配置 <x id="INTERPOLATION" equiv-text="{{pickerProfile}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">503,504</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1615506683033943537" datatype="html">
-        <source>SET ROTARY <x id="INTERPOLATION" equiv-text="{{pickerRotary}}"/></source>
-        <target>设置旋转 <x id="INTERPOLATION" equiv-text="{{pickerRotary}}"/></target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">508,509</context>
+          <context context-type="linenumber">504,505</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6651140305118126328" datatype="html">
         <source>MACRO <x id="INTERPOLATION" equiv-text="{{pickerMacro}}"/></source>
+        <target>宏 <x id="INTERPOLATION" equiv-text="{{pickerMacro}}"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">513,514</context>
+          <context context-type="linenumber">514,515</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6383229356575987049" datatype="html">
@@ -1562,7 +1677,7 @@
         <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>输入协议</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">518</context>
+          <context context-type="linenumber">519</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7430275318293672857" datatype="html">
@@ -1570,7 +1685,7 @@
         <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>鼠标灵敏度</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">519</context>
+          <context context-type="linenumber">520</context>
         </context-group>
       </trans-unit>
       <trans-unit id="133857118319682093" datatype="html">
@@ -1578,7 +1693,7 @@
         <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>触摸灵敏度</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">520</context>
+          <context context-type="linenumber">521</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1871590217751752879" datatype="html">
@@ -1586,7 +1701,7 @@
         <target><x id="START_TAG_SPAN" ctype="x-span" equiv-text="an class=&apos;material&apos;&gt;"/>settings<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>摇杆死区</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">521</context>
+          <context context-type="linenumber">522</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4198665451107896783" datatype="html">
@@ -1594,30 +1709,30 @@
         <target>校准</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">528</context>
+          <context context-type="linenumber">529</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2061433929980104347" datatype="html">
         <source>BOOTSEL</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">529</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="97593744425467674" datatype="html">
-        <source>THANKS</source>
-        <target>感谢</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/profile/section.html</context>
           <context context-type="linenumber">530</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7819314041543176992" datatype="html">
-        <source>Close</source>
-        <target>关闭</target>
+      <trans-unit id="4837411154875452597" datatype="html">
+        <source>PAIR</source>
+        <target>配对</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.html</context>
-          <context context-type="linenumber">628</context>
+          <context context-type="linenumber">531</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="661211992799285538" datatype="html">
+        <source>SLEEP</source>
+        <target>休眠</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/profile/section.html</context>
+          <context context-type="linenumber">532</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5523179417141824109" datatype="html">
@@ -1797,7 +1912,7 @@
       </trans-unit>
       <trans-unit id="5916006415418109011" datatype="html">
         <source>LStick Settings</source>
-        <target>LStick 设置</target>
+        <target>左摇杆设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">330</context>
@@ -1805,7 +1920,7 @@
       </trans-unit>
       <trans-unit id="2151910388573008781" datatype="html">
         <source>LStick Left</source>
-        <target>LStick 左</target>
+        <target>左摇杆左</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">331</context>
@@ -1813,7 +1928,7 @@
       </trans-unit>
       <trans-unit id="2221720129029569779" datatype="html">
         <source>LStick Right</source>
-        <target>LStick 右</target>
+        <target>左摇杆右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">332</context>
@@ -1821,7 +1936,7 @@
       </trans-unit>
       <trans-unit id="7854109260873126689" datatype="html">
         <source>LStick Up</source>
-        <target>LStick 上</target>
+        <target>左摇杆上</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">333</context>
@@ -1829,7 +1944,7 @@
       </trans-unit>
       <trans-unit id="3031318625692194804" datatype="html">
         <source>LStick Down</source>
-        <target>LStick 下</target>
+        <target>左摇杆下</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">334</context>
@@ -1837,7 +1952,7 @@
       </trans-unit>
       <trans-unit id="5723283555352224174" datatype="html">
         <source>LStick Up-Left</source>
-        <target>LStick 上左</target>
+        <target>左摇杆上左</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">335</context>
@@ -1845,7 +1960,7 @@
       </trans-unit>
       <trans-unit id="9108585885011711311" datatype="html">
         <source>LStick Up-Right</source>
-        <target>LStick 上右</target>
+        <target>左摇杆上右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">336</context>
@@ -1853,7 +1968,7 @@
       </trans-unit>
       <trans-unit id="2127383714533338049" datatype="html">
         <source>LStick Down-Left</source>
-        <target>LStick 下左</target>
+        <target>左摇杆下左</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">337</context>
@@ -1861,7 +1976,7 @@
       </trans-unit>
       <trans-unit id="1102351149055066447" datatype="html">
         <source>LStick Down-Right</source>
-        <target>LStick 下右</target>
+        <target>左摇杆下右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">338</context>
@@ -1869,7 +1984,7 @@
       </trans-unit>
       <trans-unit id="3496827640150623963" datatype="html">
         <source>LStick Push</source>
-        <target>LStick 按下</target>
+        <target>左摇杆按下</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">339</context>
@@ -1877,6 +1992,7 @@
       </trans-unit>
       <trans-unit id="2595317596253298289" datatype="html">
         <source>LStick Inner</source>
+        <target>左摇杆内层</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">340</context>
@@ -1884,6 +2000,7 @@
       </trans-unit>
       <trans-unit id="7230077435424047893" datatype="html">
         <source>LStick Outer</source>
+        <target>左摇杆外层</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">341</context>
@@ -1891,7 +2008,7 @@
       </trans-unit>
       <trans-unit id="3109868765173075523" datatype="html">
         <source>RStick Settings</source>
-        <target>RStick 设置</target>
+        <target>右摇杆设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">342</context>
@@ -1899,7 +2016,7 @@
       </trans-unit>
       <trans-unit id="5803610824040703340" datatype="html">
         <source>RStick Left</source>
-        <target>RStick 左</target>
+        <target>右摇杆左</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">343</context>
@@ -1907,7 +2024,7 @@
       </trans-unit>
       <trans-unit id="8218817016560519180" datatype="html">
         <source>RStick Right</source>
-        <target>RStick 右</target>
+        <target>右摇杆右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">344</context>
@@ -1915,7 +2032,7 @@
       </trans-unit>
       <trans-unit id="4373119042756815516" datatype="html">
         <source>RStick Up</source>
-        <target>RStick 上</target>
+        <target>右摇杆上</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">345</context>
@@ -1923,7 +2040,7 @@
       </trans-unit>
       <trans-unit id="5903172101626192728" datatype="html">
         <source>RStick Down</source>
-        <target>RStick 下</target>
+        <target>右摇杆下</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">346</context>
@@ -1931,7 +2048,7 @@
       </trans-unit>
       <trans-unit id="3632321183642499308" datatype="html">
         <source>RStick Up-Left</source>
-        <target>RStick 上左</target>
+        <target>右摇杆上左</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">347</context>
@@ -1939,7 +2056,7 @@
       </trans-unit>
       <trans-unit id="439450071935700038" datatype="html">
         <source>RStick Up-Right</source>
-        <target>RStick 上右</target>
+        <target>右摇杆上右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">348</context>
@@ -1947,7 +2064,7 @@
       </trans-unit>
       <trans-unit id="7733339827108206128" datatype="html">
         <source>RStick Down-Left</source>
-        <target>RStick 下左</target>
+        <target>右摇杆下左</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">349</context>
@@ -1955,7 +2072,7 @@
       </trans-unit>
       <trans-unit id="2165276641349795520" datatype="html">
         <source>RStick Down-Right</source>
-        <target>RStick 下右</target>
+        <target>右摇杆下右</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">350</context>
@@ -1963,7 +2080,7 @@
       </trans-unit>
       <trans-unit id="1284516755480936721" datatype="html">
         <source>RStick Push</source>
-        <target>RStick 按下</target>
+        <target>右摇杆按下</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">351</context>
@@ -1971,6 +2088,7 @@
       </trans-unit>
       <trans-unit id="3275973224406613619" datatype="html">
         <source>Rotary up</source>
+        <target>向上旋转</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">352</context>
@@ -1978,6 +2096,7 @@
       </trans-unit>
       <trans-unit id="965851014246582332" datatype="html">
         <source>Rotary down</source>
+        <target>向下旋转</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/profile/section.ts</context>
           <context context-type="linenumber">353</context>
@@ -2032,7 +2151,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">82</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4396037219921401738" datatype="html">
@@ -2052,7 +2171,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3328403654633316091" datatype="html">
@@ -2072,7 +2191,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4527527451805092136" datatype="html">
@@ -2100,7 +2219,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">91</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6852368223081272611" datatype="html">
@@ -2127,12 +2246,28 @@
           <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8987993901793010555" datatype="html">
+        <source>Thumbstick smoothing</source>
+        <target>摇杆平滑</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="454995570276627183" datatype="html">
+        <source>Samples</source>
+        <target>示例</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6219211647326058007" datatype="html">
         <source>Makes sense</source>
         <target>说的道理</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.html</context>
-          <context context-type="linenumber">105</context>
+          <context context-type="linenumber">123</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7460464286182666139" datatype="html">
@@ -2144,7 +2279,7 @@
         启用此设置后，任何新的校准过程都将花费 4 倍的时间。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">89,92</context>
+          <context context-type="linenumber">95,98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6236789515702347385" datatype="html">
@@ -2156,7 +2291,7 @@
         启用此功能后需要重新校准。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">94,97</context>
+          <context context-type="linenumber">100,103</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9118109481694144206" datatype="html">
@@ -2169,7 +2304,7 @@
         如果您在使用触摸传感器时遇到问题，此功能可以帮助使测量结果更稳定。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">99,103</context>
+          <context context-type="linenumber">105,109</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5075277402108714844" datatype="html">
@@ -2182,7 +2317,20 @@
         如果此问题很明显，可以通过手动将额外的偏移量添加到校准值中来解决。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/settings/settings.ts</context>
-          <context context-type="linenumber">105,109</context>
+          <context context-type="linenumber">111,115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7749631038995667892" datatype="html">
+        <source>How many additional samples are used to calculate the final value of the thumbstick.
+        More samples provide a more stable output but also increase the perceived latency.&lt;br&gt;&lt;br&gt;
+        Smoothing is disabled when the number of additional samples is set to zero (only
+        the current sample is used).</source>
+        <target>用于计算摇杆最终值的额外采样数量。
+        采样数量越多，输出越稳定，但感知延迟也会增加。
+        当额外采样数量设置为零（仅使用当前采样）时，平滑功能将被禁用。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/settings/settings.ts</context>
+          <context context-type="linenumber">117,120</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4355325822938424405" datatype="html">
@@ -2193,28 +2341,12 @@
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3776799655893708914" datatype="html">
-        <source>Output tester</source>
-        <target>输出测试</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">17</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6579410468612432551" datatype="html">
-        <source>Firmware update</source>
-        <target>固件更新</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">21</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="3783562484965706612" datatype="html">
         <source>Protocol</source>
         <target>协议</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5339557362278197599" datatype="html">
@@ -2222,7 +2354,11 @@
         <target>触摸灵敏度</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">87</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">177</context>
         </context-group>
       </trans-unit>
       <trans-unit id="691401936955174706" datatype="html">
@@ -2230,7 +2366,7 @@
         <target>鼠标灵敏度</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">91</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="895573909873208585" datatype="html">
@@ -2238,7 +2374,11 @@
         <target>摇杆死区</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">95</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">213</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6201638315245239510" datatype="html">
@@ -2246,7 +2386,7 @@
         <target>高级设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4400563495332051227" datatype="html">
@@ -2254,15 +2394,7 @@
         <target>应用设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">103</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8825834355871078079" datatype="html">
-        <source>Setup in Linux</source>
-        <target>在 Linux 设置</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">114</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7319726215224411267" datatype="html">
@@ -2270,7 +2402,31 @@
         <target>在 Steam Deck 设置</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
-          <context context-type="linenumber">118</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8825834355871078079" datatype="html">
+        <source>Setup in Linux</source>
+        <target>在 Linux 设置</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6682123781670643305" datatype="html">
+        <source>Install as an App</source>
+        <target>安装为 App</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9089065729702021633" datatype="html">
+        <source>LED animation when using button shortcuts</source>
+        <target>使用按钮快捷键时的 LED 动画</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.html</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2638624180494426243" datatype="html">
@@ -2278,15 +2434,15 @@
         <target>协议更改</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/tune/tune.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="448295002900108742" datatype="html">
-        <source> The controller will restart using a different protocol, you may have to pair the controller again, or revert back to the current protocol via button shotcuts. </source>
-        <target> 控制器将使用不同的协议重新启动，您可能必须再次配对控制器，或者通过按钮快捷键恢复到先前协议。 </target>
+      <trans-unit id="611121519556113775" datatype="html">
+        <source> The device will restart using a different protocol, you may have to pair the device again. </source>
+        <target> 该设备将使用不同的协议重新启动，您可能需要再次配对该设备。 </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/tune/tune.html</context>
-          <context context-type="linenumber">48,50</context>
+          <context context-type="linenumber">50,52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1230154438678955604" datatype="html">
@@ -2294,7 +2450,7 @@
         <target>更改</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/tune/tune.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1144181435169393677" datatype="html">
@@ -2466,7 +2622,7 @@
         <target>缺少 Udev 规则？</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/services/webusb.ts</context>
-          <context context-type="linenumber">82</context>
+          <context context-type="linenumber">83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7141219267026291384" datatype="html">
@@ -2474,7 +2630,7 @@
         <target>尝试重新插入控制器。</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/services/webusb.ts</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
     </body>
