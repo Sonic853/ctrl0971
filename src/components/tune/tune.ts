@@ -193,7 +193,7 @@ const modes: Modes = {
   mouse_sens: {
     configIndex: ConfigIndex.SENS_MOUSE,
     url: 'mouse_sens',
-    title: 'Mouse sensitivity',
+    title: $localize`Mouse sensitivity`,
     unit: 'DPI',
     min: 80,
     max: 4000,
@@ -202,9 +202,9 @@ const modes: Modes = {
     decimals: 0,
     displayReversed: true,
     presets: [
-      {index: 0, name: $localize`Low`,  desc: 'Recommended for 1080p', leds:0b0100, blink:0b1000},
-      {index: 1, name: $localize`Mid`,  desc: 'Recommended for 1440p', leds:0b0100, blink:0b0001},
-      {index: 2, name: $localize`High`, desc: 'Recommended for 4K',    leds:0b0100, blink:0b0010},
+      {index: 0, name: $localize`Low`,  desc: $localize`Recommended for 1080p`, leds:0b0100, blink:0b1000},
+      {index: 1, name: $localize`Mid`,  desc: $localize`Recommended for 1440p`, leds:0b0100, blink:0b0001},
+      {index: 2, name: $localize`High`, desc: $localize`Recommended for 4K`,    leds:0b0100, blink:0b0010},
     ]
   },
   deadzone: {

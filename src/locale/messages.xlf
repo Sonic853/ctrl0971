@@ -189,11 +189,15 @@
           <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8430782854814932084" datatype="html">
+      <trans-unit id="3512453988529376856" datatype="html">
         <source>Controller must be either in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Linux XInput<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode, or in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Generic<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_deck.html</context>
           <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/help/help_linux.html</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3619117754361172801" datatype="html">
@@ -261,13 +265,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/help/help_linux.html</context>
           <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3512453988529376856" datatype="html">
-        <source>Controller must be either in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Linux XInput<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode, or in <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Generic<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> mode.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/components/help/help_linux.html</context>
-          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2650032704187884883" datatype="html">
@@ -2141,6 +2138,10 @@
           <context context-type="sourcefile">src/components/sidebar/sidebar.html</context>
           <context context-type="linenumber">25</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">196</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="895573909873208585" datatype="html">
         <source>Thumbstick deadzone</source>
@@ -2311,6 +2312,13 @@
           <context context-type="linenumber">220</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4727495950649370200" datatype="html">
+        <source>Recommended for 1080p</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">205</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9005163798035816176" datatype="html">
         <source>Mid</source>
         <context-group purpose="location">
@@ -2322,6 +2330,13 @@
           <context context-type="linenumber">221</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="616736012143669453" datatype="html">
+        <source>Recommended for 1440p</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">206</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8063651736083474594" datatype="html">
         <source>High</source>
         <context-group purpose="location">
@@ -2331,6 +2346,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/tune/tune.ts</context>
           <context context-type="linenumber">222</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2532317183666268516" datatype="html">
+        <source>Recommended for 4K</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/components/tune/tune.ts</context>
+          <context context-type="linenumber">207</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6475975979382223955" datatype="html">
