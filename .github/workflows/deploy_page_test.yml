@@ -32,6 +32,7 @@ jobs:
       - run: npm install @angular/cli
       - run: npx ng build --localize
       - run: cp _redirects dist/ctrl/_redirects
+      - run: cp dist/ctrl/en-US/index.html dist/ctrl/index.html
       - run: cp -ru dist/ctrl/en-US/assets dist/ctrl
       - uses: cloudflare/wrangler-action@v3
         with:
