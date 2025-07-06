@@ -1,5 +1,4 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy staging test
 
 on:
   workflow_dispatch:
@@ -8,60 +7,38 @@ on:
         description: 'The branch to deploy'
         required: true
         default: 'main'
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+      cloudflare-branch:
+        description: 'Cloudflare branch'
+        required: true
+        default: 'main'
+      project-name:
+        description: 'The Project Name'
+        required: true
+        default: 'ctrl-app'
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  deploy_staging:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.branch }}
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           cache: 'npm'
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: latest
-
       - run: sed -i "s|0.0.0|${GITHUB_REF}|" src/lib/version.ts
       - run: sed -i "s|abcdef123456|${GITHUB_SHA}|" src/lib/version.ts
-      - run: pnpm i
-      - run: mkdir public
-      - run: pnpm run build:i18n
-      # move dist\ctrl\ to public
-      - run: mv dist/ctrl public
-      - run: cp -ru public/ctrl/en-US/assets public/ctrl
-      - run: cp _redirects public/ctrl/_redirects
-      - run: cp public/ctrl/en-US/index.html public/ctrl/404.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - run: npm ci
+      - run: npm install @angular/cli
+      - run: npx ng build
+      - run: cp _redirects dist/ctrl/_redirects
+      - run: cp -ru dist/ctrl/en-US/assets dist/ctrl
+      - uses: cloudflare/wrangler-action@v3
         with:
-          # Upload entire repository
-          path: './public/ctrl'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          wranglerVersion: '3'
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Use branch name to indicate Cloudflare environment: (main | staging)
+          # Cloudflare does not deploy by itself so the value is only used to
+          # determine the target environment according to defined rules.
+          command: pages deploy dist/ctrl --project-name=${{ github.event.inputs.project-name }} --branch=${{ github.event.inputs.cloudflare-branch }}
