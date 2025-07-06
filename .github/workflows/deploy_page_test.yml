@@ -28,7 +28,7 @@ jobs:
           cache: 'npm'
       - run: sed -i "s|0.0.0|${GITHUB_REF}|" src/lib/version.ts
       - run: sed -i "s|abcdef123456|${GITHUB_SHA}|" src/lib/version.ts
-      - run: npm ci
+      - run: npm install
       - run: npm install @angular/cli
       - run: npx ng build
       - run: cp _redirects dist/ctrl/_redirects
